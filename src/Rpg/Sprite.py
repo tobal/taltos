@@ -12,7 +12,7 @@ class ProtagonistSprite(object):
         return
 
     def load_img(self,  imgname,  alpha):
-        img_str = "img/" + imgname + ".png"
+        img_str = "../resrc/img/RPG/" + imgname + ".png"
         if alpha:
             img = pygame.image.load(img_str).convert_alpha()
         else:

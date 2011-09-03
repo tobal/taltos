@@ -1,14 +1,15 @@
+
 import pygame
 from pygame.locals import *
 import random
 
-import Sprite
-import Scene
-import SceneBuilder
+from Rpg import Sprite
+from Rpg import Scene
+from Rpg import SceneBuilder
 import MainExceptions
-from Objects import BoundingBox
-import RPGTalker
-import Actions
+from Rpg.Objects import BoundingBox
+from Rpg import RPGTalker
+from Rpg import Actions
 
 class Tram(object):
 
@@ -21,7 +22,7 @@ class Tram(object):
         self.min_time = 400
         self.max_time = 1000
         self.due = random.randint(self.min_time, self.max_time)
-        self.villamos = pygame.image.load("img/villamos.png").convert_alpha()
+        self.villamos = pygame.image.load("../resrc/img/RPG/villamos.png").convert_alpha()
         return
 
     def loop(self):

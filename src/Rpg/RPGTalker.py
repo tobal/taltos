@@ -12,8 +12,8 @@ class RPGTalker:
         self.actual_branch = 1
         self.end = False
         self.drawing = False
-        self.gorr = pygame.font.Font("fonts/gorrisans.ttf", 18)
-        self.rov = pygame.font.Font("fonts/rovmajb.ttf", 32)
+        self.gorr = pygame.font.Font("../resrc/fonts/gorrisans.ttf", 18)
+        self.rov = pygame.font.Font("../resrc/fonts/rovmajb.ttf", 32)
         return
 
     def action(self):

@@ -4,15 +4,14 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from pygame.time import Clock
-import Scene
 
 import MainExceptions
-import RPG
+from Rpg import RPG
 
 # init and music
 pygame.mixer.pre_init(44100, -16, 2, 1024*4)
 pygame.init()
-pygame.mixer.music.load("music/tantra_people.ogg")
+pygame.mixer.music.load("../resrc/music/tantra_people.ogg")
 pygame.mixer.music.play(-1)
 
 # making the screen
@@ -36,8 +35,8 @@ while True:
             screen.fill((255,255,255))
             pygame.draw.rect(screen, (100,100,100), Rect((147,77), (746,576)))
             pygame.draw.rect(screen, (255,255,255), Rect((150,80), (740,570)))
-            font = pygame.font.Font("fonts/gorrisans.ttf", 40)
-            rovas = pygame.font.Font("fonts/rovmajb.ttf", 70)
+            font = pygame.font.Font("../resrc/fonts/gorrisans.ttf", 40)
+            rovas = pygame.font.Font("../resrc/fonts/rovmajb.ttf", 70)
             text_surface_hu = font.render(u"Válassz nyelvet", True, (100,100,100))
             text_surface_en = font.render("Choose a language", True, (100,100,100))
             text_surface_rov = rovas.render(u"tevleyn zssaláV", True, (100,100,100))
@@ -131,7 +130,7 @@ while True:
             screen.fill((255,255,255))
             pygame.draw.rect(screen, (100,100,100), Rect((147,77), (746,576)))
             pygame.draw.rect(screen, (255,255,255), Rect((150,80), (740,570)))
-            font = pygame.font.Font("fonts/gorrisans.ttf", 24)
+            font = pygame.font.Font("../resrc/fonts/gorrisans.ttf", 24)
             text_pos = 100
             for text in text_array:
                 text_surface = font.render(text, True, (100,100,100))

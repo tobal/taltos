@@ -144,7 +144,7 @@ class TunnelObject(Object):
 class ObjectSprite(Object):
 
     def __init__(self, x, y, image, thickness):
-        image = "img/" + image + ".png"
+        image = "../resrc/img/RPG/" + image + ".png"
         self.image = pygame.image.load(image).convert_alpha()
         dim_x,  dim_y = self.image.get_width(), self.image.get_height()
         Object.__init__(self, x, y, dim_x, dim_y)
