@@ -4,23 +4,20 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from pygame.time import Clock
-from Common import Music
+from CommonModules import MusicPlayer
 
 import MainExceptions
 from Rpg import RPG
+from src.CommonModules import ScreenFunctions
 
-# init and music
 pygame.init()
-music = Music()
-music.
 
-# making the screen
-resolution = [1024, 768]
-screen = pygame.display.set_mode(resolution, FULLSCREEN, 32)
-pygame.display.set_caption("Taltos RPG Module Tech Demo")
+MusicPlayer.MusicPlayer().playContinously()
+
+screen = ScreenFunctions.createScreen()
+
 language = "hu"
 dialog = True
-pygame.mouse.set_visible(False)
 
 # game loop
 while True:

@@ -3,7 +3,8 @@ from pygame import mixer
 
 class MusicPlayer(object):
 
-    def __init__(self,selfparams):
+    def __init__(self):
+        mixer.init()
         mixer.pre_init(44100, -16, 2, 1024*4)
 
     def playContinously(self):
