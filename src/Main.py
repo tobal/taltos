@@ -4,15 +4,15 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from pygame.time import Clock
+from Common import Music
 
 import MainExceptions
 from Rpg import RPG
 
 # init and music
-pygame.mixer.pre_init(44100, -16, 2, 1024*4)
 pygame.init()
-pygame.mixer.music.load("../resrc/music/tantra_people.ogg")
-pygame.mixer.music.play(-1)
+music = Music()
+music.
 
 # making the screen
 resolution = [1024, 768]
