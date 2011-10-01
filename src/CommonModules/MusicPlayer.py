@@ -10,3 +10,6 @@ class MusicPlayer(object):
     def playContinously(self):
         mixer.music.load("../resrc/music/tantra_people.ogg")
         mixer.music.play(-1)
+
+    def stopMusic(self):
+        mixer.stop()

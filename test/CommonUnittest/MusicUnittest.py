@@ -5,16 +5,16 @@ import pygame
 class MusicUnittest(unittest.TestCase):
 
     def setUp(self):
-        pass
+        self.musicPlayer = MusicPlayer.MusicPlayer()
 
     def tearDown(self):
-        pass
+        self.musicPlayer.stopMusic()
 
-    def test_plays_continuously(self):
-        musicPlayer = MusicPlayer.MusicPlayer()
-        musicPlayer.playContinously()
-        assert pygame.mixer.get_init()
+    def test_continuous_play(self):
+        self.musicPlayer.playContinously()
+        self.assertTrue(pygame.mixer.get_init(), "Mixer doesn't init")
+        #self.assertTrue(pygame.mixer.get_busy(), "Music doesn't play") 
 
-#if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
-    #unittest.main()
+    def test_stoping_play(self):
+        self.musicPlayer.stopMusic()
+        self.assertFalse(pygame.mixer.get_busy(), "Music doesn't stop")

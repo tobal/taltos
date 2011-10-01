@@ -1,0 +1,25 @@
+
+import unittest
+from src.CommonModules import MainScreen
+import pygame
+
+class MainScreenUnittest(unittest.TestCase):
+
+    def setUp(self):
+        self.mainScreen = MainScreen.MainScreen()
+
+    def tearDown(self):
+        self.mainScreen.destroyScreen()
+
+    def test_screen_init(self):
+        self.assertTrue(self.mainScreen.getScreen() == 0, "Screen doesn't init")
+    
+    def test_screen_creation(self):
+#        rightCaption = "Taltos"
+        
+        self.mainScreen.createScreen()
+        self.assertTrue(pygame.display.get_init(), "Screen not initialized properly")
+#        caption = pygame.display.get_caption()
+#        self.assertTrue(caption == rightCaption, "Invalid screen caption")
+        
+        
