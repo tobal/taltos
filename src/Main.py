@@ -9,14 +9,17 @@ from Rpg import RPG
 from src.CommonModules import MainScreen
 from src.CommonModules import MusicPlayer
 
+def setupScreen():
+    gameScreen = MainScreen.MainScreen()
+    gameScreen.createScreen()
+    return gameScreen
+
 pygame.init()
 
 MusicPlayer.MusicPlayer().playContinously()
 
-gameScreen = MainScreen.MainScreen()
-gameScreen.createScreen()
+gameScreen = setupScreen()
 screen = gameScreen.getScreen()
-resolution = gameScreen.getResolution()
 
 language = "hu"
 dialog = True
@@ -145,7 +148,7 @@ while True:
                         exit()
                     if (event.key == K_e) or (event.key == K_RETURN):
                         dialog = False
-                        rpg = RPG.RPGModule(screen, resolution, language)
+                        rpg = RPG.RPGModule(screen, gameScreen.getResolution(), language)
 
     try:
         clock.tick(30)
