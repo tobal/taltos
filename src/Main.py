@@ -4,17 +4,19 @@ import pygame
 from pygame.locals import *
 from sys import exit
 from pygame.time import Clock
-from CommonModules import MusicPlayer
-
 import MainExceptions
 from Rpg import RPG
-from src.CommonModules import ScreenFunctions
+from src.CommonModules import MainScreen
+from src.CommonModules import MusicPlayer
 
 pygame.init()
 
 MusicPlayer.MusicPlayer().playContinously()
 
-screen = ScreenFunctions.createScreen()
+gameScreen = MainScreen.MainScreen()
+gameScreen.createScreen()
+screen = gameScreen.getScreen()
+resolution = gameScreen.getResolution()
 
 language = "hu"
 dialog = True

@@ -7,6 +7,7 @@ class MainScreen():
     
     def __init__(self):
         self.screen = 0
+        self.resolution = [1024, 768]
         return
     
     def destroyScreen(self):
@@ -14,9 +15,11 @@ class MainScreen():
     
     def getScreen(self):
         return self.screen
+    
+    def getResolution(self):
+        return self.resolution
 
     def createScreen(self):
-        resolution = [1024, 768]
-        self.screen = pygame.display.set_mode(resolution, RESIZABLE, 32)
+        self.screen = pygame.display.set_mode(self.resolution, RESIZABLE, 32)
         pygame.display.set_caption("Taltos")
         pygame.mouse.set_visible(False)
