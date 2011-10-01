@@ -1,0 +1,5 @@
+# ignore rules for python
+*.pyc
+.*project
+.settings
+
