@@ -4,7 +4,7 @@ from sys import exit
 from pygame.time import Clock
 import MainExceptions
 from Rpg import RPG
-from src.CommonModules import MainScreen
+from src.CommonModules.Screen import MainScreen
 from src.CommonModules import MusicPlayer
 from src.CommonModules import Menu
 

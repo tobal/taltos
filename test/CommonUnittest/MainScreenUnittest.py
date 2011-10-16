@@ -1,6 +1,6 @@
 
 import unittest
-from src.CommonModules import MainScreen
+from src.CommonModules.Screen import MainScreen
 import pygame
 
 class MainScreenUnittest(unittest.TestCase):
