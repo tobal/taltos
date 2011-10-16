@@ -1,7 +1,7 @@
 
 from src.CommonModules.Constants import gameModes
 
-class GameMode():
+class GameMode(object):
 
     def __init__(self):
         self.mode = gameModes.RPG
@@ -9,3 +9,5 @@ class GameMode():
     def setGameMode(self, gameMode):
         self.mode = gameMode
         
+    def getGameMode(self):
+        return self.mode

@@ -12,14 +12,17 @@ class MainScreenUnittest(unittest.TestCase):
         self.mainScreen.destroyScreen()
 
     def test_screen_init(self):
-        self.assertTrue(self.mainScreen.getScreen() == 0, "Screen doesn't init")
+        self.assertTrue(self.mainScreen.getScreen() == 0, 
+                        "Screen doesn't init")
     
     def test_screen_creation(self):
         self.mainScreen.createScreen()
-        self.assertTrue(pygame.display.get_init(), "Screen not initialized properly")
+        self.assertTrue(pygame.display.get_init(), 
+                        "Screen not initialized properly")
 
     def test_proper_resolution(self):
         rightRes = [1024,768]
         resolution = self.mainScreen.getResolution()
-        self.assert_(resolution == rightRes, "Improper resolution")
+        self.assert_(resolution == rightRes, 
+                     "Improper resolution")
         

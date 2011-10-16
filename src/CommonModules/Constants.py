@@ -1,13 +1,10 @@
 
-from src.CommonModules.Constants import gameModes
-
 class gameModes():
 
-    def __init__(self):
-        self.RPG = 0
-        self.CYBERSPACE = 1
-        self.WORKSHOP = 2
-        self.HACKING = 3
+    RPG = 0
+    CYBERSPACE = 1
+    WORKSHOP = 2
+    HACKING = 3
 
 class colors():
     

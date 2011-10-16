@@ -3,7 +3,7 @@ import pygame
 from pygame.constants import FULLSCREEN
 from pygame.constants import RESIZABLE
 
-class MainScreen():
+class MainScreen(object):
     
     def __init__(self):
         self.screen = 0

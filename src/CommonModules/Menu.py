@@ -3,7 +3,7 @@
 import pygame
 from pygame.locals import *
 
-class Menu():
+class Menu(object):
     
     def __init__(self, screen):
         self.screen = screen
