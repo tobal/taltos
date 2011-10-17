@@ -2,11 +2,16 @@
 
 import pygame
 from pygame.locals import *
+from src.CommonModules.Screen import ScreenDrawer
+from src.CommonModules.Screen import TextDrawer
+from src.CommonModules.Constants import gameModes
 
 class Menu(object):
     
     def __init__(self, screen):
         self.screen = screen
+        self.drawer = ScreenDrawer.ScreenDrawer()
+        self.textDrawer = TextDrawer.TextDrawer()
     
     def languageChooser(self):
         dialog = True
@@ -16,9 +21,8 @@ class Menu(object):
         lang_choose = True
         while dialog:
             if lang_choose:
-                self.screen.fill((255,255,255))
-                pygame.draw.rect(self.screen, (100,100,100), Rect((147,77), (746,576)))
-                pygame.draw.rect(self.screen, (255,255,255), Rect((150,80), (740,570)))
+                self.drawer.fillWithBackgroundColor(self.screen, gameModes.RPG)
+                self.drawer.drawBox(Rect((150,80), (740,570)), 3, self.screen, gameModes.RPG)
                 font = pygame.font.Font("../resrc/fonts/gorrisans.ttf", 40)
                 rovas = pygame.font.Font("../resrc/fonts/rovmajb.ttf", 70)
                 text_surface_hu = font.render(u"Válassz nyelvet", True, (100,100,100))

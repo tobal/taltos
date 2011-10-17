@@ -14,3 +14,7 @@ class colors():
     def getBackgroundColor(self, gameMode):
         if gameMode == gameModes.RPG:
             return (255,255,255)
+    
+    def getForegroundColor(self, gameMode):
+        if gameMode == gameModes.RPG:
+            return (100,100,100)
