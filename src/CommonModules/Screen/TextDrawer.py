@@ -18,3 +18,5 @@ class TextDrawer(object):
         if( gameMode == gameModes.RPG):
             return self.rpgRovas
         return
+    
+    

@@ -1,10 +1,10 @@
 
-from src.CommonModules.Constants import gameModes
+from src.CommonModules.Constants import GameModes
 
 class GameMode(object):
 
     def __init__(self):
-        self.mode = gameModes.RPG
+        self.mode = GameModes.RPG
     
     def setGameMode(self, gameMode):
         self.mode = gameMode
