@@ -9,6 +9,7 @@ class GameModes():
     CYBERSPACE = 1
     WORKSHOP = 2
     HACKING = 3
+    MENU = 4
 
 class Languages():
     HU = 0
@@ -23,7 +24,11 @@ class Colors():
     def getBackgroundColor(self, gameMode):
         if gameMode == GameModes.RPG:
             return (255,255,255)
+        if gameMode == GameModes.MENU:
+            return (255,255,255)
     
     def getForegroundColor(self, gameMode):
         if gameMode == GameModes.RPG:
+            return (100,100,100)
+        if gameMode == GameModes.MENU:
             return (100,100,100)

@@ -4,7 +4,10 @@ import pygame
 from pygame.locals import *
 from src.CommonModules.Screen import ScreenDrawer
 from src.CommonModules.Screen import TextDrawer
-from src.CommonModules.Constants import gameModes
+from src.CommonModules.Texts import TextGetter
+from src.CommonModules.Constants import GameModes
+from src.CommonModules.Constants import CommonTextTypes
+from src.CommonModules.Constants import Languages
 
 class Menu(object):
     
@@ -12,6 +15,7 @@ class Menu(object):
         self.screen = screen
         self.drawer = ScreenDrawer.ScreenDrawer()
         self.textDrawer = TextDrawer.TextDrawer()
+        self.textGetter = TextGetter.TextGetter()
     
     def languageChooser(self):
         dialog = True
@@ -21,35 +25,41 @@ class Menu(object):
         lang_choose = True
         while dialog:
             if lang_choose:
-                self.drawer.fillWithBackgroundColor(self.screen, gameModes.RPG)
-                self.drawer.drawBox(Rect((150,80), (740,570)), 3, self.screen, gameModes.RPG)
+                self.drawer.fillWithBackgroundColor(self.screen, GameModes.MENU)
+                self.drawer.drawBox(Rect((150,80), (740,570)), 3, self.screen, GameModes.MENU)
+                
+                valassz_en = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.EN)
+                surface_valen = self.textDrawer.getTextArraySurfaces(valassz_en, GameModes.MENU, Languages.EN)
+                valassz_hu = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.HU)
+                surface_valhu = self.textDrawer.getTextArraySurfaces(valassz_hu, GameModes.MENU, Languages.HU)
+                valassz_rov = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.ROV)
+                surface_valrov = self.textDrawer.getTextArraySurfaces(valassz_rov, GameModes.MENU, Languages.ROV)
+                
+                nyelv_en = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.EN)
+                surface_nyen = self.textDrawer.getTextArraySurfaces(nyelv_en, GameModes.MENU, Languages.EN)
+                nyelv_hu = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.HU)
+                surface_nyhu = self.textDrawer.getTextArraySurfaces(nyelv_hu, GameModes.MENU, Languages.HU)
+                nyelv_rov = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.ROV)
+                surface_nyrov = self.textDrawer.getTextArraySurfaces(nyelv_rov, GameModes.MENU, Languages.ROV)
+                
                 font = pygame.font.Font("../resrc/fonts/gorrisans.ttf", 40)
                 rovas = pygame.font.Font("../resrc/fonts/rovmajb.ttf", 70)
-                text_surface_hu = font.render(u"Válassz nyelvet", True, (100,100,100))
-                text_surface_en = font.render("Choose a language", True, (100,100,100))
-                text_surface_rov = rovas.render(u"tevleyn zssaláV", True, (100,100,100))
-                text_surface_ans1 = font.render("Magyar", True, (100,100,100))
-                text_surface_ans1b = font.render("Magyar", True, (255,255,255), (100,100,100))
-                text_surface_ans2 = font.render("English", True, (100,100,100))
-                text_surface_ans2b = font.render("English", True, (255,255,255), (100,100,100))
-                text_surface_ans3 = rovas.render("raygaM", True, (100,100,100))
-                text_surface_ans3b = rovas.render("raygaM", True, (255,255,255), (100,100,100))
-                self.screen.blit(text_surface_hu, (370, 150))
-                self.screen.blit(text_surface_en, (330, 220))
-                self.screen.blit(text_surface_rov, (310, 300))
+                self.screen.blit(surface_valhu[0]['normal'], (370, 150))
+                self.screen.blit(surface_valen[0]['normal'], (330, 220))
+                self.screen.blit(surface_valrov[0]['normal'], (310, 300))
     
                 if hu:
-                    self.screen.blit(text_surface_ans1b, (460, 400))
+                    self.screen.blit(surface_nyen[0]['inverse'], (460, 400))
                 else:
-                    self.screen.blit(text_surface_ans1, (460, 400))
+                    self.screen.blit(surface_nyen[0]['normal'], (460, 400))
                 if en:
-                    self.screen.blit(text_surface_ans2b, (460, 470))
+                    self.screen.blit(surface_nyhu[0]['inverse'], (460, 470))
                 else:
-                    self.screen.blit(text_surface_ans2, (460, 470))
+                    self.screen.blit(surface_nyhu[0]['normal'], (460, 470))
                 if rov:
-                    self.screen.blit(text_surface_ans3b, (460, 560))
+                    self.screen.blit(surface_nyrov[0]['inverse'], (460, 560))
                 else:
-                    self.screen.blit(text_surface_ans3, (460, 560))
+                    self.screen.blit(surface_nyrov[0]['normal'], (460, 560))
                 pygame.display.update()
     
                 for event in pygame.event.get():
