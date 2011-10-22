@@ -23,43 +23,47 @@ class Menu(object):
         en = False
         rov = False
         lang_choose = True
+        chosenLanguage = Languages.HU
+        langChooserBox = Rect((150,80), (740,570))
         while dialog:
             if lang_choose:
                 self.drawer.fillWithBackgroundColor(self.screen, GameModes.MENU)
-                self.drawer.drawBox(Rect((150,80), (740,570)), 3, self.screen, GameModes.MENU)
+                self.drawer.drawBox(langChooserBox, 3, self.screen, GameModes.MENU)
                 
-                valassz_en = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.EN)
-                surface_valen = self.textDrawer.getTextArraySurfaces(valassz_en, GameModes.MENU, Languages.EN)
-                valassz_hu = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.HU)
-                surface_valhu = self.textDrawer.getTextArraySurfaces(valassz_hu, GameModes.MENU, Languages.HU)
-                valassz_rov = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.ROV)
-                surface_valrov = self.textDrawer.getTextArraySurfaces(valassz_rov, GameModes.MENU, Languages.ROV)
+                valasszEn = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.EN)
+                surfaceValasszEn = self.textDrawer.getTextArraySurfaces(valasszEn, GameModes.MENU, Languages.EN)
+                valasszHu = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.HU)
+                surfaceValasszHu = self.textDrawer.getTextArraySurfaces(valasszHu, GameModes.MENU, Languages.HU)
+                valasszRov = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.ROV)
+                surfaceValasszRov = self.textDrawer.getTextArraySurfaces(valasszRov, GameModes.MENU, Languages.ROV)
                 
-                nyelv_en = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.EN)
-                surface_nyen = self.textDrawer.getTextArraySurfaces(nyelv_en, GameModes.MENU, Languages.EN)
-                nyelv_hu = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.HU)
-                surface_nyhu = self.textDrawer.getTextArraySurfaces(nyelv_hu, GameModes.MENU, Languages.HU)
-                nyelv_rov = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.ROV)
-                surface_nyrov = self.textDrawer.getTextArraySurfaces(nyelv_rov, GameModes.MENU, Languages.ROV)
+                nyelvEn = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.EN)
+                surfaceNyelvEn = self.textDrawer.getTextArraySurfaces(nyelvEn, GameModes.MENU, Languages.EN)
+                nyelvHu = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.HU)
+                surfaceNyelvHu = self.textDrawer.getTextArraySurfaces(nyelvHu, GameModes.MENU, Languages.HU)
+                nyelvRov = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.ROV)
+                surfaceNyelvRov = self.textDrawer.getTextArraySurfaces(nyelvRov, GameModes.MENU, Languages.ROV)
                 
                 font = pygame.font.Font("../resrc/fonts/gorrisans.ttf", 40)
                 rovas = pygame.font.Font("../resrc/fonts/rovmajb.ttf", 70)
-                self.screen.blit(surface_valhu[0]['normal'], (370, 150))
-                self.screen.blit(surface_valen[0]['normal'], (330, 220))
-                self.screen.blit(surface_valrov[0]['normal'], (310, 300))
-    
-                if hu:
-                    self.screen.blit(surface_nyen[0]['inverse'], (460, 400))
-                else:
-                    self.screen.blit(surface_nyen[0]['normal'], (460, 400))
-                if en:
-                    self.screen.blit(surface_nyhu[0]['inverse'], (460, 470))
-                else:
-                    self.screen.blit(surface_nyhu[0]['normal'], (460, 470))
-                if rov:
-                    self.screen.blit(surface_nyrov[0]['inverse'], (460, 560))
-                else:
-                    self.screen.blit(surface_nyrov[0]['normal'], (460, 560))
+                self.screen.blit(surfaceValasszHu[0]['normal'], (370, 150))
+                self.screen.blit(surfaceValasszEn[0]['normal'], (330, 220))
+                self.screen.blit(surfaceValasszRov[0]['normal'], (310, 300))
+                    
+                surfaceMagyar = surfaceNyelvHu[0]['normal']
+                surfaceEnglish = surfaceNyelvEn[0]['normal']
+                surfaceRovas = surfaceNyelvRov[0]['normal']
+                
+                if chosenLanguage == Languages.HU:
+                    surfaceMagyar = surfaceNyelvHu[0]['inverse']
+                elif chosenLanguage == Languages.EN:
+                    surfaceEnglish = surfaceNyelvEn[0]['inverse']
+                elif chosenLanguage == Languages.ROV:
+                    surfaceRovas = surfaceNyelvRov[0]['inverse']
+                    
+                self.screen.blit(surfaceMagyar, (460, 400))
+                self.screen.blit(surfaceEnglish, (460, 470))
+                self.screen.blit(surfaceRovas, (460, 560))
                 pygame.display.update()
     
                 for event in pygame.event.get():
@@ -67,25 +71,19 @@ class Menu(object):
                         exit()
                     if event.type == KEYDOWN:
                         if event.key == K_w or event.key == K_UP:
-                            if en:
-                                en = False
-                                hu = True
-                            elif rov:
-                                rov = False
-                                en = True
-                            elif hu:
-                                hu = False
-                                rov = True
+                            if chosenLanguage == Languages.EN:
+                                chosenLanguage = Languages.HU
+                            elif chosenLanguage == Languages.HU:
+                                chosenLanguage = Languages.ROV
+                            elif chosenLanguage == Languages.ROV:
+                                chosenLanguage = Languages.EN
                         if event.key == K_s or event.key == K_DOWN:
-                            if hu:
-                                hu = False
-                                en = True
-                            elif en:
-                                en = False
-                                rov = True
-                            elif rov:
-                                rov = False
-                                hu = True
+                            if chosenLanguage == Languages.EN:
+                                chosenLanguage = Languages.ROV
+                            elif chosenLanguage == Languages.HU:
+                                chosenLanguage = Languages.EN
+                            elif chosenLanguage == Languages.ROV:
+                                chosenLanguage = Languages.HU
                         if (event.key == K_q) or (event.key == K_ESCAPE):
                             exit()
                         if (event.key == K_e) or (event.key == K_RETURN):
