@@ -8,6 +8,9 @@ from src.CommonModules.Texts import TextGetter
 from src.CommonModules.Constants import GameModes
 from src.CommonModules.Constants import CommonTextTypes
 from src.CommonModules.Constants import Languages
+from src.CommonModules.Constants import FontSizes
+from src.CommonModules.Constants import TextSurfaceTypes
+
 
 class Menu(object):
     
@@ -31,35 +34,33 @@ class Menu(object):
                 self.drawer.drawBox(langChooserBox, 3, self.screen, GameModes.MENU)
                 
                 valasszEn = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.EN)
-                surfaceValasszEn = self.textDrawer.getTextArraySurfaces(valasszEn, GameModes.MENU, Languages.EN)
+                surfaceValasszEn = self.textDrawer.getTextArraySurfaces(valasszEn, GameModes.MENU, Languages.EN, FontSizes.BIG)
                 valasszHu = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.HU)
-                surfaceValasszHu = self.textDrawer.getTextArraySurfaces(valasszHu, GameModes.MENU, Languages.HU)
+                surfaceValasszHu = self.textDrawer.getTextArraySurfaces(valasszHu, GameModes.MENU, Languages.HU, FontSizes.BIG)
                 valasszRov = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.ROV)
-                surfaceValasszRov = self.textDrawer.getTextArraySurfaces(valasszRov, GameModes.MENU, Languages.ROV)
+                surfaceValasszRov = self.textDrawer.getTextArraySurfaces(valasszRov, GameModes.MENU, Languages.ROV, FontSizes.BIG)
                 
                 nyelvEn = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.EN)
-                surfaceNyelvEn = self.textDrawer.getTextArraySurfaces(nyelvEn, GameModes.MENU, Languages.EN)
+                surfaceNyelvEn = self.textDrawer.getTextArraySurfaces(nyelvEn, GameModes.MENU, Languages.EN, FontSizes.BIG)
                 nyelvHu = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.HU)
-                surfaceNyelvHu = self.textDrawer.getTextArraySurfaces(nyelvHu, GameModes.MENU, Languages.HU)
+                surfaceNyelvHu = self.textDrawer.getTextArraySurfaces(nyelvHu, GameModes.MENU, Languages.HU, FontSizes.BIG)
                 nyelvRov = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.ROV)
-                surfaceNyelvRov = self.textDrawer.getTextArraySurfaces(nyelvRov, GameModes.MENU, Languages.ROV)
+                surfaceNyelvRov = self.textDrawer.getTextArraySurfaces(nyelvRov, GameModes.MENU, Languages.ROV, FontSizes.BIG)
                 
-                font = pygame.font.Font("../resrc/fonts/gorrisans.ttf", 40)
-                rovas = pygame.font.Font("../resrc/fonts/rovmajb.ttf", 70)
-                self.screen.blit(surfaceValasszHu[0]['normal'], (370, 150))
-                self.screen.blit(surfaceValasszEn[0]['normal'], (330, 220))
-                self.screen.blit(surfaceValasszRov[0]['normal'], (310, 300))
+                self.screen.blit(surfaceValasszHu[0][TextSurfaceTypes.NORMAL], (370, 150))
+                self.screen.blit(surfaceValasszEn[0][TextSurfaceTypes.NORMAL], (330, 220))
+                self.screen.blit(surfaceValasszRov[0][TextSurfaceTypes.NORMAL], (310, 300))
                     
-                surfaceMagyar = surfaceNyelvHu[0]['normal']
-                surfaceEnglish = surfaceNyelvEn[0]['normal']
-                surfaceRovas = surfaceNyelvRov[0]['normal']
+                surfaceMagyar = surfaceNyelvHu[0][TextSurfaceTypes.NORMAL]
+                surfaceEnglish = surfaceNyelvEn[0][TextSurfaceTypes.NORMAL]
+                surfaceRovas = surfaceNyelvRov[0][TextSurfaceTypes.NORMAL]
                 
                 if chosenLanguage == Languages.HU:
-                    surfaceMagyar = surfaceNyelvHu[0]['inverse']
+                    surfaceMagyar = surfaceNyelvHu[0][TextSurfaceTypes.INVERSE]
                 elif chosenLanguage == Languages.EN:
-                    surfaceEnglish = surfaceNyelvEn[0]['inverse']
+                    surfaceEnglish = surfaceNyelvEn[0][TextSurfaceTypes.INVERSE]
                 elif chosenLanguage == Languages.ROV:
-                    surfaceRovas = surfaceNyelvRov[0]['inverse']
+                    surfaceRovas = surfaceNyelvRov[0][TextSurfaceTypes.INVERSE]
                     
                 self.screen.blit(surfaceMagyar, (460, 400))
                 self.screen.blit(surfaceEnglish, (460, 470))
@@ -95,42 +96,15 @@ class Menu(object):
                                 language = "rov"
                             lang_choose = False
             else:
-                textfill = True
-                text_array = []
-                while textfill:
-                    if language == "hu" or language == "rov":
-                        text_array.append(u"     Irányítás")
-                        text_array.append(u"Mozgás - Kurzornyilak, vagy WSAD")
-                        text_array.append(u"Akció - Enter vagy E")
-                        text_array.append(u"Kilépés - Esc vagy Q")
-                        text_array.append(u" ")
-                        text_array.append(u"Az akciógombbal  lehet interakcióba lépni a")
-                        text_array.append(u"játéktéren lévő figurákkal, vagy tárgyakkal.")
-                        text_array.append(u"A rovásírás egyelőre csak kísérleti jelleggel került")
-                        text_array.append(u"a játékba.")
-                        text_array.append(u" ")
-                        text_array.append(u"                     <ENTER>")
-                    if language == "en":
-                        text_array.append(u"     Controls")
-                        text_array.append(u"Movement - Cursor arrows, or WSAD")
-                        text_array.append(u"Action - Enter or E")
-                        text_array.append(u"Quit - Esc or Q")
-                        text_array.append(u" ")
-                        text_array.append(u"With the action button, you can interact with")
-                        text_array.append(u"other characters or objects on the game field.")
-                        text_array.append(u"The hungarian rune writing is just experimental")
-                        text_array.append(u"for the time being.")
-                        text_array.append(u" ")
-                        text_array.append(u"                     <ENTER>")
-                    textfill = False
-                self.screen.fill((255,255,255))
-                pygame.draw.rect(self.screen, (100,100,100), Rect((147,77), (746,576)))
-                pygame.draw.rect(self.screen, (255,255,255), Rect((150,80), (740,570)))
-                font = pygame.font.Font("../resrc/fonts/gorrisans.ttf", 24)
+                self.drawer.fillWithBackgroundColor(self.screen, GameModes.MENU)
+                self.drawer.drawBox(langChooserBox, 3, self.screen, GameModes.MENU)
+                
+                iranyitasText = self.textGetter.getCommonText(CommonTextTypes.IRANYITAS, chosenLanguage)
+                surfaceIranyitas = self.textDrawer.getTextArraySurfaces(iranyitasText, GameModes.MENU, chosenLanguage, FontSizes.SMALL)
+                
                 text_pos = 100
-                for text in text_array:
-                    text_surface = font.render(text, True, (100,100,100))
-                    self.screen.blit(text_surface, (180, text_pos))
+                for surface in surfaceIranyitas:
+                    self.screen.blit(surface[TextSurfaceTypes.NORMAL], (180, text_pos))
                     text_pos += 50
                 pygame.display.update()
     

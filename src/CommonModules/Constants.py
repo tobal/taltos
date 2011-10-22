@@ -3,6 +3,10 @@ class CommonTextTypes():
     VAL_NYELV = 0
     NYELV = 1
     IRANYITAS = 2
+    
+class TextSurfaceTypes():
+    NORMAL = 0
+    INVERSE = 1
 
 class GameModes():
     RPG = 0
@@ -15,6 +19,10 @@ class Languages():
     HU = 0
     EN = 1
     ROV = 2
+
+class FontSizes():
+    BIG = 0
+    SMALL = 1
 
 class Colors():
     
