@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import Conversation
+from src.CommonModules.Constants import Languages
 
 class Conversations:
 
@@ -12,7 +13,7 @@ class Conversations:
 
     def generate_conversation(self, conversation, language):
         conv = Conversation.Conversation()
-        if language == "en":
+        if language == Languages.EN:
             if conversation == "shopconv":
                 conv.add_text("1",
                               u"Hi, I'm the hardware dealer. In the game you can buy everything you need for your computer from me.",
@@ -138,7 +139,7 @@ class Conversations:
                               "Bye",
                               False, [], True)
                 return conv
-        if language == "hu":
+        if language == Languages.HU:
             if conversation == "shopconv":
                 conv.add_text("1",
                               u"Szia, én vagyok a hardver kereskedő. A játékban majd tőlem vehetsz meg minden cuccot, ami a gépedbe kell majd.",
@@ -264,7 +265,7 @@ class Conversations:
                               u"Szeva",
                               False, [], True)
                 return conv
-        if language == "rov":
+        if language == Languages.ROV:
             if conversation == "shopconv":
                 conv.add_text("1",
                               u"Szia, én vagyok a hardver kereskedő. A játékban majd tőlem vehetsz meg minden cuccot, ami a gépedbe kell majd.",

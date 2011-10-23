@@ -11,7 +11,6 @@ from src.CommonModules.Constants import Languages
 from src.CommonModules.Constants import FontSizes
 from src.CommonModules.Constants import TextSurfaceTypes
 
-
 class Menu(object):
     
     def __init__(self, screen):
@@ -21,15 +20,12 @@ class Menu(object):
         self.textGetter = TextGetter.TextGetter()
     
     def languageChooser(self):
-        dialog = True
-        hu = True
-        en = False
-        rov = False
-        lang_choose = True
+        dialogAlive = True
+        langChooserAlive = True
         chosenLanguage = Languages.HU
         langChooserBox = Rect((150,80), (740,570))
-        while dialog:
-            if lang_choose:
+        while dialogAlive:
+            if langChooserAlive:
                 self.drawer.fillWithBackgroundColor(self.screen, GameModes.MENU)
                 self.drawer.drawBox(langChooserBox, 3, self.screen, GameModes.MENU)
                 
@@ -84,13 +80,7 @@ class Menu(object):
                         if (event.key == K_q) or (event.key == K_ESCAPE):
                             exit()
                         if (event.key == K_e) or (event.key == K_RETURN):
-                            if hu:
-                                language = "hu"
-                            elif en:
-                                language = "en"
-                            elif rov:
-                                language = "rov"
-                            lang_choose = False
+                            langChooserAlive = False
             else:
                 self.drawer.fillWithBackgroundColor(self.screen, GameModes.MENU)
                 self.drawer.drawBox(langChooserBox, 3, self.screen, GameModes.MENU)
@@ -110,7 +100,7 @@ class Menu(object):
                         if (event.key == K_q) or (event.key == K_ESCAPE):
                             exit()
                         if (event.key == K_e) or (event.key == K_RETURN):
-                            dialog = False
-                            return language
+                            dialogAlive = False
+                            return chosenLanguage
     
             
