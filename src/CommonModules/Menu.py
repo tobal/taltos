@@ -33,38 +33,34 @@ class Menu(object):
                 self.drawer.fillWithBackgroundColor(self.screen, GameModes.MENU)
                 self.drawer.drawBox(langChooserBox, 3, self.screen, GameModes.MENU)
                 
-                valasszEn = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.EN)
-                surfaceValasszEn = self.textDrawer.getTextArraySurfaces(valasszEn, GameModes.MENU, Languages.EN, FontSizes.BIG)
-                valasszHu = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.HU)
-                surfaceValasszHu = self.textDrawer.getTextArraySurfaces(valasszHu, GameModes.MENU, Languages.HU, FontSizes.BIG)
-                valasszRov = self.textGetter.getCommonText(CommonTextTypes.VAL_NYELV, Languages.ROV)
-                surfaceValasszRov = self.textDrawer.getTextArraySurfaces(valasszRov, GameModes.MENU, Languages.ROV, FontSizes.BIG)
+                languages = [Languages.HU, Languages.EN, Languages.ROV]
+                textTypes = [CommonTextTypes.VAL_NYELV, CommonTextTypes.NYELV]
+                languageSurfaces = []
+                for language in languages:
+                    oneLangSurfaces = []
+                    for textType in textTypes:
+                        surface = self.textDrawer.getSurfaceArrayForCommonText(textType, GameModes.MENU, language, FontSizes.BIG)
+                        oneLangSurfaces.append(surface)
+                    languageSurfaces.append(oneLangSurfaces)
                 
-                nyelvEn = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.EN)
-                surfaceNyelvEn = self.textDrawer.getTextArraySurfaces(nyelvEn, GameModes.MENU, Languages.EN, FontSizes.BIG)
-                nyelvHu = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.HU)
-                surfaceNyelvHu = self.textDrawer.getTextArraySurfaces(nyelvHu, GameModes.MENU, Languages.HU, FontSizes.BIG)
-                nyelvRov = self.textGetter.getCommonText(CommonTextTypes.NYELV, Languages.ROV)
-                surfaceNyelvRov = self.textDrawer.getTextArraySurfaces(nyelvRov, GameModes.MENU, Languages.ROV, FontSizes.BIG)
+                self.screen.blit(languageSurfaces[0][0][0][TextSurfaceTypes.NORMAL], (370, 150))
+                self.screen.blit(languageSurfaces[1][0][0][TextSurfaceTypes.NORMAL], (330, 220))
+                self.screen.blit(languageSurfaces[2][0][0][TextSurfaceTypes.NORMAL], (310, 300))
                 
-                self.screen.blit(surfaceValasszHu[0][TextSurfaceTypes.NORMAL], (370, 150))
-                self.screen.blit(surfaceValasszEn[0][TextSurfaceTypes.NORMAL], (330, 220))
-                self.screen.blit(surfaceValasszRov[0][TextSurfaceTypes.NORMAL], (310, 300))
-                    
-                surfaceMagyar = surfaceNyelvHu[0][TextSurfaceTypes.NORMAL]
-                surfaceEnglish = surfaceNyelvEn[0][TextSurfaceTypes.NORMAL]
-                surfaceRovas = surfaceNyelvRov[0][TextSurfaceTypes.NORMAL]
+                surfaceTypeHu = TextSurfaceTypes.NORMAL
+                surfaceTypeEn = TextSurfaceTypes.NORMAL
+                surfaceTypeRov = TextSurfaceTypes.NORMAL
                 
                 if chosenLanguage == Languages.HU:
-                    surfaceMagyar = surfaceNyelvHu[0][TextSurfaceTypes.INVERSE]
+                    surfaceTypeHu = TextSurfaceTypes.INVERSE
                 elif chosenLanguage == Languages.EN:
-                    surfaceEnglish = surfaceNyelvEn[0][TextSurfaceTypes.INVERSE]
+                    surfaceTypeEn = TextSurfaceTypes.INVERSE
                 elif chosenLanguage == Languages.ROV:
-                    surfaceRovas = surfaceNyelvRov[0][TextSurfaceTypes.INVERSE]
+                    surfaceTypeRov = TextSurfaceTypes.INVERSE
                     
-                self.screen.blit(surfaceMagyar, (460, 400))
-                self.screen.blit(surfaceEnglish, (460, 470))
-                self.screen.blit(surfaceRovas, (460, 560))
+                self.screen.blit(languageSurfaces[0][1][0][surfaceTypeHu], (460, 400))
+                self.screen.blit(languageSurfaces[1][1][0][surfaceTypeEn], (460, 470))
+                self.screen.blit(languageSurfaces[2][1][0][surfaceTypeRov], (460, 560))
                 pygame.display.update()
     
                 for event in pygame.event.get():
@@ -99,8 +95,7 @@ class Menu(object):
                 self.drawer.fillWithBackgroundColor(self.screen, GameModes.MENU)
                 self.drawer.drawBox(langChooserBox, 3, self.screen, GameModes.MENU)
                 
-                iranyitasText = self.textGetter.getCommonText(CommonTextTypes.IRANYITAS, chosenLanguage)
-                surfaceIranyitas = self.textDrawer.getTextArraySurfaces(iranyitasText, GameModes.MENU, chosenLanguage, FontSizes.SMALL)
+                surfaceIranyitas = self.textDrawer.getSurfaceArrayForCommonText(CommonTextTypes.IRANYITAS, GameModes.MENU, chosenLanguage, FontSizes.SMALL)
                 
                 text_pos = 100
                 for surface in surfaceIranyitas:
