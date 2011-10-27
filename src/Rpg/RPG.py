@@ -4,10 +4,8 @@ from pygame.locals import *
 import random
 
 from Rpg import Sprite
-from Rpg import Scene
 from Rpg import SceneBuilder
 import MainExceptions
-from Rpg.Objects import BoundingBox
 from Rpg import RPGTalker
 from Rpg import Actions
 
