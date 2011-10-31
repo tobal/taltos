@@ -8,6 +8,7 @@ from Rpg import SceneBuilder
 import MainExceptions
 from Rpg import RPGTalker
 from Rpg import Actions
+from src.CommonModules.Images import RpgImages
 
 class Tram(object):
 
@@ -20,7 +21,7 @@ class Tram(object):
         self.min_time = 400
         self.max_time = 1000
         self.due = random.randint(self.min_time, self.max_time)
-        self.villamos = pygame.image.load("../resrc/img/RPG/villamos.png").convert_alpha()
+        self.villamos = pygame.image.load(RpgImages.RpgImages.TRAM).convert_alpha()
         return
 
     def loop(self):

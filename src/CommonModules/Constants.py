@@ -8,6 +8,12 @@ class TextSurfaceTypes():
     NORMAL = 0
     INVERSE = 1
 
+class Directions():
+    UP = 0
+    DOWN = 1
+    LEFT = 2
+    RIGHT = 3
+
 class GameModes():
     RPG = 0
     CYBERSPACE = 1
