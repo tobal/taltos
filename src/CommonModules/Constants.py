@@ -7,6 +7,16 @@ class CommonTextTypes():
 class TextSurfaceTypes():
     NORMAL = 0
     INVERSE = 1
+    
+class RpgModes():
+    WANDER = 0
+    TALK = 1
+
+class TunnelData():
+    TRANSITION = 0
+    SCENENAME = 1
+    DROPOFF = 2
+    ORIENTATION = 3
 
 class Directions():
     UP = 0

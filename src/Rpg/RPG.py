@@ -9,6 +9,9 @@ import MainExceptions
 from Rpg import RPGTalker
 from Rpg import Actions
 from src.CommonModules.Images import RpgImages
+from src.CommonModules.Constants import RpgModes
+from src.CommonModules.Constants import Directions
+from src.CommonModules.Constants import TunnelData
 
 class Tram(object):
 
@@ -18,9 +21,9 @@ class Tram(object):
         self.speed = 20.0
         self.altitude = 10
         self.pos = -2846.0
-        self.min_time = 400
-        self.max_time = 1000
-        self.due = random.randint(self.min_time, self.max_time)
+        self.minTime = 400
+        self.maxTime = 1000
+        self.due = random.randint(self.minTime, self.maxTime)
         self.villamos = pygame.image.load(RpgImages.RpgImages.TRAM).convert_alpha()
         return
 
@@ -35,7 +38,7 @@ class Tram(object):
             if self.pos >= 1024:
                 self.drawing = False
                 self.timer = 0
-                self.due = random.randint(self.min_time, self.max_time)
+                self.due = random.randint(self.minTime, self.maxTime)
         return
 
     def draw(self, screen):
@@ -55,30 +58,30 @@ class RPGModule(object):
         self.make_scene()
         self.make_sprite()
         self.talk = RPGTalker.RPGTalker()
-        self.move_x, self.move_y =0, 0
+        self.moveX, self.moveY = 0, 0
         self.anim = 0
-        if self.scene.is_there_tram():
+        if self.scene.isThereTram():
             self.villamos = Tram()
-        self.mode = "wander"         # can be "wander" or "talk" (python needs enum type)
+        self.mode = RpgModes.WANDER
         self.lang = language
-        self.arrowbuttons = {"up" : 0,
-                             "down" : 0,
-                             "left" : 0,
-                             "right" : 0,
-                             "prevup" : 0,
-                             "prevdown" : 0,
-                             "prevleft" : 0,
-                             "prevright" : 0,}
+        self.arrowButtons = {Directions.UP : 0,
+                             Directions.DOWN : 0,
+                             Directions.LEFT : 0,
+                             Directions.RIGHT : 0}
+        self.prevArrowButtons = {Directions.UP : 0,
+                                 Directions.DOWN : 0,
+                                 Directions.LEFT : 0,
+                                 Directions.RIGHT: 0,}
 
-    def game_loop(self):
-        self.event_handler()
-        if self.mode == "wander":
+    def gameLoop(self):
+        self.eventHandler()
+        if self.mode == RpgModes.WANDER:
             self.animation()
-        tunnel = self.tunnel_check(self.bulcsu.get_bounding_box())
-        if tunnel["bool"]:
-            self.change_scene(tunnel["scenename"], tunnel["dropoff"])
+        tunnel = self.tunnelCheck(self.bulcsu.getBoundingBox())
+        if tunnel[TunnelData.TRANSITION]:
+            self.change_scene(tunnel[TunnelData.SCENENAME], tunnel[TunnelData.DROPOFF])
         self.collisions()
-        if self.scene.is_there_tram():
+        if self.scene.isThereTram():
             self.villamos.loop()
 
         # drawing the whole scene
@@ -109,7 +112,7 @@ class RPGModule(object):
         pygame.draw.rect(self.screen, (255,255,0), Rect((box["x1"],box["y1"]), (box["x2"]-box["x1"],box["y2"]-box["y1"])))
         """
 
-    def make_scene(self):
+    def makeScene(self):
         # making scene instances
         self.scenes = {"hardware" : SceneBuilder.build_scene("hardware"),
                        "street" : SceneBuilder.build_scene("street"),
@@ -117,7 +120,7 @@ class RPGModule(object):
         self.scene = self.scenes["hardware"]
         self.scene_bounds = self.scene.get_bounds()
 
-    def change_scene(self, scenename, dropoff_point):
+    def changeScene(self, scenename, dropoff_point):
         self.scene = self.scenes[scenename]
         self.bulcsu.set_pos(dropoff_point)
         # FIXME: should not have a redundant scene bounds value in this class
@@ -130,11 +133,11 @@ class RPGModule(object):
                 value = 1024
             self.villamos.modify_pos(value)
 
-    def make_sprite(self):
+    def makeSprite(self):
         # making sprite instance
         self.bulcsu = Sprite.ProtagonistSprite(80, 340)
 
-    def event_handler(self):
+    def eventHandler(self):
         if self.mode == "wander":
             move_speed = 4.0
 
@@ -256,7 +259,7 @@ class RPGModule(object):
                     self.bulcsu.go_up()
                 self.anim = 0
 
-    def collision_check(self, direction, bulcsuBox):
+    def collisionCheck(self, direction, bulcsuBox):
         obj_collision = {"bool" : False,
                          "pos" : 0}
         for obj in self.scene.get_objects() + self.scene.get_persons():
@@ -269,8 +272,8 @@ class RPGModule(object):
             obj_collision["pos"] = self.scene_bounds[direction]
         return obj_collision
 
-    def tunnel_check(self, bulcsuBox):
-        notfound = True
+    def tunnelCheck(self, bulcsuBox):
+        found = False
         for tun in self.scene.get_tunnels():
             tuncol = bulcsuBox.collision_with_object("up", tun)
             if tuncol["bool"]:
@@ -278,12 +281,12 @@ class RPGModule(object):
                           "scenename" : tun.get_target(),
                           "dropoff" : tun.get_dropoff(),
                           "orientation" : tun.get_orientation()}
-                notfound = False
-        if notfound:
+                found = True
+        if not(found):
             tunnel = {"bool" : False}
         return tunnel
 
-    def action_check(self, bulcsuBox):
+    def actionCheck(self, bulcsuBox):
         for obj in self.scene.get_actionpoints():
             if bulcsuBox.collision_with_object("up", obj)["bool"]:
                 return { "text" : obj.get_action(), "pos" : obj.get_bounding_box().get_vert_center() }
