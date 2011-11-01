@@ -1,11 +1,8 @@
 import pygame
 
-import Conversations
+from src.RpgModules import Conversations
 
-class RPGTalker:
-
-# TODO: The whole conversation module needs a major rewrite
-# TODO: Get texts from a PO file
+class RpgTalker:
 
     # RPGTalker acts like a state machine
     def __init__(self):

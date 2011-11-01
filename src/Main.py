@@ -3,7 +3,7 @@ import pygame
 from sys import exit
 from pygame.time import Clock
 import MainExceptions
-from Rpg import RPG
+from src.RpgModules import Rpg
 from src.CommonModules.Screen import MainScreen
 from src.CommonModules import MusicPlayer
 from src.CommonModules import Menu
@@ -19,7 +19,7 @@ MusicPlayer.MusicPlayer().playContinously()
 gameScreen = setupScreen()
 
 language = Menu.Menu(gameScreen.getScreen()).languageChooser()
-rpg = RPG.RPGModule(gameScreen.getScreen(), gameScreen.getResolution(), language)
+rpg = Rpg.Rpg(gameScreen.getScreen(), gameScreen.getResolution(), language)
 
 # game loop
 while True:

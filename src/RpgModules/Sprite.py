@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from Objects import BoundingBox
+from src.RpgModules.Objects import BoundingBox
 
 class ProtagonistSprite(object):
 

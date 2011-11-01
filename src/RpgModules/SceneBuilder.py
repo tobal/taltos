@@ -1,6 +1,6 @@
 
-import Scene
-import Objects
+from src.RpgModules import Scene
+from src.RpgModules import Objects
 from src.CommonModules.Constants import RpgScenes
 
 def buildScene(name):

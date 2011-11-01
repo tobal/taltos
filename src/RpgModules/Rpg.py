@@ -1,14 +1,13 @@
 
 import pygame
 from pygame.locals import *
-import random
 
-from Rpg import Sprite
-from Rpg import SceneBuilder
 import MainExceptions
-from Rpg import RPGTalker
-from Rpg import Actions
-from src.CommonModules.Images import RpgImages
+from src.RpgModules import Sprite
+from src.RpgModules import SceneBuilder
+from src.RpgModules import RpgTalker
+from src.RpgModules import Actions
+from src.RpgModules import Tram
 from src.CommonModules.Constants import RpgModes
 from src.CommonModules.Constants import RpgScenes
 from src.CommonModules.Constants import Directions
@@ -16,51 +15,14 @@ from src.CommonModules.Constants import TunnelData
 from src.CommonModules.Constants import CollisionData
 from src.CommonModules.Constants import DrawingOrder
 
-class Tram(object):
-
-    def __init__(self):
-        self.timer = 0
-        self.drawing = False
-        self.speed = 20.0
-        self.altitude = 10
-        self.pos = -2846.0
-        self.minTime = 400
-        self.maxTime = 1000
-        self.due = random.randint(self.minTime, self.maxTime)
-        self.villamos = pygame.image.load(RpgImages.RpgImages.TRAM).convert_alpha()
-        return
-
-    def loop(self):
-        if not(self.drawing):
-            self.timer += 1
-            if self.timer > self.due:
-                self.pos = -2846.0
-                self.drawing = True
-        else:
-            self.pos += self.speed
-            if self.pos >= 1024:
-                self.drawing = False
-                self.timer = 0
-                self.due = random.randint(self.minTime, self.maxTime)
-        return
-
-    def draw(self, screen):
-        if self.drawing:
-            screen.blit(self.villamos, (self.pos, self.altitude))
-        return
-
-    def modifyPos(self, value):
-        self.pos += value
-        return
-
-class RPGModule(object):
+class Rpg(object):
 
     def __init__(self, screen, resolution, language):
         self.screen = screen
         self.resolution = resolution
         self.makeScene()
         self.makeSprite()
-        self.talk = RPGTalker.RPGTalker()
+        self.talk = RpgTalker.RpgTalker()
         self.moveX, self.moveY = 0, 0
         self.anim = 0
         if self.scene.isThereTram():
