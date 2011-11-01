@@ -27,7 +27,7 @@ while True:
     
     try:
         clock.tick(30)
-        rpg.game_loop()
+        rpg.gameLoop()
     except MainExceptions.Exit:
         exit()
 

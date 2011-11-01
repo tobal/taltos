@@ -4,7 +4,7 @@ class Conversation:
         self.conv = []
         return
 
-    def add_text(self, id, text, whosaid, answers, end):
+    def addText(self, id, text, whosaid, answers, end):
         # answers is a string array, whosaid and end is boolean
         # whosaid is True when the PC, False when the NPC is talking
         con = { "id" : id,
@@ -15,7 +15,7 @@ class Conversation:
         self.conv.append(con)
         return
 
-    def get_texts_by_id(self, id):
+    def getTextsById(self, id):
         texts = []
         for i in self.conv:
             if i["id"] == str(id):

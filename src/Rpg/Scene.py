@@ -1,74 +1,76 @@
+
 import pygame.image
+from src.CommonModules.Constants import Directions
+from src.CommonModules.Constants import DrawingOrder
 
 class Scene(object):
 
     def __init__(self, name, image, bounds, tram):
         self.image = image
-        self.bounds = {"up" : bounds[0],
-                                    "down" : bounds[1],
-                                    "left" : bounds[2],
-                                    "right" : bounds[3]}
-        self.background = pygame.image.load(image).convert()
+        self.bounds = {Directions.UP : bounds[0],
+                       Directions.DOWN : bounds[1],
+                       Directions.LEFT : bounds[2],
+                       Directions.RIGHT : bounds[3]}
+        self.backGround = pygame.image.load(image).convert()
         self.tram = tram
         self.objects = []
         self.persons = []
-        self.actionpoints = []
+        self.actionPoints = []
         self.tunnels = []
         self.name = name
 
-    def is_there_tram(self):
+    def isThereTram(self):
         return self.tram
 
-    def add_object(self, object):
+    def addObject(self, object):
         self.objects.append(object)
 
-    def add_actionpoint(self, object):
-        self.actionpoints.append(object)
+    def addActionPoint(self, object):
+        self.actionPoints.append(object)
 
-    def add_person(self, object):
+    def addPerson(self, object):
         self.persons.append(object)
 
-    def add_tunnel(self, object):
+    def addTunnel(self, object):
         self.tunnels.append(object)
 
-    def get_objects(self):
+    def getObjects(self):
         return self.objects
 
-    def get_persons(self):
+    def getPersons(self):
         return self.persons
 
-    def get_actionpoints(self):
-        return self.actionpoints
+    def getActionPoints(self):
+        return self.actionPoints
 
-    def get_tunnels(self):
+    def getTunnels(self):
         return self.tunnels
 
-    def get_background(self):
-        return self.background
+    def getBackGround(self):
+        return self.backGround
 
-    def get_bounds(self):
+    def getBounds(self):
         return self.bounds
 
-    def get_name(self):
+    def getName(self):
         return self.name
 
-    def draw_background(self, screen):
-        screen.blit(self.background, (0,0))
+    def drawBackGround(self, screen):
+        screen.blit(self.backGround, (0,0))
 
-    # order can be "front" or "back"
-    def draw_objects(self, order, sprite_pos_y, screen):
-        if order == "front":
+    def drawObjects(self, order, spritePosY, screen):
+        if order == DrawingOrder.FRONT:
             for obj in self.objects:
-                if sprite_pos_y < obj.get_bounding_box().get_center():
-                    screen.blit(obj.get_image(), (obj.get_pos()))
+                if spritePosY < obj.getBoundingBox().getCenter():
+                    screen.blit(obj.getImage(), (obj.getPos()))
             for obj in self.persons:
-                if sprite_pos_y < obj.get_bounding_box().get_center():
-                    screen.blit(obj.get_image(), (obj.get_pos()))
-        if order == "back":
+                if spritePosY < obj.getBoundingBox().getCenter():
+                    screen.blit(obj.getImage(), (obj.getPos()))
+        if order == DrawingOrder.BACK:
             for obj in self.objects:
-                if sprite_pos_y >= obj.get_bounding_box().get_center():
-                    screen.blit(obj.get_image(), (obj.get_pos()))
+                if spritePosY >= obj.getBoundingBox().getCenter():
+                    screen.blit(obj.getImage(), (obj.getPos()))
             for obj in self.persons:
-                if sprite_pos_y >= obj.get_bounding_box().get_center():
-                    screen.blit(obj.get_image(), (obj.get_pos()))
+                if spritePosY >= obj.getBoundingBox().getCenter():
+                    screen.blit(obj.getImage(), (obj.getPos()))
         return

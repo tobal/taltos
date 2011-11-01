@@ -10,8 +10,11 @@ from Rpg import RPGTalker
 from Rpg import Actions
 from src.CommonModules.Images import RpgImages
 from src.CommonModules.Constants import RpgModes
+from src.CommonModules.Constants import RpgScenes
 from src.CommonModules.Constants import Directions
 from src.CommonModules.Constants import TunnelData
+from src.CommonModules.Constants import CollisionData
+from src.CommonModules.Constants import DrawingOrder
 
 class Tram(object):
 
@@ -46,7 +49,7 @@ class Tram(object):
             screen.blit(self.villamos, (self.pos, self.altitude))
         return
 
-    def modify_pos(self, value):
+    def modifyPos(self, value):
         self.pos += value
         return
 
@@ -85,13 +88,13 @@ class RPGModule(object):
             self.villamos.loop()
 
         # drawing the whole scene
-        self.scene.draw_background(self.screen)
-        self.scene.draw_objects("back", self.bulcsu.get_bounding_box().get_center(), self.screen)
-        self.screen.blit(self.bulcsu.get_actual_sprite(), (self.bulcsu.get_pos_x(), self.bulcsu.get_pos_y()))
-        self.scene.draw_objects("front", self.bulcsu.get_bounding_box().get_center(), self.screen)
-        if self.scene.is_there_tram():
+        self.scene.drawBackground(self.screen)
+        self.scene.drawObjects(DrawingOrder.BACK, self.bulcsu.getBoundingBox().getCenter(), self.screen)
+        self.screen.blit(self.bulcsu.getCurrentSprite(), (self.bulcsu.getPosX(), self.bulcsu.getPosY()))
+        self.scene.drawObjects(DrawingOrder.FRONT, self.bulcsu.getBoundingBox().getCenter(), self.screen)
+        if self.scene.isThereTram():
             self.villamos.draw(self.screen)
-        if self.mode == "talk":
+        if self.mode == RpgModes.TALK:
             self.talk.draw(self.screen)
 
         # for debug purposes
@@ -114,109 +117,109 @@ class RPGModule(object):
 
     def makeScene(self):
         # making scene instances
-        self.scenes = {"hardware" : SceneBuilder.build_scene("hardware"),
-                       "street" : SceneBuilder.build_scene("street"),
-                       "shop" : SceneBuilder.build_scene("shop")}
-        self.scene = self.scenes["hardware"]
-        self.scene_bounds = self.scene.get_bounds()
+        self.scenes = {RpgScenes.HARDWARE : SceneBuilder.build_scene(RpgScenes.HARDWARE),
+                       RpgScenes.STREET : SceneBuilder.build_scene(RpgScenes.STREET),
+                       RpgScenes.SHOP : SceneBuilder.build_scene(RpgScenes.SHOP)}
+        self.scene = self.scenes[RpgScenes.HARDWARE]
+        self.sceneBounds = self.scene.getBounds()
 
-    def changeScene(self, scenename, dropoff_point):
-        self.scene = self.scenes[scenename]
-        self.bulcsu.set_pos(dropoff_point)
+    def changeScene(self, scene, dropoffPoint):
+        self.scene = self.scenes[scene]
+        self.bulcsu.setPos(dropoffPoint)
         # FIXME: should not have a redundant scene bounds value in this class
-        self.scene_bounds = self.scene.get_bounds()
+        self.sceneBounds = self.scene.getBounds()
         # here is a very temporary and very disgusting solution to the tram-problem
-        if self.scene.is_there_tram():
-            if scenename == "street":
-                value = -1024
-            elif scenename == "hardware":
-                value = 1024
-            self.villamos.modify_pos(value)
+        if self.scene.isThereTram():
+            if scene == RpgScenes.STREET:
+                offset = -1024
+            elif scene == RpgScenes.HARDWARE:
+                offset = 1024
+            self.villamos.modifyPos(offset)
 
     def makeSprite(self):
         # making sprite instance
         self.bulcsu = Sprite.ProtagonistSprite(80, 340)
 
     def eventHandler(self):
-        if self.mode == "wander":
-            move_speed = 4.0
+        if self.mode == RpgModes.WANDER:
+            moveSpeed = 4.0
 
             for event in pygame.event.get():
                 if event.type == QUIT:
                     raise MainExceptions.Exit()
                 if event.type == KEYDOWN:
                     if (event.key == K_a) or (event.key == K_LEFT):
-                        self.arrowbuttons["left"] = 1
+                        self.arrowbuttons[Directions.LEFT] = 1
                     if (event.key == K_d) or (event.key == K_RIGHT):
-                        self.arrowbuttons["right"] = 1
+                        self.arrowbuttons[Directions.RIGHT] = 1
                     if (event.key == K_w) or (event.key == K_UP):
-                        self.arrowbuttons["up"] = 1
+                        self.arrowbuttons[Directions.UP] = 1
                     if (event.key == K_s) or (event.key == K_DOWN):
-                        self.arrowbuttons["down"] = 1
+                        self.arrowbuttons[Directions.DOWN] = 1
                     if (event.key == K_q) or (event.key == K_ESCAPE):
                         raise MainExceptions.Exit()
                     if (event.key == K_e) or (event.key == K_RETURN):
                         self.action()
                 if event.type == KEYUP:
                     if (event.key == K_a) or (event.key == K_LEFT):
-                        self.arrowbuttons["left"] = 2
+                        self.arrowbuttons[Directions.LEFT] = 2
                     if (event.key == K_d) or (event.key == K_RIGHT):
-                        self.arrowbuttons["right"] = 2
+                        self.arrowbuttons[Directions.RIGHT] = 2
                     if (event.key == K_w) or (event.key == K_UP):
-                        self.arrowbuttons["up"] = 2
+                        self.arrowbuttons[Directions.UP] = 2
                     if (event.key == K_s) or (event.key == K_DOWN):
-                        self.arrowbuttons["down"] = 2
+                        self.arrowbuttons[Directions.DOWN] = 2
 
-            if self.arrowbuttons["left"] == 1:
-                if self.move_x == 0:
-                    self.move_x = -move_speed
-                    self.bulcsu.go_left()
-            if self.arrowbuttons["right"] == 1:
-                if self.move_x == 0:
-                    self.move_x = move_speed
-                    self.bulcsu.go_right()
-            if self.arrowbuttons["up"] == 1:
-                if self.move_y == 0:
-                    self.move_y = -move_speed
-                    if self.move_x == 0:
-                        self.bulcsu.go_up()
-            if self.arrowbuttons["down"] == 1:
-                if self.move_y == 0:
-                    self.move_y = move_speed
-                    if self.move_x == 0:
-                        self.bulcsu.go_down()
-            if self.arrowbuttons["left"] == 2:
-                if self.move_x < 0:
-                    self.move_x = 0
-                    self.bulcsu.stop_left()
-                self.arrowbuttons["left"] == 0
-            if self.arrowbuttons["right"] == 2:
-                if self.move_x > 0:
-                    self.move_x = 0
-                    self.bulcsu.stop_right()
-                self.arrowbuttons["right"] == 0
-            if self.arrowbuttons["up"] == 2:
-                if self.move_y < 0:
-                    self.move_y = 0
-                    if self.move_x == 0:
-                        self.bulcsu.stop_up()
-                self.arrowbuttons["up"] == 0
-            if self.arrowbuttons["down"] == 2:
-                if self.move_y > 0:
-                    self.move_y = 0
-                    if self.move_x == 0:
-                        self.bulcsu.stop_down()
-                self.arrowbuttons["down"] == 0
+            if self.arrowbuttons[Directions.LEFT] == 1:
+                if self.moveX == 0:
+                    self.moveX = -moveSpeed
+                    self.bulcsu.goLeft()
+            if self.arrowbuttons[Directions.RIGHT] == 1:
+                if self.moveX == 0:
+                    self.moveX = moveSpeed
+                    self.bulcsu.goRight()
+            if self.arrowbuttons[Directions.UP] == 1:
+                if self.moveY == 0:
+                    self.moveY = -moveSpeed
+                    if self.moveX == 0:
+                        self.bulcsu.goUp()
+            if self.arrowbuttons[Directions.DOWN] == 1:
+                if self.moveY == 0:
+                    self.moveY = moveSpeed
+                    if self.moveX == 0:
+                        self.bulcsu.goDown()
+            if self.arrowbuttons[Directions.LEFT] == 2:
+                if self.moveX < 0:
+                    self.moveX = 0
+                    self.bulcsu.stopLeft()
+                self.arrowbuttons[Directions.LEFT] == 0
+            if self.arrowbuttons[Directions.RIGHT] == 2:
+                if self.moveX > 0:
+                    self.moveX = 0
+                    self.bulcsu.stopRight()
+                self.arrowbuttons[Directions.RIGHT] == 0
+            if self.arrowbuttons[Directions.UP] == 2:
+                if self.moveY < 0:
+                    self.moveY = 0
+                    if self.moveX == 0:
+                        self.bulcsu.stopUp()
+                self.arrowbuttons[Directions.UP] == 0
+            if self.arrowbuttons[Directions.DOWN] == 2:
+                if self.moveY > 0:
+                    self.moveY = 0
+                    if self.moveX == 0:
+                        self.bulcsu.stopDown()
+                self.arrowbuttons[Directions.DOWN] == 0
 
-        if self.mode == "talk":
+        if self.mode == RpgModes.TALK:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     raise MainExceptions.Exit()
                 if event.type == KEYDOWN:
                     if event.key == K_w or event.key == K_UP:
-                        self.talk.arrow_up()
+                        self.talk.arrowUp()
                     if event.key == K_s or event.key == K_DOWN:
-                        self.talk.arrow_down()
+                        self.talk.arrowDown()
                     if (event.key == K_q) or (event.key == K_ESCAPE):
                         raise MainExceptions.Exit()
                     if (event.key == K_e) or (event.key == K_RETURN):
@@ -228,124 +231,124 @@ class RPGModule(object):
                         return
 
     def animation(self):
-        anim_speed = 6
+        animSpeed = 6
         animated = False
 
-        if self.move_x > 0:
+        if self.moveX > 0:
             self.anim += 1
             animated = True
-            if self.anim > anim_speed:
-                self.bulcsu.go_right()
+            if self.anim > animSpeed:
+                self.bulcsu.goRight()
                 self.anim = 0
-        elif self.move_x < 0:
+        elif self.moveX < 0:
             self.anim += 1
             animated = True
-            if self.anim > anim_speed:
-                self.bulcsu.go_left()
+            if self.anim > animSpeed:
+                self.bulcsu.goLeft()
                 self.anim = 0
 
-        if self.move_y > 0:
+        if self.moveY > 0:
             if not animated:
                 self.anim += 1
-            if self.anim > anim_speed:
-                if self.move_x == 0:
-                    self.bulcsu.go_down()
+            if self.anim > animSpeed:
+                if self.moveX == 0:
+                    self.bulcsu.goDown()
                 self.anim = 0
-        elif self.move_y < 0:
+        elif self.moveY < 0:
             if not animated:
                 self.anim += 1
-            if self.anim > anim_speed:
-                if self.move_x == 0:
-                    self.bulcsu.go_up()
+            if self.anim > animSpeed:
+                if self.moveX == 0:
+                    self.bulcsu.goUp()
                 self.anim = 0
 
     def collisionCheck(self, direction, bulcsuBox):
-        obj_collision = {"bool" : False,
-                         "pos" : 0}
-        for obj in self.scene.get_objects() + self.scene.get_persons():
-            collision_info = bulcsuBox.collision_with_object(direction, obj)
-            if collision_info["bool"]:
-                obj_collision["bool"] = True
-                obj_collision["pos"] = collision_info["pos"]
-        if bulcsuBox.collision_with_scene_boundaries(direction, self.scene_bounds[direction]):
-            obj_collision["bool"] = True
-            obj_collision["pos"] = self.scene_bounds[direction]
-        return obj_collision
+        objCollision = {CollisionData.COLLISION : False,
+                        CollisionData.POSITION : 0}
+        for obj in self.scene.getObjects() + self.scene.getPersons():
+            collisionInfo = bulcsuBox.collisionWithObject(direction, obj)
+            if collisionInfo[CollisionData.COLLISION]:
+                objCollision[CollisionData.COLLISION] = True
+                objCollision[CollisionData.POSITION] = collisionInfo[CollisionData.POSITION]
+        if bulcsuBox.collisionWithSceneBoundaries(direction, self.scene_bounds[direction]):
+            objCollision[CollisionData.COLLISION] = True
+            objCollision[CollisionData.POSITION] = self.sceneBounds[direction]
+        return objCollision
 
     def tunnelCheck(self, bulcsuBox):
         found = False
-        for tun in self.scene.get_tunnels():
-            tuncol = bulcsuBox.collision_with_object("up", tun)
-            if tuncol["bool"]:
-                tunnel = {"bool" : True,
-                          "scenename" : tun.get_target(),
-                          "dropoff" : tun.get_dropoff(),
-                          "orientation" : tun.get_orientation()}
+        for tun in self.scene.getTunnels():
+            tuncol = bulcsuBox.collisionWithObject(Directions.UP, tun)
+            if tuncol[TunnelData.TRANSITION]:
+                tunnel = {TunnelData.TRANSITION : True,
+                          TunnelData.SCENENAME : tun.getTarget(),
+                          TunnelData.DROPOFF : tun.getDropoff(),
+                          TunnelData.ORIENTATION : tun.getOrientation()}
                 found = True
         if not(found):
-            tunnel = {"bool" : False}
+            tunnel = {TunnelData.TRANSITION : False}
         return tunnel
 
     def actionCheck(self, bulcsuBox):
-        for obj in self.scene.get_actionpoints():
-            if bulcsuBox.collision_with_object("up", obj)["bool"]:
-                return { "text" : obj.get_action(), "pos" : obj.get_bounding_box().get_vert_center() }
-        person_aura = 20
-        for obj in self.scene.get_persons():
+        for obj in self.scene.getActionPoints():
+            if bulcsuBox.collisionWithObject(Directions.UP, obj)[CollisionData.COLLISION]:
+                return { "text" : obj.getAction(), "pos" : obj.getBoundingBox().getVertCenter() }
+        personAura = 20
+        for obj in self.scene.getPersons():
             coll = False
-            bbox = obj.get_bounding_box()
-            box = bbox.get_box()
-            bbox.update_box(box["x1"] - person_aura, box["y1"] - person_aura, box["x2"] + person_aura, box["y2"] + person_aura)
-            if bulcsuBox.collision_with_object("up", obj)["bool"]:
+            bBox = obj.getBoundingBox()
+            box = bBox.getBox()
+            bBox.updateBox(box["x1"] - personAura, box["y1"] - personAura, box["x2"] + personAura, box["y2"] + personAura)
+            if bulcsuBox.collisionWithObject("up", obj)["bool"]:
                 coll = True
-            bbox.update_box(box["x1"], box["y1"], box["x2"], box["y2"])
+            bBox.updateBox(box["x1"], box["y1"], box["x2"], box["y2"])
             if coll:
-                return { "text" : obj.get_action(), "pos" : obj.get_bounding_box().get_vert_center() }
+                return { "text" : obj.getAction(), "pos" : obj.getBoundingBox().getVertCenter() }
         return {"text" : "noaction", "pos" : 0 }
 
     def collisions(self):
-        bulcsuBox = self.bulcsu.get_bounding_box()
+        bulcsuBox = self.bulcsu.getBoundingBox()
 
-        new_x = {"type":"", "value":0}
-        if self.move_x >= 0:
-            collision = self.collision_check("right", bulcsuBox)
+        newX = {"type":"", "value":0}
+        if self.moveX >= 0:
+            collision = self.collisionCheck("right", bulcsuBox)
             if not(collision["bool"]):
-                new_x["type"] = "add"
-        elif self.move_x <= 0:
-            collision = self.collision_check("left", bulcsuBox)
+                newX["type"] = "add"
+        elif self.moveX <= 0:
+            collision = self.collisionCheck("left", bulcsuBox)
             if not(collision["bool"]):
-                new_x["type"] = "add"
+                newX["type"] = "add"
 
-        new_y = {"type":"", "value":0}
-        if self.move_y >= 0:
-            collision = self.collision_check("down", bulcsuBox)
+        newY = {"type":"", "value":0}
+        if self.moveY >= 0:
+            collision = self.collisionCheck("down", bulcsuBox)
             if not(collision["bool"]):
-                new_y["type"] = "add"
-        elif self.move_y <= 0:
-            collision = self.collision_check("up", bulcsuBox)
+                newY["type"] = "add"
+        elif self.moveY <= 0:
+            collision = self.collisionCheck("up", bulcsuBox)
             if not(collision["bool"]):
-                new_y["type"] = "add"
+                newY["type"] = "add"
 
-        if new_y["type"] == "add":
-            self.bulcsu.add_to_pos("y", self.move_y)
-        if new_x["type"] == "add":
-            self.bulcsu.add_to_pos("x", self.move_x)
+        if newY["type"] == "add":
+            self.bulcsu.addToPos("y", self.moveY)
+        if newX["type"] == "add":
+            self.bulcsu.addToPos("x", self.moveX)
 
 
     def action(self):
-        if self.mode == "wander":
-            bulcsuBox = self.bulcsu.get_bounding_box()
-            action = self.action_check(bulcsuBox)
+        if self.mode == RpgModes.WANDER:
+            bulcsuBox = self.bulcsu.getBoundingBox()
+            action = self.actionCheck(bulcsuBox)
             if action["text"] != "noaction":
-                act = Actions.get_action(action["text"])
+                act = Actions.getAction(action["text"])
                 if act["type"] == "conversation":
                     self.mode = "talk"
-                    self.move_x = 0
-                    self.move_y = 0
-                    self.talk.start_conversation(act["id"], self.lang, bulcsuBox.get_vert_center(), action["pos"])
+                    self.moveX = 0
+                    self.moveY = 0
+                    self.talk.startConversation(act["id"], self.lang, bulcsuBox.getVertCenter(), action["pos"])
                 return
-        if self.mode == "talk":
+        if self.mode == RpgModes.TALK:
             if self.talk.action() == False:
-                self.mode = "wander"
+                self.mode = RpgModes.WANDER
         return
 

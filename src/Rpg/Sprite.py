@@ -5,42 +5,42 @@ from Objects import BoundingBox
 class ProtagonistSprite(object):
 
     def __init__(self, x, y):
-        self.pos_x = x
-        self.pos_y = y
-        self.load_sprites()
-        self.bBox = BoundingBox(self.pos_x, self.pos_y + 200, self.pos_x + 81, self.pos_y + 232)
+        self.posX = x
+        self.posY = y
+        self.loadSprites()
+        self.bBox = BoundingBox(self.posX, self.posY + 200, self.posX + 81, self.posY + 232)
         return
 
-    def load_img(self,  imgname,  alpha):
-        img_str = "../resrc/img/RPG/" + imgname + ".png"
+    def loadImage(self,  imageName,  alpha):
+        imagePath = "../resrc/img/RPG/" + imageName + ".png"
         if alpha:
-            img = pygame.image.load(img_str).convert_alpha()
+            img = pygame.image.load(imagePath).convert_alpha()
         else:
-            img = pygame.image.load(img_str).convert()
+            img = pygame.image.load(imagePath).convert()
         return img
 
-    def load_sprites(self):
-        lRightstand = [ self.load_img("jobbraall",  True) ]
+    def loadSprites(self):
+        lRightstand = [ self.loadImage("jobbraall",  True) ]
         lRightwalk = []
         for x in range(1, 7):
-            lRightwalk.append(self.load_img("jobbralep" + str(x),  True))
+            lRightwalk.append(self.loadImage("jobbralep" + str(x),  True))
 
-        lLeftstand = [ self.load_img("balraall", True) ]
+        lLeftstand = [ self.loadImage("balraall", True) ]
         lLeftwalk = []
         for x in range(1, 7):
-            lLeftwalk.append(self.load_img("balralep" + str(x), True))
+            lLeftwalk.append(self.loadImage("balralep" + str(x), True))
 
-        lBackstand = [ self.load_img("hattalall",  True) ]
-        lBackwalk = [ self.load_img("hattallep1",  True),
-                            self.load_img("hattalall",  True),
-                            self.load_img("hattallep2",  True),
-                            self.load_img("hattalall",  True) ]
+        lBackstand = [ self.loadImage("hattalall",  True) ]
+        lBackwalk = [ self.loadImage("hattallep1",  True),
+                            self.loadImage("hattalall",  True),
+                            self.loadImage("hattallep2",  True),
+                            self.loadImage("hattalall",  True) ]
 
-        lFrontstand = [ self.load_img("szembenall",  True) ]
-        lFrontwalk = [ self.load_img("szembenlep1",  True),
-                            self.load_img("szembenlep2",  True),
-                            self.load_img("szembenlep3",  True),
-                            self.load_img("szembenlep2",  True) ]
+        lFrontstand = [ self.loadImage("szembenall",  True) ]
+        lFrontwalk = [ self.loadImage("szembenlep1",  True),
+                            self.loadImage("szembenlep2",  True),
+                            self.loadImage("szembenlep3",  True),
+                            self.loadImage("szembenlep2",  True) ]
 
         self.sprite = {"rightstand" : lRightstand,
                                 "rightwalk" : lRightwalk,
@@ -51,71 +51,71 @@ class ProtagonistSprite(object):
                                 "frontstand" : lFrontstand,
                                 "frontwalk" : lFrontwalk}
 
-        self.actual_sprite = self.sprite["rightstand"][0]
+        self.currentSprite = self.sprite["rightstand"][0]
 
-    def get_actual_sprite(self):
-        return self.actual_sprite
+    def getCurrentSprite(self):
+        return self.currentSprite
 
     def going(self, str, spritenum):
-        if self.actual_sprite in self.sprite[str]:
-            if self.sprite[str].index(self.actual_sprite) >= spritenum-1:
-                self.actual_sprite = self.sprite[str][0]
+        if self.currentSprite in self.sprite[str]:
+            if self.sprite[str].index(self.currentSprite) >= spritenum-1:
+                self.currentSprite = self.sprite[str][0]
             else:
-                self.actual_sprite = self.sprite[str][self.sprite[str].index(self.actual_sprite)+1]
+                self.currentSprite = self.sprite[str][self.sprite[str].index(self.currentSprite)+1]
         else:
-            self.actual_sprite = self.sprite[str][0]
+            self.currentSprite = self.sprite[str][0]
 
-    def go_right(self):
+    def goRight(self):
         self.going("rightwalk", 6)
         return
 
-    def go_left(self):
+    def goLeft(self):
         self.going("leftwalk", 6)
         return
 
-    def go_up(self):
+    def goUp(self):
         self.going("backwalk", 4)
         return
 
-    def go_down(self):
+    def goDown(self):
         self.going("frontwalk", 4)
         return
 
-    def stop_right(self):
-        self.actual_sprite = self.sprite["rightstand"][0]
+    def stopRight(self):
+        self.currentSprite = self.sprite["rightstand"][0]
 
-    def stop_left(self):
-        self.actual_sprite = self.sprite["leftstand"][0]
+    def stopLeft(self):
+        self.currentSprite = self.sprite["leftstand"][0]
 
-    def stop_up(self):
-        self.actual_sprite = self.sprite["backstand"][0]
+    def stopUp(self):
+        self.currentSprite = self.sprite["backstand"][0]
 
-    def stop_down(self):
-        self.actual_sprite = self.sprite["frontstand"][0]
+    def stopDown(self):
+        self.currentSprite = self.sprite["frontstand"][0]
 
     # axis has to be x or y
-    def add_to_pos(self, axis, move):
+    def addToPos(self, axis, move):
         if axis == "x":
-            self.pos_x += move
+            self.posX += move
         elif axis == "y":
-            self.pos_y += move
+            self.posY += move
 
-    def get_pos_x(self):
-        return self.pos_x
+    def getPosX(self):
+        return self.posX
 
-    def get_pos_y(self):
-        return self.pos_y
+    def getPosY(self):
+        return self.posY
 
-    def get_bounding_box(self):
-        self.bBox.update_box(self.pos_x, self.pos_y + 200, self.pos_x + 81, self.pos_y + 232)
+    def getBoundingBox(self):
+        self.bBox.updateBox(self.posX, self.posY + 200, self.posX + 81, self.posY + 232)
         return self.bBox
 
-    def set_pos_x(self, x):
-        self.pos_x = x
+    def setPosX(self, x):
+        self.posX = x
 
-    def set_pos_y(self, y):
-        self.pos_y = y
+    def setPosY(self, y):
+        self.posY = y
 
-    def set_pos(self, point):
-        self.pos_x = point[0]
-        self.pos_y = point[1]
+    def setPos(self, point):
+        self.posX = point[0]
+        self.posY = point[1]

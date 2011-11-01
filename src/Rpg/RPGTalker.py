@@ -9,7 +9,7 @@ class RPGTalker:
 
     # RPGTalker acts like a state machine
     def __init__(self):
-        self.actual_branch = 1
+        self.actualBranch = 1
         self.end = False
         self.drawing = False
         self.gorr = pygame.font.Font("../resrc/fonts/gorrisans.ttf", 18)
@@ -20,45 +20,45 @@ class RPGTalker:
         if self.end:
             self.drawing = False
             self.end = False
-            self.actual_branch = 1
+            self.actualBranch = 1
             return False
         else:
-            if self.isthereanswer:
-                self.actual_branch = self.str["answers"][self.actual_answer][1]
+            if self.isThereAnswer:
+                self.actualBranch = self.str["answers"][self.actualAnswer][1]
 
-            self.str = self.conv.get_next_string(self.actual_branch)
+            self.str = self.conv.getNextString(self.actualBranch)
             if self.str["end"]:
                 self.end = True
-            self.draw_text = self.str["text"]
+            self.drawText = self.str["text"]
             if self.str["answers"] != []:
-                self.draw_answers = self.str["answers"]
-                self.isthereanswer = True
-                self.actual_answer = 0
+                self.drawAnswers = self.str["answers"]
+                self.isThereAnswer = True
+                self.actualAnswer = 0
             else:
-                self.isthereanswer = False
+                self.isThereAnswer = False
             if self.str["whosaid"]:
-                self.draw_talk_pos = self.char_pos
+                self.drawTalkPos = self.charPos
             else:
-                self.draw_talk_pos = self.obj_pos
-            self.update_textsurfaces()
-            self.update_polygon()
+                self.drawTalkPos = self.objPos
+            self.updateTextsurfaces()
+            self.updatePolygon()
             return True
         return
 
-    def start_conversation(self, conv, lang, char_pos, obj_pos):
+    def startConversation(self, conv, lang, charPos, objPos):
         self.conv = Conversations.Conversations(conv, lang)
         self.drawing = True
-        self.char_pos = char_pos
-        self.obj_pos = obj_pos
+        self.charPos = charPos
+        self.objPos = objPos
         # defining state variables
-        self.draw_text = ""
-        self.isthereanswer = False
-        self.draw_answers = []
-        self.draw_talk_pos = 0.0
-        self.poly_points = []
-        self.actual_answer = 0
+        self.drawText = ""
+        self.isThereAnswer = False
+        self.drawAnswers = []
+        self.drawTalkPos = 0.0
+        self.polyPoints = []
+        self.actualAnswer = 0
         self.str = {}
-        self.txtsrf = []
+        self.textSurfaces = []
         if lang == "rov":
             self.font = self.rov
         else:
@@ -66,83 +66,82 @@ class RPGTalker:
         self.action()
         return
 
-    def update_polygon(self):
-        self.poly_points = []
+    def updatePolygon(self):
+        self.polyPoints = []
         self.offset = 0
-        if self.draw_talk_pos > 640:
-            self.offset = self.draw_talk_pos - 640
+        if self.drawTalkPos > 640:
+            self.offset = self.drawTalkPos - 640
             self.offset = -self.offset
-        if self.draw_talk_pos < 380:
-            self.offset = 380 - self.draw_talk_pos
-        self.poly_points.append((self.draw_talk_pos,315))
-        self.poly_points.append((self.draw_talk_pos,250))
-        self.poly_points.append((self.draw_talk_pos-260+self.offset,250))
-        self.poly_points.append((self.draw_talk_pos-320+self.offset,190))
-        self.poly_points.append((self.draw_talk_pos-320+self.offset,60))
-        self.poly_points.append((self.draw_talk_pos-260+self.offset,0))
-        self.poly_points.append((self.draw_talk_pos+320+self.offset,0))
-        self.poly_points.append((self.draw_talk_pos+380+self.offset,60))
-        self.poly_points.append((self.draw_talk_pos+380+self.offset,190))
-        self.poly_points.append((self.draw_talk_pos+320+self.offset,250))
-        self.poly_points.append((self.draw_talk_pos+50,250))
-        self.poly_points.append((self.draw_talk_pos,315))
+        if self.drawTalkPos < 380:
+            self.offset = 380 - self.drawTalkPos
+        self.polyPoints.append((self.drawTalkPos,315))
+        self.polyPoints.append((self.drawTalkPos,250))
+        self.polyPoints.append((self.drawTalkPos-260+self.offset,250))
+        self.polyPoints.append((self.drawTalkPos-320+self.offset,190))
+        self.polyPoints.append((self.drawTalkPos-320+self.offset,60))
+        self.polyPoints.append((self.drawTalkPos-260+self.offset,0))
+        self.polyPoints.append((self.drawTalkPos+320+self.offset,0))
+        self.polyPoints.append((self.drawTalkPos+380+self.offset,60))
+        self.polyPoints.append((self.drawTalkPos+380+self.offset,190))
+        self.polyPoints.append((self.drawTalkPos+320+self.offset,250))
+        self.polyPoints.append((self.drawTalkPos+50,250))
+        self.polyPoints.append((self.drawTalkPos,315))
         return
 
-    def update_textsurfaces(self):
-        self.txtsrf = []
-        if self.isthereanswer:
-            for i in range(self.draw_answers.__len__()):
-                if self.actual_answer == i:
-                    self.txtsrf.append(self.font.render(self.draw_answers[i][0], True, (255,255,255), (100,100,100)))
+    def updateTextSurfaces(self):
+        self.textSurfaces = []
+        if self.isThereAnswer:
+            for i in range(self.drawAnswers.__len__()):
+                if self.actualAnswer == i:
+                    self.textSurfaces.append(self.font.render(self.drawAnswers[i][0], True, (255,255,255), (100,100,100)))
                 else:
-                    self.txtsrf.append(self.font.render(self.draw_answers[i][0], True, (100,100,100)))
+                    self.textSurfaces.append(self.font.render(self.drawAnswers[i][0], True, (100,100,100)))
         else:
             count = 0
-            secondcount = 0
+            secondCount = 0
             borders = [0]
             texts = []
-            for char in self.draw_text:
+            for char in self.drawText:
                 if char == " ":
-                    if secondcount >= 50:
-                        secondcount = -1
+                    if secondCount >= 50:
+                        secondCount = -1
                         borders.append(count)
                 count += 1
-                secondcount += 1
+                secondCount += 1
             len = borders.__len__()
-            csojj = range(borders.__len__())
             if borders.__len__() == 1:
-                texts.append(self.draw_text[borders[0]:])
+                texts.append(self.drawText[borders[0]:])
             else:
                 for i in range(borders.__len__()-1):
-                    texts.append(self.draw_text[borders[i]:borders[i+1]])
-                texts.append(self.draw_text[borders[-1]:])
+                    texts.append(self.drawText[borders[i]:borders[i+1]])
+                texts.append(self.drawText[borders[-1]:])
             for txt in texts:
                 srf = self.font.render(txt, True, (100,100,100))
-                self.txtsrf.append(srf)
+                self.textSurfaces.append(srf)
 
-    def arrow_down(self):
-        if self.isthereanswer:
-            if self.actual_answer < self.draw_answers.__len__()-1:
-                self.actual_answer += 1
+    def arrowDown(self):
+        if self.isThereAnswer:
+            if self.actualAnswer < self.drawAnswers.__len__()-1:
+                self.actualAnswer += 1
             else:
-                self.actual_answer = 0
-        self.update_textsurfaces()
+                self.actualAnswer = 0
+        self.updateTextSurfaces()
 
-    def arrow_up(self):
-        if self.isthereanswer:
-            if self.actual_answer > 0:
-                self.actual_answer -= 1
+    def arrowUp(self):
+        if self.isThereAnswer:
+            if self.actualAnswer > 0:
+                self.actualAnswer -= 1
             else:
-                self.actual_answer = self.draw_answers.__len__()-1
-        self.update_textsurfaces()
+                self.actualAnswer = self.drawAnswers.__len__()-1
+        self.updateTextSurfaces()
 
     # drawing is done based on the state variables
     def draw(self, screen):
         if self.drawing:
-            pygame.draw.polygon(screen, (255,255,255), self.poly_points)
-            pygame.draw.polygon(screen, (100,100,100), self.poly_points, 5)
+            pygame.draw.polygon(screen, (255,255,255), self.polyPoints)
+            pygame.draw.polygon(screen, (100,100,100), self.polyPoints, 5)
             row = 50
-            for textsurface in self.txtsrf:
-                screen.blit(textsurface, (self.draw_talk_pos-280+self.offset, row))
+            for textSurface in self.textSurfaces:
+                screen.blit(textSurface, (self.drawTalkPos-280+self.offset, row))
                 row += 30
         return

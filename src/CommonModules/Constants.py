@@ -12,12 +12,25 @@ class RpgModes():
     WANDER = 0
     TALK = 1
 
+class RpgScenes():
+    HARDWARE = 0
+    STREET = 1
+    SHOP = 2
+    
+class DrawingOrder():
+    FRONT = 0
+    BACK = 1
+
 class TunnelData():
     TRANSITION = 0
     SCENENAME = 1
     DROPOFF = 2
     ORIENTATION = 3
 
+class CollisionData():
+    COLLISION = 0
+    POSITION = 1
+    
 class Directions():
     UP = 0
     DOWN = 1

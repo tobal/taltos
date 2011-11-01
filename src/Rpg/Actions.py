@@ -1,6 +1,6 @@
 # The different actions are defined here
 
-def get_action(action):
+def getAction(action):
     if action == "karakter1action":
         return {"type" : "conversation",
                 "id"    : "karakter1conv"}
