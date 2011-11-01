@@ -40,7 +40,7 @@ class RPGTalker:
                 self.drawTalkPos = self.charPos
             else:
                 self.drawTalkPos = self.objPos
-            self.updateTextsurfaces()
+            self.updateTextSurfaces()
             self.updatePolygon()
             return True
         return

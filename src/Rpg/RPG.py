@@ -58,8 +58,8 @@ class RPGModule(object):
     def __init__(self, screen, resolution, language):
         self.screen = screen
         self.resolution = resolution
-        self.make_scene()
-        self.make_sprite()
+        self.makeScene()
+        self.makeSprite()
         self.talk = RPGTalker.RPGTalker()
         self.moveX, self.moveY = 0, 0
         self.anim = 0
@@ -82,13 +82,13 @@ class RPGModule(object):
             self.animation()
         tunnel = self.tunnelCheck(self.bulcsu.getBoundingBox())
         if tunnel[TunnelData.TRANSITION]:
-            self.change_scene(tunnel[TunnelData.SCENENAME], tunnel[TunnelData.DROPOFF])
+            self.changeScene(tunnel[TunnelData.SCENENAME], tunnel[TunnelData.DROPOFF])
         self.collisions()
         if self.scene.isThereTram():
             self.villamos.loop()
 
         # drawing the whole scene
-        self.scene.drawBackground(self.screen)
+        self.scene.drawBackGround(self.screen)
         self.scene.drawObjects(DrawingOrder.BACK, self.bulcsu.getBoundingBox().getCenter(), self.screen)
         self.screen.blit(self.bulcsu.getCurrentSprite(), (self.bulcsu.getPosX(), self.bulcsu.getPosY()))
         self.scene.drawObjects(DrawingOrder.FRONT, self.bulcsu.getBoundingBox().getCenter(), self.screen)
@@ -117,9 +117,9 @@ class RPGModule(object):
 
     def makeScene(self):
         # making scene instances
-        self.scenes = {RpgScenes.HARDWARE : SceneBuilder.build_scene(RpgScenes.HARDWARE),
-                       RpgScenes.STREET : SceneBuilder.build_scene(RpgScenes.STREET),
-                       RpgScenes.SHOP : SceneBuilder.build_scene(RpgScenes.SHOP)}
+        self.scenes = {RpgScenes.HARDWARE : SceneBuilder.buildScene(RpgScenes.HARDWARE),
+                       RpgScenes.STREET : SceneBuilder.buildScene(RpgScenes.STREET),
+                       RpgScenes.SHOP : SceneBuilder.buildScene(RpgScenes.SHOP)}
         self.scene = self.scenes[RpgScenes.HARDWARE]
         self.sceneBounds = self.scene.getBounds()
 
@@ -149,67 +149,67 @@ class RPGModule(object):
                     raise MainExceptions.Exit()
                 if event.type == KEYDOWN:
                     if (event.key == K_a) or (event.key == K_LEFT):
-                        self.arrowbuttons[Directions.LEFT] = 1
+                        self.arrowButtons[Directions.LEFT] = 1
                     if (event.key == K_d) or (event.key == K_RIGHT):
-                        self.arrowbuttons[Directions.RIGHT] = 1
+                        self.arrowButtons[Directions.RIGHT] = 1
                     if (event.key == K_w) or (event.key == K_UP):
-                        self.arrowbuttons[Directions.UP] = 1
+                        self.arrowButtons[Directions.UP] = 1
                     if (event.key == K_s) or (event.key == K_DOWN):
-                        self.arrowbuttons[Directions.DOWN] = 1
+                        self.arrowButtons[Directions.DOWN] = 1
                     if (event.key == K_q) or (event.key == K_ESCAPE):
                         raise MainExceptions.Exit()
                     if (event.key == K_e) or (event.key == K_RETURN):
                         self.action()
                 if event.type == KEYUP:
                     if (event.key == K_a) or (event.key == K_LEFT):
-                        self.arrowbuttons[Directions.LEFT] = 2
+                        self.arrowButtons[Directions.LEFT] = 2
                     if (event.key == K_d) or (event.key == K_RIGHT):
-                        self.arrowbuttons[Directions.RIGHT] = 2
+                        self.arrowButtons[Directions.RIGHT] = 2
                     if (event.key == K_w) or (event.key == K_UP):
-                        self.arrowbuttons[Directions.UP] = 2
+                        self.arrowButtons[Directions.UP] = 2
                     if (event.key == K_s) or (event.key == K_DOWN):
-                        self.arrowbuttons[Directions.DOWN] = 2
+                        self.arrowButtons[Directions.DOWN] = 2
 
-            if self.arrowbuttons[Directions.LEFT] == 1:
+            if self.arrowButtons[Directions.LEFT] == 1:
                 if self.moveX == 0:
                     self.moveX = -moveSpeed
                     self.bulcsu.goLeft()
-            if self.arrowbuttons[Directions.RIGHT] == 1:
+            if self.arrowButtons[Directions.RIGHT] == 1:
                 if self.moveX == 0:
                     self.moveX = moveSpeed
                     self.bulcsu.goRight()
-            if self.arrowbuttons[Directions.UP] == 1:
+            if self.arrowButtons[Directions.UP] == 1:
                 if self.moveY == 0:
                     self.moveY = -moveSpeed
                     if self.moveX == 0:
                         self.bulcsu.goUp()
-            if self.arrowbuttons[Directions.DOWN] == 1:
+            if self.arrowButtons[Directions.DOWN] == 1:
                 if self.moveY == 0:
                     self.moveY = moveSpeed
                     if self.moveX == 0:
                         self.bulcsu.goDown()
-            if self.arrowbuttons[Directions.LEFT] == 2:
+            if self.arrowButtons[Directions.LEFT] == 2:
                 if self.moveX < 0:
                     self.moveX = 0
                     self.bulcsu.stopLeft()
-                self.arrowbuttons[Directions.LEFT] == 0
-            if self.arrowbuttons[Directions.RIGHT] == 2:
+                self.arrowButtons[Directions.LEFT] == 0
+            if self.arrowButtons[Directions.RIGHT] == 2:
                 if self.moveX > 0:
                     self.moveX = 0
                     self.bulcsu.stopRight()
-                self.arrowbuttons[Directions.RIGHT] == 0
-            if self.arrowbuttons[Directions.UP] == 2:
+                self.arrowButtons[Directions.RIGHT] == 0
+            if self.arrowButtons[Directions.UP] == 2:
                 if self.moveY < 0:
                     self.moveY = 0
                     if self.moveX == 0:
                         self.bulcsu.stopUp()
-                self.arrowbuttons[Directions.UP] == 0
-            if self.arrowbuttons[Directions.DOWN] == 2:
+                self.arrowButtons[Directions.UP] == 0
+            if self.arrowButtons[Directions.DOWN] == 2:
                 if self.moveY > 0:
                     self.moveY = 0
                     if self.moveX == 0:
                         self.bulcsu.stopDown()
-                self.arrowbuttons[Directions.DOWN] == 0
+                self.arrowButtons[Directions.DOWN] == 0
 
         if self.mode == RpgModes.TALK:
             for event in pygame.event.get():
@@ -270,7 +270,7 @@ class RPGModule(object):
             if collisionInfo[CollisionData.COLLISION]:
                 objCollision[CollisionData.COLLISION] = True
                 objCollision[CollisionData.POSITION] = collisionInfo[CollisionData.POSITION]
-        if bulcsuBox.collisionWithSceneBoundaries(direction, self.scene_bounds[direction]):
+        if bulcsuBox.collisionWithSceneBoundaries(direction, self.sceneBounds[direction]):
             objCollision[CollisionData.COLLISION] = True
             objCollision[CollisionData.POSITION] = self.sceneBounds[direction]
         return objCollision
@@ -299,7 +299,7 @@ class RPGModule(object):
             bBox = obj.getBoundingBox()
             box = bBox.getBox()
             bBox.updateBox(box["x1"] - personAura, box["y1"] - personAura, box["x2"] + personAura, box["y2"] + personAura)
-            if bulcsuBox.collisionWithObject("up", obj)["bool"]:
+            if bulcsuBox.collisionWithObject("up", obj)[CollisionData.COLLISION]:
                 coll = True
             bBox.updateBox(box["x1"], box["y1"], box["x2"], box["y2"])
             if coll:
@@ -311,22 +311,22 @@ class RPGModule(object):
 
         newX = {"type":"", "value":0}
         if self.moveX >= 0:
-            collision = self.collisionCheck("right", bulcsuBox)
-            if not(collision["bool"]):
+            collision = self.collisionCheck(Directions.RIGHT, bulcsuBox)
+            if not(collision[CollisionData.COLLISION]):
                 newX["type"] = "add"
         elif self.moveX <= 0:
-            collision = self.collisionCheck("left", bulcsuBox)
-            if not(collision["bool"]):
+            collision = self.collisionCheck(Directions.LEFT, bulcsuBox)
+            if not(collision[CollisionData.COLLISION]):
                 newX["type"] = "add"
 
         newY = {"type":"", "value":0}
         if self.moveY >= 0:
-            collision = self.collisionCheck("down", bulcsuBox)
-            if not(collision["bool"]):
+            collision = self.collisionCheck(Directions.DOWN, bulcsuBox)
+            if not(collision[CollisionData.COLLISION]):
                 newY["type"] = "add"
         elif self.moveY <= 0:
-            collision = self.collisionCheck("up", bulcsuBox)
-            if not(collision["bool"]):
+            collision = self.collisionCheck(Directions.UP, bulcsuBox)
+            if not(collision[CollisionData.COLLISION]):
                 newY["type"] = "add"
 
         if newY["type"] == "add":

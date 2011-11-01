@@ -396,7 +396,7 @@ class Conversations:
     def getNextString(self, id):
         if self.strCounter == 0:
             self.strList = self.conversation.getTextsById(id)
-        str = self.strList[self.strVounter]
+        str = self.strList[self.strCounter]
         if self.strCounter + 1 >= len(self.strList):
             self.strCounter = 0
             self.strList = []
