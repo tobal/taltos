@@ -299,7 +299,7 @@ class RPGModule(object):
             bBox = obj.getBoundingBox()
             box = bBox.getBox()
             bBox.updateBox(box["x1"] - personAura, box["y1"] - personAura, box["x2"] + personAura, box["y2"] + personAura)
-            if bulcsuBox.collisionWithObject("up", obj)[CollisionData.COLLISION]:
+            if bulcsuBox.collisionWithObject(Directions.UP, obj)[CollisionData.COLLISION]:
                 coll = True
             bBox.updateBox(box["x1"], box["y1"], box["x2"], box["y2"])
             if coll:
@@ -342,7 +342,7 @@ class RPGModule(object):
             if action["text"] != "noaction":
                 act = Actions.getAction(action["text"])
                 if act["type"] == "conversation":
-                    self.mode = "talk"
+                    self.mode = RpgModes.TALK
                     self.moveX = 0
                     self.moveY = 0
                     self.talk.startConversation(act["id"], self.lang, bulcsuBox.getVertCenter(), action["pos"])
