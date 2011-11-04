@@ -1,5 +1,6 @@
 
 import pygame.image
+from pygame import Rect
 from src.CommonModules.Constants import Directions
 from src.CommonModules.Constants import DrawingOrder
 
@@ -7,10 +8,10 @@ class Scene(object):
 
     def __init__(self, name, image, bounds, tram):
         self.image = image
-        self.bounds = {Directions.UP : bounds[0],
-                       Directions.DOWN : bounds[1],
-                       Directions.LEFT : bounds[2],
-                       Directions.RIGHT : bounds[3]}
+        self.bounds = {Directions.UP : bounds.top,
+                       Directions.DOWN : bounds.bottom,
+                       Directions.LEFT : bounds.left,
+                       Directions.RIGHT : bounds.right}
         self.backGround = pygame.image.load(image).convert()
         self.tram = tram
         self.objects = []

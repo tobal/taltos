@@ -20,15 +20,17 @@ class Rpg(object):
     def __init__(self, screen, resolution, language):
         self.screen = screen
         self.resolution = resolution
+        self.language = language
+        
         self.makeScene()
         self.makeSprite()
+        
         self.talk = RpgTalker.RpgTalker()
         self.moveX, self.moveY = 0, 0
         self.anim = 0
         if self.scene.isThereTram():
-            self.villamos = Tram()
+            self.villamos = Tram.Tram()
         self.mode = RpgModes.WANDER
-        self.lang = language
         self.arrowButtons = {Directions.UP : 0,
                              Directions.DOWN : 0,
                              Directions.LEFT : 0,
@@ -307,7 +309,7 @@ class Rpg(object):
                     self.mode = RpgModes.TALK
                     self.moveX = 0
                     self.moveY = 0
-                    self.talk.startConversation(act["id"], self.lang, bulcsuBox.getVertCenter(), action["pos"])
+                    self.talk.startConversation(act["id"], self.language, bulcsuBox.getVertCenter(), action["pos"])
                 return
         if self.mode == RpgModes.TALK:
             if self.talk.action() == False:
