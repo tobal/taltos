@@ -85,13 +85,10 @@ class Rpg(object):
                        RpgScenes.STREET : SceneBuilder.buildScene(RpgScenes.STREET),
                        RpgScenes.SHOP : SceneBuilder.buildScene(RpgScenes.SHOP)}
         self.scene = self.scenes[RpgScenes.HARDWARE]
-        self.sceneBounds = self.scene.getBounds()
 
     def changeScene(self, scene, dropoffPoint):
         self.scene = self.scenes[scene]
         self.bulcsu.setPos(dropoffPoint)
-        # FIXME: should not have a redundant scene bounds value in this class
-        self.sceneBounds = self.scene.getBounds()
         # here is a very temporary and very disgusting solution to the tram-problem
         if self.scene.isThereTram():
             if scene == RpgScenes.STREET:
@@ -234,9 +231,9 @@ class Rpg(object):
             if collisionInfo[CollisionData.COLLISION]:
                 objCollision[CollisionData.COLLISION] = True
                 objCollision[CollisionData.POSITION] = collisionInfo[CollisionData.POSITION]
-        if bulcsuBox.collisionWithSceneBoundaries(direction, self.sceneBounds[direction]):
+        if bulcsuBox.collisionWithSceneBoundaries(direction, self.scene.getBounds()[direction]):
             objCollision[CollisionData.COLLISION] = True
-            objCollision[CollisionData.POSITION] = self.sceneBounds[direction]
+            objCollision[CollisionData.POSITION] = self.scene.getBounds()[direction]
         return objCollision
 
     def tunnelCheck(self, bulcsuBox):

@@ -3,23 +3,24 @@ from pygame import Rect
 from src.RpgModules import Scene
 from src.RpgModules import Objects
 from src.CommonModules.Constants import RpgScenes
+from src.CommonModules.Images.RpgImages import RpgImages
 
 def buildScene(name):
     if name == RpgScenes.HARDWARE:
-        bounds = Rect(5, 505, 1015, 145)
-        scene = Scene.Scene("hardware", "../resrc/img/RPG/hardware.png", bounds, True)
+        bounds = Rect((5, 505), (1015, 145))
+        scene = Scene.Scene(RpgImages.STREET_HW, bounds, True)
         scene.addPerson(Objects.Person(780, 360, "karakter1", 30, "karakter1action"))
         scene.addObject(Objects.ObjectSprite(100, 500, "pad1", 30))
         scene.addTunnel(Objects.TunnelObject(1010, 505, 20, 145, RpgScenes.STREET, (30,350), 0))
         scene.addTunnel(Objects.TunnelObject(590, 500, 20, 20, RpgScenes.SHOP, (550,510), 0))
     if name == RpgScenes.STREET:
         bounds = Rect(5, 505, 1015, 145)
-        scene = Scene.Scene("street", "../resrc/img/RPG/utca.png", bounds, True)
+        scene = Scene.Scene(RpgImages.STREET_INFO, bounds, True)
         scene.addTunnel(Objects.TunnelObject(0, 505, 20, 145, RpgScenes.HARDWARE, (900,350), 0))
         scene.addActionPoint(Objects.ActionMark(320, 510, 40, 40, "gameinfoaction"))
     if name == RpgScenes.SHOP:
         bounds = Rect(5, 550, 1015, 215)
-        scene = Scene.Scene("shop", "../resrc/img/RPG/bolt.png", bounds, False)
+        scene = Scene.Scene(RpgImages.HARDWARE_STORE, bounds, False)
         scene.addTunnel(Objects.TunnelObject(580, 750, 20, 20, RpgScenes.HARDWARE, (550,330), 0))
         scene.addActionPoint(Objects.ActionMark(255 ,540, 40, 40, "shopaction"))
         scene.addObject(Objects.ObjectSprite(-120, 530, "transp", 10))

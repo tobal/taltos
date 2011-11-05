@@ -1,11 +1,11 @@
 
 from src.CommonModules.Constants import Directions
 
-class RpgImages(object):
+class RpgImages():
     TRAM = "../resrc/img/RPG/villamos.png"
-    STREET_HW = 1
-    STREET_INFO = 2
-    HARDWARE_STORE = 3
+    STREET_HW = "../resrc/img/RPG/hardware.png"
+    STREET_INFO = "../resrc/img/RPG/utca.png"
+    HARDWARE_STORE = "../resrc/img/RPG/bolt.png"
     BENCH = 4
     NOTHING = 5
 

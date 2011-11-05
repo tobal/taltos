@@ -1,12 +1,11 @@
 
 import pygame.image
-from pygame import Rect
 from src.CommonModules.Constants import Directions
 from src.CommonModules.Constants import DrawingOrder
 
 class Scene(object):
 
-    def __init__(self, name, image, bounds, tram):
+    def __init__(self, image, bounds, tram):
         self.image = image
         self.bounds = {Directions.UP : bounds.top,
                        Directions.DOWN : bounds.bottom,
@@ -18,7 +17,7 @@ class Scene(object):
         self.persons = []
         self.actionPoints = []
         self.tunnels = []
-        self.name = name
+#        self.name = name
 
     def isThereTram(self):
         return self.tram
@@ -53,8 +52,8 @@ class Scene(object):
     def getBounds(self):
         return self.bounds
 
-    def getName(self):
-        return self.name
+#    def getName(self):
+#        return self.name
 
     def drawBackGround(self, screen):
         screen.blit(self.backGround, (0,0))
