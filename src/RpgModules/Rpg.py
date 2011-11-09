@@ -53,9 +53,9 @@ class Rpg(object):
 
         # drawing the whole scene
         self.scene.drawBackGround(self.screen)
-        self.scene.drawObjects(DrawingOrder.BACK, self.bulcsu.getBoundingBox().getCenter(), self.screen)
+        self.scene.drawObjects(DrawingOrder.BACK, self.bulcsu.getBoundingBox().getHorizontalCenter(), self.screen)
         self.screen.blit(self.bulcsu.getCurrentSprite(), (self.bulcsu.getPosX(), self.bulcsu.getPosY()))
-        self.scene.drawObjects(DrawingOrder.FRONT, self.bulcsu.getBoundingBox().getCenter(), self.screen)
+        self.scene.drawObjects(DrawingOrder.FRONT, self.bulcsu.getBoundingBox().getHorizontalCenter(), self.screen)
         if self.scene.isThereTram():
             self.villamos.draw(self.screen)
         if self.mode == RpgModes.TALK:
@@ -253,18 +253,18 @@ class Rpg(object):
     def actionCheck(self, bulcsuBox):
         for obj in self.scene.getActionPoints():
             if bulcsuBox.collisionWithObject(Directions.UP, obj)[CollisionData.COLLISION]:
-                return { "text" : obj.getAction(), "pos" : obj.getBoundingBox().getVertCenter() }
+                return { "text" : obj.getAction(), "pos" : obj.getBoundingBox().getVerticalCenter() }
         personAura = 20
         for obj in self.scene.getPersons():
             coll = False
             bBox = obj.getBoundingBox()
             box = bBox.getBox()
-            bBox.updateBox(box["x1"] - personAura, box["y1"] - personAura, box["x2"] + personAura, box["y2"] + personAura)
+            bBox.updateBox(box.left - personAura, box.top - personAura, box.right + personAura, box.bottom + personAura)
             if bulcsuBox.collisionWithObject(Directions.UP, obj)[CollisionData.COLLISION]:
                 coll = True
-            bBox.updateBox(box["x1"], box["y1"], box["x2"], box["y2"])
+            bBox.updateBox(box.left, box.top, box.right, box.bottom)
             if coll:
-                return { "text" : obj.getAction(), "pos" : obj.getBoundingBox().getVertCenter() }
+                return { "text" : obj.getAction(), "pos" : obj.getBoundingBox().getVerticalCenter() }
         return {"text" : "noaction", "pos" : 0 }
 
     def collisions(self):
@@ -306,7 +306,7 @@ class Rpg(object):
                     self.mode = RpgModes.TALK
                     self.moveX = 0
                     self.moveY = 0
-                    self.talk.startConversation(act["id"], self.language, bulcsuBox.getVertCenter(), action["pos"])
+                    self.talk.startConversation(act["id"], self.language, bulcsuBox.getVerticalCenter(), action["pos"])
                 return
         if self.mode == RpgModes.TALK:
             if self.talk.action() == False:

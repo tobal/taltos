@@ -1,24 +1,22 @@
 
+from pygame import Rect
 from src.CommonModules.Constants import CollisionData
 from src.CommonModules.Constants import Directions
 
 class BoundingBox(object):
 
     def __init__(self, x1, y1, x2, y2):
-        # why didn't I just use Rect class??! shoot me plz
-        self.box = {"x1" : x1, "x2" : x2, "y1" : y1, "y2" : y2}
+        self.box = Rect(x1, y1, x2-x1, y2-y1)
         return
 
     def updateBox(self, x1, y1, x2, y2):
-        self.box = {"x1" : x1, "x2" : x2, "y1" : y1, "y2" : y2}
+        self.box = Rect(x1, y1, x2-x1, y2-y1)
 
-    def getCenter(self):
-        y1, y2 = self.box["y1"], self.box["y2"]
-        return y1+((y2-y1)/2)
+    def getHorizontalCenter(self):
+        return self.box.centery
 
-    def getVertCenter(self):
-        x1, x2 = self.box["x1"], self.box["x2"]
-        return x1+((x2-x1)/2)
+    def getVerticalCenter(self):
+        return self.box.centerx
 
     def getBox(self):
         return self.box
@@ -29,69 +27,69 @@ class BoundingBox(object):
                        CollisionData.POSITION : 0}
 
         # I want to punch myself in the face for writing this code...
-        if      (  (self.box["x1"]+5 < objBox["x1"] and self.box["x2"]-5 > objBox["x1"])
+        if      (  (self.box.left+5 < objBox.left and self.box.right-5 > objBox.left)
                     or
-                    (self.box["x1"]+5 < objBox["x2"] and self.box["x2"]-5 > objBox["x2"])
+                    (self.box.left+5 < objBox.right and self.box.right-5 > objBox.right)
                     or
                     (
-                        (self.box["x1"]+5 > objBox["x1"] and self.box["x2"]-5 > objBox["x1"])
+                        (self.box.left+5 > objBox.left and self.box.right-5 > objBox.left)
                         and
-                        (self.box["x1"]+5 < objBox["x2"] and self.box["x2"]-5 < objBox["x2"])
+                        (self.box.left+5 < objBox.right and self.box.right-5 < objBox.right)
                     )):
             if direction == Directions.UP:
-                if (self.box["y1"] <= objBox["y2"]) and (self.box["y2"]-5 > objBox["y1"]) :
+                if (self.box.top <= objBox.bottom) and (self.box.bottom-5 > objBox.top) :
                     returnValue[CollisionData.COLLISION] = True
-                    returnValue[CollisionData.POSITION] = objBox["y2"]
+                    returnValue[CollisionData.POSITION] = objBox.bottom
                 else:
                     returnValue[CollisionData.COLLISION] = False
             if direction == Directions.DOWN:
-                if (self.box["y2"] >= objBox["y1"]) and (self.box["y1"]+5 < objBox["y2"]):
+                if (self.box.bottom >= objBox.top) and (self.box.top+5 < objBox.bottom):
                     returnValue[CollisionData.COLLISION] = True
-                    returnValue[CollisionData.POSITION] = objBox["y1"]
+                    returnValue[CollisionData.POSITION] = objBox.top
                 else:
                     returnValue[CollisionData.COLLISION] = False
 
-        if      (  (self.box["y1"]+5 < objBox["y1"] and self.box["y2"]-5 > objBox["y1"])
+        if      (  (self.box.top+5 < objBox.top and self.box.bottom-5 > objBox.top)
                     or
-                    (self.box["y1"]+5 < objBox["y2"] and self.box["y2"]-5 > objBox["y2"])
+                    (self.box.top+5 < objBox.bottom and self.box.bottom-5 > objBox.bottom)
                     or
                     (
-                        (self.box["y1"]+5 > objBox["y1"] and self.box["y2"]-5 > objBox["y1"])
+                        (self.box.top+5 > objBox.top and self.box.bottom-5 > objBox.top)
                         and
-                        (self.box["y1"]+5 < objBox["y2"] and self.box["y2"]-5 < objBox["y2"])
+                        (self.box.top+5 < objBox.bottom and self.box.bottom-5 < objBox.bottom)
                     )):
             if direction == Directions.LEFT:
-                if (self.box["x1"] <= objBox["x2"]) and (self.box["x2"]-5 > objBox["x1"]):
+                if (self.box.left <= objBox.right) and (self.box.right-5 > objBox.left):
                     returnValue[CollisionData.COLLISION] = True
-                    returnValue[CollisionData.POSITION] = objBox["x2"]
+                    returnValue[CollisionData.POSITION] = objBox.right
                 else:
                     returnValue[CollisionData.COLLISION] = False
             if direction == Directions.RIGHT:
-                if (self.box["x2"] >= objBox["x1"]) and (self.box["x1"]+5 < objBox["x2"]):
+                if (self.box.right >= objBox.left) and (self.box.left+5 < objBox.right):
                     returnValue[CollisionData.COLLISION] = True
-                    returnValue[CollisionData.POSITION] = objBox["x1"]
+                    returnValue[CollisionData.POSITION] = objBox.left
                 else:
                     returnValue[CollisionData.COLLISION] = False
         return returnValue
 
     def collisionWithSceneBoundaries(self, direction, bound):
         if direction == Directions.UP:
-            if self.box["y1"] <= bound:
+            if self.box.top <= bound:
                 return True
             else:
                 return False
         if direction == Directions.DOWN:
-            if self.box["y2"] >= bound:
+            if self.box.bottom >= bound:
                 return True
             else:
                 return False
         if direction == Directions.LEFT:
-            if self.box["x1"] <= bound:
+            if self.box.left <= bound:
                 return True
             else:
                 return False
         if direction == Directions.RIGHT:
-            if self.box["x2"] >= bound:
+            if self.box.right >= bound:
                 return True
             else:
                 return False

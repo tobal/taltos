@@ -61,16 +61,16 @@ class Scene(object):
     def drawObjects(self, order, spritePosY, screen):
         if order == DrawingOrder.FRONT:
             for obj in self.objects:
-                if spritePosY < obj.getBoundingBox().getCenter():
+                if spritePosY < obj.getBoundingBox().getHorizontalCenter():
                     screen.blit(obj.getImage(), (obj.getPos()))
             for obj in self.persons:
-                if spritePosY < obj.getBoundingBox().getCenter():
+                if spritePosY < obj.getBoundingBox().getHorizontalCenter():
                     screen.blit(obj.getImage(), (obj.getPos()))
         if order == DrawingOrder.BACK:
             for obj in self.objects:
-                if spritePosY >= obj.getBoundingBox().getCenter():
+                if spritePosY >= obj.getBoundingBox().getHorizontalCenter():
                     screen.blit(obj.getImage(), (obj.getPos()))
             for obj in self.persons:
-                if spritePosY >= obj.getBoundingBox().getCenter():
+                if spritePosY >= obj.getBoundingBox().getHorizontalCenter():
                     screen.blit(obj.getImage(), (obj.getPos()))
         return
