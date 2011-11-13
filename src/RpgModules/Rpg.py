@@ -14,6 +14,7 @@ from src.CommonModules.Constants import Directions
 from src.CommonModules.Constants import TunnelData
 from src.CommonModules.Constants import CollisionData
 from src.CommonModules.Constants import DrawingOrder
+from src.CommonModules.Constants import Axis
 
 class Rpg(object):
 
@@ -286,11 +287,10 @@ class Rpg(object):
             if not(collision[CollisionData.COLLISION]):
                 newY["type"] = "add"
 
-        if newY["type"] == "add":
-            self.bulcsu.addToPos("y", self.moveY)
         if newX["type"] == "add":
-            self.bulcsu.addToPos("x", self.moveX)
-
+            self.bulcsu.addToPos(Axis.X, self.moveX)
+        if newY["type"] == "add":
+            self.bulcsu.addToPos(Axis.Y, self.moveY)
 
     def action(self):
         directions = [Directions.UP, Directions.DOWN,

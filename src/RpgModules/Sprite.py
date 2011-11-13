@@ -2,6 +2,7 @@
 import pygame
 from pygame.locals import *
 from src.CommonModules.Constants import Directions
+from src.CommonModules.Constants import Axis
 from src.RpgModules.Objects import BoundingBox
 from src.RpgModules.Images import BulcsuAnimation
 
@@ -35,11 +36,10 @@ class ProtagonistSprite(object):
     def stop(self, direction):
         self.currentSprite = self.sprite.getAnimationFrame(direction, 0)
 
-    # axis has to be x or y
     def addToPos(self, axis, move):
-        if axis == "x":
+        if axis == Axis.X:
             self.posX += move
-        elif axis == "y":
+        elif axis == Axis.Y:
             self.posY += move
 
     def getPosX(self):

@@ -1,4 +1,9 @@
 
+class Axis():
+    X = 0
+    Y = 1
+    Z = 2
+
 class CommonTextTypes():
     VAL_NYELV = 0
     NYELV = 1
