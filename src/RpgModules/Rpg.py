@@ -297,7 +297,8 @@ class Rpg(object):
                       Directions.LEFT, Directions.RIGHT]
         for direction in directions:
             if(self.arrowButtons[direction] != 0):
-                #TODO
+                self.bulcsu.stop(direction)
+                self.arrowButtons[direction] = 0
                 pass
         if self.mode == RpgModes.WANDER:
             bulcsuBox = self.bulcsu.getBoundingBox()
