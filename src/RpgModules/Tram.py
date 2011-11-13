@@ -1,7 +1,7 @@
 
 import pygame
 import random
-from src.CommonModules.Images import RpgImages
+from src.RpgModules.Images import RpgImages
 
 class Tram(object):
 

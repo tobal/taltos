@@ -35,10 +35,6 @@ class Rpg(object):
                              Directions.DOWN : 0,
                              Directions.LEFT : 0,
                              Directions.RIGHT : 0}
-        self.prevArrowButtons = {Directions.UP : 0,
-                                 Directions.DOWN : 0,
-                                 Directions.LEFT : 0,
-                                 Directions.RIGHT: 0,}
 
     def gameLoop(self):
         self.eventHandler()
@@ -103,7 +99,7 @@ class Rpg(object):
 
     def eventHandler(self):
         if self.mode == RpgModes.WANDER:
-            moveSpeed = 4.0
+            moveSpeed = 5.5
 
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -134,43 +130,43 @@ class Rpg(object):
             if self.arrowButtons[Directions.LEFT] == 1:
                 if self.moveX == 0:
                     self.moveX = -moveSpeed
-                    self.bulcsu.goLeft()
+                    self.bulcsu.go(Directions.LEFT)
             if self.arrowButtons[Directions.RIGHT] == 1:
                 if self.moveX == 0:
                     self.moveX = moveSpeed
-                    self.bulcsu.goRight()
+                    self.bulcsu.go(Directions.RIGHT)
             if self.arrowButtons[Directions.UP] == 1:
                 if self.moveY == 0:
                     self.moveY = -moveSpeed
                     if self.moveX == 0:
-                        self.bulcsu.goUp()
+                        self.bulcsu.go(Directions.UP)
             if self.arrowButtons[Directions.DOWN] == 1:
                 if self.moveY == 0:
                     self.moveY = moveSpeed
                     if self.moveX == 0:
-                        self.bulcsu.goDown()
+                        self.bulcsu.go(Directions.DOWN)
             if self.arrowButtons[Directions.LEFT] == 2:
                 if self.moveX < 0:
                     self.moveX = 0
-                    self.bulcsu.stopLeft()
-                self.arrowButtons[Directions.LEFT] == 0
+                    self.bulcsu.stop(Directions.LEFT)
+                self.arrowButtons[Directions.LEFT] = 0
             if self.arrowButtons[Directions.RIGHT] == 2:
                 if self.moveX > 0:
                     self.moveX = 0
-                    self.bulcsu.stopRight()
-                self.arrowButtons[Directions.RIGHT] == 0
+                    self.bulcsu.stop(Directions.RIGHT)
+                self.arrowButtons[Directions.RIGHT] = 0
             if self.arrowButtons[Directions.UP] == 2:
                 if self.moveY < 0:
                     self.moveY = 0
                     if self.moveX == 0:
-                        self.bulcsu.stopUp()
-                self.arrowButtons[Directions.UP] == 0
+                        self.bulcsu.stop(Directions.UP)
+                self.arrowButtons[Directions.UP] = 0
             if self.arrowButtons[Directions.DOWN] == 2:
                 if self.moveY > 0:
                     self.moveY = 0
                     if self.moveX == 0:
-                        self.bulcsu.stopDown()
-                self.arrowButtons[Directions.DOWN] == 0
+                        self.bulcsu.stop(Directions.DOWN)
+                self.arrowButtons[Directions.DOWN] = 0
 
         if self.mode == RpgModes.TALK:
             for event in pygame.event.get():
@@ -199,13 +195,13 @@ class Rpg(object):
             self.anim += 1
             animated = True
             if self.anim > animSpeed:
-                self.bulcsu.goRight()
+                self.bulcsu.go(Directions.RIGHT)
                 self.anim = 0
         elif self.moveX < 0:
             self.anim += 1
             animated = True
             if self.anim > animSpeed:
-                self.bulcsu.goLeft()
+                self.bulcsu.go(Directions.LEFT)
                 self.anim = 0
 
         if self.moveY > 0:
@@ -213,14 +209,14 @@ class Rpg(object):
                 self.anim += 1
             if self.anim > animSpeed:
                 if self.moveX == 0:
-                    self.bulcsu.goDown()
+                    self.bulcsu.go(Directions.DOWN)
                 self.anim = 0
         elif self.moveY < 0:
             if not animated:
                 self.anim += 1
             if self.anim > animSpeed:
                 if self.moveX == 0:
-                    self.bulcsu.goUp()
+                    self.bulcsu.go(Directions.UP)
                 self.anim = 0
 
     def collisionCheck(self, direction, bulcsuBox):
@@ -297,6 +293,12 @@ class Rpg(object):
 
 
     def action(self):
+        directions = [Directions.UP, Directions.DOWN,
+                      Directions.LEFT, Directions.RIGHT]
+        for direction in directions:
+            if(self.arrowButtons[direction] != 0):
+                #TODO
+                pass
         if self.mode == RpgModes.WANDER:
             bulcsuBox = self.bulcsu.getBoundingBox()
             action = self.actionCheck(bulcsuBox)

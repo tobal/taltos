@@ -2,8 +2,9 @@
 from pygame import Rect
 from src.RpgModules import Scene
 from src.RpgModules import Objects
+from src.RpgModules.Images.RpgImages import RpgImages
 from src.CommonModules.Constants import RpgScenes
-from src.CommonModules.Images.RpgImages import RpgImages
+
 
 def buildScene(name):
     if name == RpgScenes.HARDWARE:
