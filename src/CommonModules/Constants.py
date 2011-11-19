@@ -1,4 +1,18 @@
 
+class Actions():
+    TOBALCONV = 0
+    SHOPCONV = 1
+    GAMEINFO = 2
+    
+class ActionData():
+    TYPE = 0
+    POSITION = 1
+
+class ActionTypes():
+    NOACTION = 0
+    CONVERSATION = 1
+    TRADE = 2
+
 class Axis():
     X = 0
     Y = 1

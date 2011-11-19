@@ -6,7 +6,7 @@ import MainExceptions
 from src.RpgModules import Sprite
 from src.RpgModules import SceneBuilder
 from src.RpgModules import RpgTalker
-from src.RpgModules import Actions
+from src.RpgModules import Action
 from src.RpgModules import Tram
 from src.CommonModules.Constants import RpgModes
 from src.CommonModules.Constants import RpgScenes
@@ -248,20 +248,20 @@ class Rpg(object):
         return tunnel
 
     def actionCheck(self, bulcsuBox):
-        for obj in self.scene.getActionPoints():
-            if bulcsuBox.collisionWithObject(Directions.UP, obj)[CollisionData.COLLISION]:
-                return { "text" : obj.getAction(), "pos" : obj.getBoundingBox().getVerticalCenter() }
+        for currentObject in self.scene.getActionPoints():
+            if bulcsuBox.collisionWithObject(Directions.UP, currentObject)[CollisionData.COLLISION]:
+                return { "text" : currentObject.getAction(), "pos" : currentObject.getBoundingBox().getVerticalCenter() }
         personAura = 20
-        for obj in self.scene.getPersons():
+        for currentObject in self.scene.getPersons():
             coll = False
-            bBox = obj.getBoundingBox()
+            bBox = currentObject.getBoundingBox()
             box = bBox.getBox()
             bBox.updateBox(box.left - personAura, box.top - personAura, box.right + personAura, box.bottom + personAura)
-            if bulcsuBox.collisionWithObject(Directions.UP, obj)[CollisionData.COLLISION]:
+            if bulcsuBox.collisionWithObject(Directions.UP, currentObject)[CollisionData.COLLISION]:
                 coll = True
             bBox.updateBox(box.left, box.top, box.right, box.bottom)
             if coll:
-                return { "text" : obj.getAction(), "pos" : obj.getBoundingBox().getVerticalCenter() }
+                return { "text" : currentObject.getAction(), "pos" : currentObject.getBoundingBox().getVerticalCenter() }
         return {"text" : "noaction", "pos" : 0 }
 
     def collisions(self):
@@ -304,7 +304,7 @@ class Rpg(object):
             bulcsuBox = self.bulcsu.getBoundingBox()
             action = self.actionCheck(bulcsuBox)
             if action["text"] != "noaction":
-                act = Actions.getAction(action["text"])
+                act = Action.Action().getAction(action["text"])
                 if act["type"] == "conversation":
                     self.mode = RpgModes.TALK
                     self.moveX = 0
