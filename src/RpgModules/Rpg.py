@@ -18,9 +18,8 @@ from src.CommonModules.Constants import Axis
 
 class Rpg(object):
 
-    def __init__(self, screen, resolution, language):
+    def __init__(self, screen, language):
         self.screen = screen
-        self.resolution = resolution
         self.language = language
         
         self.makeScene()

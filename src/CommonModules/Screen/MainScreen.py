@@ -1,7 +1,7 @@
 
 import pygame
-from pygame.constants import FULLSCREEN
-from pygame.constants import RESIZABLE
+from pygame.constants import *
+from src.CommonModules.Constants import GameModes
 
 class MainScreen(object):
     
@@ -19,7 +19,11 @@ class MainScreen(object):
     def getResolution(self):
         return self.resolution
 
-    def createScreen(self):
-        self.screen = pygame.display.set_mode(self.resolution, RESIZABLE, 32)
+    def setScreenMode(self, gameMode):
+        if gameMode == GameModes.RPG:
+            self.screen = pygame.display.set_mode(self.resolution, RESIZABLE, 32)
+            pygame.mouse.set_visible(False)
+        if gameMode == GameModes.CYBERSPACE:
+            self.screen = pygame.display.set_mode(self.resolution, HWSURFACE|OPENGL|DOUBLEBUF, 32)
+            pygame.mouse.set_visible(False)            
         pygame.display.set_caption("Taltos")
-        pygame.mouse.set_visible(False)

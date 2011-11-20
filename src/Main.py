@@ -7,19 +7,20 @@ from src.RpgModules import Rpg
 from src.CommonModules.Screen import MainScreen
 from src.CommonModules import MusicPlayer
 from src.CommonModules import Menu
+from src.CommonModules.Constants import GameModes
 
-def setupScreen():
+def initScreen():
     gameScreen = MainScreen.MainScreen()
-    gameScreen.createScreen()
+    gameScreen.setScreenMode(GameModes.RPG)
     return gameScreen
 
 pygame.init()
 
 MusicPlayer.MusicPlayer().playContinously()
-gameScreen = setupScreen()
+gameScreen = initScreen()
 
 language = Menu.Menu(gameScreen.getScreen()).languageChooser()
-rpg = Rpg.Rpg(gameScreen.getScreen(), gameScreen.getResolution(), language)
+rpg = Rpg.Rpg(gameScreen.getScreen(), language)
 
 # game loop
 while True:
