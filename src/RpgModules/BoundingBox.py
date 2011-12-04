@@ -1,7 +1,7 @@
 
 from pygame import Rect
-from src.CommonModules.Constants import CollisionData
-from src.CommonModules.Constants import Directions
+from CommonModules.Constants import CollisionData
+from CommonModules.Constants import Directions
 
 class BoundingBox(object):
 

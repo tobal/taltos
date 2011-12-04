@@ -1,6 +1,6 @@
 import pygame
 
-from src.RpgModules import Conversations
+from RpgModules import Conversations
 
 class RpgTalker:
 

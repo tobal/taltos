@@ -2,14 +2,14 @@
 
 import pygame
 from pygame.locals import *
-from src.CommonModules.Screen import ScreenDrawer
-from src.CommonModules.Screen import TextDrawer
-from src.CommonModules.Texts import TextGetter
-from src.CommonModules.Constants import GameModes
-from src.CommonModules.Constants import CommonTextTypes
-from src.CommonModules.Constants import Languages
-from src.CommonModules.Constants import FontSizes
-from src.CommonModules.Constants import TextSurfaceTypes
+from CommonModules.Screen import ScreenDrawer
+from CommonModules.Screen import TextDrawer
+from CommonModules.Texts import TextGetter
+from CommonModules.Constants import GameModes
+from CommonModules.Constants import CommonTextTypes
+from CommonModules.Constants import Languages
+from CommonModules.Constants import FontSizes
+from CommonModules.Constants import TextSurfaceTypes
 
 class Menu(object):
     

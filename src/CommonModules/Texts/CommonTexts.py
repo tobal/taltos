@@ -1,7 +1,7 @@
 # coding=utf-8
 
-from src.CommonModules.Constants import Languages
-from src.CommonModules.Constants import CommonTextTypes
+from CommonModules.Constants import Languages
+from CommonModules.Constants import CommonTextTypes
 
 class CommonTexts():
     TEXTS = {

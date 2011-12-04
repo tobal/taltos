@@ -1,7 +1,7 @@
 
-from src.CommonModules.Constants import Actions
-from src.CommonModules.Constants import ActionTypes
-from src.CommonModules.Constants import ActionData
+from CommonModules.Constants import Actions
+from CommonModules.Constants import ActionTypes
+from CommonModules.Constants import ActionData
 
 class Action():
     

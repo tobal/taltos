@@ -3,11 +3,11 @@ import pygame
 from sys import exit
 from pygame.time import Clock
 import MainExceptions
-from src.RpgModules import Rpg
-from src.CommonModules.Screen import MainScreen
-from src.CommonModules import MusicPlayer
-from src.CommonModules import Menu
-from src.CommonModules.Constants import GameModes
+from RpgModules import Rpg
+from CommonModules.Screen import MainScreen
+from CommonModules import MusicPlayer
+from CommonModules import Menu
+from CommonModules.Constants import GameModes
 
 def initScreen():
     gameScreen = MainScreen.MainScreen()
@@ -25,7 +25,7 @@ rpg = Rpg.Rpg(gameScreen.getScreen(), language)
 # game loop
 while True:
     clock = Clock()
-    
+
     try:
         clock.tick(30)
         rpg.gameLoop()
@@ -33,3 +33,4 @@ while True:
         exit()
 
     pygame.display.update()
+

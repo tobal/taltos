@@ -1,5 +1,5 @@
 
-from src.CommonModules.Constants import Colors
+from CommonModules.Constants import Colors
 from pygame import draw
 from pygame import Rect
 

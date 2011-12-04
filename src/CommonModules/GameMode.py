@@ -1,5 +1,5 @@
 
-from src.CommonModules.Constants import GameModes
+from CommonModules.Constants import GameModes
 
 class GameMode(object):
 

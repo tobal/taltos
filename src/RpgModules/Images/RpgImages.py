@@ -1,5 +1,5 @@
 
-from src.CommonModules.Constants import Directions
+from CommonModules.Constants import Directions
 
 class RpgImages():
     TRAM = "../resrc/img/RPG/villamos.png"

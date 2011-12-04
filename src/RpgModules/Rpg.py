@@ -3,18 +3,18 @@ import pygame
 from pygame.locals import *
 
 import MainExceptions
-from src.RpgModules import Sprite
-from src.RpgModules import SceneBuilder
-from src.RpgModules import RpgTalker
-from src.RpgModules import Action
-from src.RpgModules import Tram
-from src.CommonModules.Constants import RpgModes
-from src.CommonModules.Constants import RpgScenes
-from src.CommonModules.Constants import Directions
-from src.CommonModules.Constants import TunnelData
-from src.CommonModules.Constants import CollisionData
-from src.CommonModules.Constants import DrawingOrder
-from src.CommonModules.Constants import Axis
+from RpgModules import Sprite
+from RpgModules import SceneBuilder
+from RpgModules import RpgTalker
+from RpgModules import Action
+from RpgModules import Tram
+from CommonModules.Constants import RpgModes
+from CommonModules.Constants import RpgScenes
+from CommonModules.Constants import Directions
+from CommonModules.Constants import TunnelData
+from CommonModules.Constants import CollisionData
+from CommonModules.Constants import DrawingOrder
+from CommonModules.Constants import Axis
 
 class Rpg(object):
 

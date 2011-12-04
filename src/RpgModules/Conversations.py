@@ -1,7 +1,7 @@
 # coding=utf-8
 
-from src.RpgModules import Conversation
-from src.CommonModules.Constants import Languages
+from RpgModules import Conversation
+from CommonModules.Constants import Languages
 
 class Conversations:
 

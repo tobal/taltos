@@ -1,6 +1,6 @@
 
-from src.CommonModules.Screen.ImageHandler import ImageHandler
-from src.CommonModules.Constants import Directions
+from CommonModules.Screen.ImageHandler import ImageHandler
+from CommonModules.Constants import Directions
 
 class BulcsuAnimation():
     

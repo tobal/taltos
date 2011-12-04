@@ -1,9 +1,9 @@
 
 from pygame import Rect
-from src.RpgModules import Scene
-from src.RpgModules import Objects
-from src.RpgModules.Images.RpgImages import RpgImages
-from src.CommonModules.Constants import RpgScenes
+from RpgModules import Scene
+from RpgModules import Objects
+from RpgModules.Images.RpgImages import RpgImages
+from CommonModules.Constants import RpgScenes
 
 
 def buildScene(name):

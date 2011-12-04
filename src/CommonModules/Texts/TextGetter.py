@@ -1,6 +1,6 @@
 
-from src.CommonModules.Constants import Languages
-from src.CommonModules.Texts import CommonTexts
+from CommonModules.Constants import Languages
+from CommonModules.Texts import CommonTexts
 
 class TextGetter(object):
 

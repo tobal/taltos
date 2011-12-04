@@ -1,7 +1,7 @@
 
 import pygame.image
-from src.CommonModules.Constants import Directions
-from src.CommonModules.Constants import DrawingOrder
+from CommonModules.Constants import Directions
+from CommonModules.Constants import DrawingOrder
 
 class Scene(object):
 

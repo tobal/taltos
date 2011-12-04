@@ -1,6 +1,6 @@
 
 import pygame.image
-from src.RpgModules.BoundingBox import BoundingBox
+from RpgModules.BoundingBox import BoundingBox
 
 class Object(object):
 

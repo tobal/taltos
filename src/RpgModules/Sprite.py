@@ -1,10 +1,10 @@
 
 import pygame
 from pygame.locals import *
-from src.CommonModules.Constants import Directions
-from src.CommonModules.Constants import Axis
-from src.RpgModules.Objects import BoundingBox
-from src.RpgModules.Images import BulcsuAnimation
+from CommonModules.Constants import Directions
+from CommonModules.Constants import Axis
+from RpgModules.Objects import BoundingBox
+from RpgModules.Images import BulcsuAnimation
 
 class ProtagonistSprite(object):
 

@@ -1,11 +1,11 @@
 
 from pygame.font import *
-from src.CommonModules.Texts.TextGetter import TextGetter 
-from src.CommonModules.Constants import GameModes
-from src.CommonModules.Constants import Languages
-from src.CommonModules.Constants import Colors
-from src.CommonModules.Constants import FontSizes
-from src.CommonModules.Constants import TextSurfaceTypes
+from CommonModules.Texts.TextGetter import TextGetter 
+from CommonModules.Constants import GameModes
+from CommonModules.Constants import Languages
+from CommonModules.Constants import Colors
+from CommonModules.Constants import FontSizes
+from CommonModules.Constants import TextSurfaceTypes
 
 class TextDrawer(object):
 
