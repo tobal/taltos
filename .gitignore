@@ -2,5 +2,5 @@
 *.pyc
 .*project
 .settings
-
+*.swp
 tags
