@@ -3,11 +3,13 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from CommonModules.GameModule import GameModule
 from CommonModules.Screen.ImageHandler import ImageHandler
 
-class Cyberspace(object):
+class Cyberspace(GameModule):
 
-    def __init__(self):
+    def __init__(self, screen, language):
+        GameModule.__init__(screen, language)
         self.init()
         self.resize(1024, 768)
         self.loadTexture()
@@ -38,11 +40,8 @@ class Cyberspace(object):
         glBindTexture(GL_TEXTURE_2D, self.texture)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
-        #glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
         width, height = textureSurface.get_rect().size
-        #glTexImage2D(GL_TEXTURE_2D, 0, 3,
-        #        width, height, 0,
-        #        GL_RGB, GL_UNSIGNED_BYTE, textureData)
         gluBuild2DMipmaps(GL_TEXTURE_2D, 3,
                 width, height,
                 GL_RGB, GL_UNSIGNED_BYTE, textureData)
@@ -63,18 +62,19 @@ class Cyberspace(object):
                 glEnd()
 
     def run(self):
-        clock = pygame.time.Clock()
+        #clock = pygame.time.Clock()
         while(True):
+            """
             for event in pygame.event.get():
                 if event.type == QUIT:
                     exit()
                 if event.type == KEYUP and event.key == K_ESCAPE:
                     exit()
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
             time_passed = clock.tick()
             time_passed_seconds = time_passed / 1000
-
+            """
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
             self.draw()
 
             pygame.display.flip()

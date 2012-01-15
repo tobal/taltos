@@ -1,13 +1,10 @@
 
-import pygame
-from pygame.locals import *
-
-import MainExceptions
 from RpgModules import Sprite
 from RpgModules import SceneBuilder
 from RpgModules import RpgTalker
 from RpgModules import Action
 from RpgModules import Tram
+from CommonModules.GameModule import GameModule
 from CommonModules.Constants import RpgModes
 from CommonModules.Constants import RpgScenes
 from CommonModules.Constants import Directions
@@ -16,15 +13,14 @@ from CommonModules.Constants import CollisionData
 from CommonModules.Constants import DrawingOrder
 from CommonModules.Constants import Axis
 
-class Rpg(object):
+class Rpg(GameModule):
 
     def __init__(self, screen, language):
-        self.screen = screen
-        self.language = language
-        
+        GameModule.__init__(self, screen, language)
+
         self.makeScene()
         self.makeSprite()
-        
+
         self.talk = RpgTalker.RpgTalker()
         self.moveX, self.moveY = 0, 0
         self.anim = 0
@@ -37,7 +33,6 @@ class Rpg(object):
                              Directions.RIGHT : 0}
 
     def gameLoop(self):
-        self.eventHandler()
         if self.mode == RpgModes.WANDER:
             self.animation()
         tunnel = self.tunnelCheck(self.bulcsu.getBoundingBox())
@@ -97,76 +92,113 @@ class Rpg(object):
         # making sprite instance
         self.bulcsu = Sprite.ProtagonistSprite(80, 340)
 
-    def eventHandler(self):
+    def leftKeyUp(self):
+        if self.mode == RpgModes.TALK:
+            pass
         if self.mode == RpgModes.WANDER:
-            moveSpeed = 5.5
+            self.arrowButtons[Directions.LEFT] = 2
+            self.moveSprite()
 
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    raise MainExceptions.Exit()
-                if event.type == KEYDOWN:
-                    if (event.key == K_a) or (event.key == K_LEFT):
-                        self.arrowButtons[Directions.LEFT] = 1
-                    if (event.key == K_d) or (event.key == K_RIGHT):
-                        self.arrowButtons[Directions.RIGHT] = 1
-                    if (event.key == K_w) or (event.key == K_UP):
-                        self.arrowButtons[Directions.UP] = 1
-                    if (event.key == K_s) or (event.key == K_DOWN):
-                        self.arrowButtons[Directions.DOWN] = 1
-                    if (event.key == K_q) or (event.key == K_ESCAPE):
-                        raise MainExceptions.Exit()
-                    if (event.key == K_e) or (event.key == K_RETURN):
-                        self.action()
-                if event.type == KEYUP:
-                    if (event.key == K_a) or (event.key == K_LEFT):
-                        self.arrowButtons[Directions.LEFT] = 2
-                    if (event.key == K_d) or (event.key == K_RIGHT):
-                        self.arrowButtons[Directions.RIGHT] = 2
-                    if (event.key == K_w) or (event.key == K_UP):
-                        self.arrowButtons[Directions.UP] = 2
-                    if (event.key == K_s) or (event.key == K_DOWN):
-                        self.arrowButtons[Directions.DOWN] = 2
+    def rightKeyUp(self):
+        if self.mode == RpgModes.TALK:
+            pass
+        if self.mode == RpgModes.WANDER:
+            self.arrowButtons[Directions.RIGHT] = 2
+            self.moveSprite()
 
-            if self.arrowButtons[Directions.LEFT] == 1:
+    def upKeyUp(self):
+        if self.mode == RpgModes.TALK:
+            pass
+        if self.mode == RpgModes.WANDER:
+            self.arrowButtons[Directions.UP] = 2
+            self.moveSprite()
+
+    def downKeyUp(self):
+        if self.mode == RpgModes.TALK:
+            pass
+        if self.mode == RpgModes.WANDER:
+            self.arrowButtons[Directions.DOWN] = 2
+            self.moveSprite()
+
+    def leftKeyDown(self):
+        if self.mode == RpgModes.TALK:
+            pass
+        if self.mode == RpgModes.WANDER:
+            self.arrowButtons[Directions.LEFT] = 1
+            self.moveSprite()
+
+    def rightKeyDown(self):
+        if self.mode == RpgModes.TALK:
+            pass
+        if self.mode == RpgModes.WANDER:
+            self.arrowButtons[Directions.RIGHT] = 1
+            self.moveSprite()
+
+    def upKeyDown(self):
+        if self.mode == RpgModes.TALK:
+            self.talk.arrowUp()
+        if self.mode == RpgModes.WANDER:
+            self.arrowButtons[Directions.UP] = 1
+            self.moveSprite()
+
+    def downKeyDown(self):
+        if self.mode == RpgModes.TALK:
+            self.talk.arrowDown()
+        if self.mode == RpgModes.WANDER:
+            self.arrowButtons[Directions.DOWN] = 1
+            self.moveSprite()
+
+    def enter(self):
+        self.action()
+
+    def postAction(self):
+        self.moveSprite()
+
+    def moveSprite(self):
+        moveSpeed = 5.5
+        if self.arrowButtons[Directions.LEFT] == 1:
+            if self.moveX == 0:
+                self.moveX = -moveSpeed
+                self.bulcsu.go(Directions.LEFT)
+        if self.arrowButtons[Directions.RIGHT] == 1:
+            if self.moveX == 0:
+                self.moveX = moveSpeed
+                self.bulcsu.go(Directions.RIGHT)
+        if self.arrowButtons[Directions.UP] == 1:
+            if self.moveY == 0:
+                self.moveY = -moveSpeed
                 if self.moveX == 0:
-                    self.moveX = -moveSpeed
-                    self.bulcsu.go(Directions.LEFT)
-            if self.arrowButtons[Directions.RIGHT] == 1:
+                    self.bulcsu.go(Directions.UP)
+        if self.arrowButtons[Directions.DOWN] == 1:
+            if self.moveY == 0:
+                self.moveY = moveSpeed
                 if self.moveX == 0:
-                    self.moveX = moveSpeed
-                    self.bulcsu.go(Directions.RIGHT)
-            if self.arrowButtons[Directions.UP] == 1:
-                if self.moveY == 0:
-                    self.moveY = -moveSpeed
-                    if self.moveX == 0:
-                        self.bulcsu.go(Directions.UP)
-            if self.arrowButtons[Directions.DOWN] == 1:
-                if self.moveY == 0:
-                    self.moveY = moveSpeed
-                    if self.moveX == 0:
-                        self.bulcsu.go(Directions.DOWN)
-            if self.arrowButtons[Directions.LEFT] == 2:
-                if self.moveX < 0:
-                    self.moveX = 0
-                    self.bulcsu.stop(Directions.LEFT)
-                self.arrowButtons[Directions.LEFT] = 0
-            if self.arrowButtons[Directions.RIGHT] == 2:
-                if self.moveX > 0:
-                    self.moveX = 0
-                    self.bulcsu.stop(Directions.RIGHT)
-                self.arrowButtons[Directions.RIGHT] = 0
-            if self.arrowButtons[Directions.UP] == 2:
-                if self.moveY < 0:
-                    self.moveY = 0
-                    if self.moveX == 0:
-                        self.bulcsu.stop(Directions.UP)
-                self.arrowButtons[Directions.UP] = 0
-            if self.arrowButtons[Directions.DOWN] == 2:
-                if self.moveY > 0:
-                    self.moveY = 0
-                    if self.moveX == 0:
-                        self.bulcsu.stop(Directions.DOWN)
-                self.arrowButtons[Directions.DOWN] = 0
+                    self.bulcsu.go(Directions.DOWN)
+        if self.arrowButtons[Directions.LEFT] == 2:
+            if self.moveX < 0:
+                self.moveX = 0
+                self.bulcsu.stop(Directions.LEFT)
+            self.arrowButtons[Directions.LEFT] = 0
+        if self.arrowButtons[Directions.RIGHT] == 2:
+            if self.moveX > 0:
+                self.moveX = 0
+                self.bulcsu.stop(Directions.RIGHT)
+            self.arrowButtons[Directions.RIGHT] = 0
+        if self.arrowButtons[Directions.UP] == 2:
+            if self.moveY < 0:
+                self.moveY = 0
+                if self.moveX == 0:
+                    self.bulcsu.stop(Directions.UP)
+            self.arrowButtons[Directions.UP] = 0
+        if self.arrowButtons[Directions.DOWN] == 2:
+            if self.moveY > 0:
+                self.moveY = 0
+                if self.moveX == 0:
+                    self.bulcsu.stop(Directions.DOWN)
+            self.arrowButtons[Directions.DOWN] = 0
+    """
+    def eventHandler(self):
+
 
         if self.mode == RpgModes.TALK:
             for event in pygame.event.get():
@@ -174,19 +206,16 @@ class Rpg(object):
                     raise MainExceptions.Exit()
                 if event.type == KEYDOWN:
                     if event.key == K_w or event.key == K_UP:
-                        self.talk.arrowUp()
                     if event.key == K_s or event.key == K_DOWN:
-                        self.talk.arrowDown()
                     if (event.key == K_q) or (event.key == K_ESCAPE):
                         raise MainExceptions.Exit()
                     if (event.key == K_e) or (event.key == K_RETURN):
-                        self.action()
                 if event.type == KEYUP:
                     if event.key == K_w or event.key == K_UP:
                         return
                     if event.key == K_s or event.key == K_DOWN:
                         return
-
+    """
     def animation(self):
         animSpeed = 6
         animated = False
