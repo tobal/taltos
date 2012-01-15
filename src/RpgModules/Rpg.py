@@ -15,8 +15,8 @@ from CommonModules.Constants import Axis
 
 class Rpg(GameModule):
 
-    def __init__(self, screen, language):
-        GameModule.__init__(self, screen, language)
+    def __init__(self, gameScreen, language):
+        GameModule.__init__(self, gameScreen, language)
 
         self.makeScene()
         self.makeSprite()
@@ -196,26 +196,7 @@ class Rpg(GameModule):
                 if self.moveX == 0:
                     self.bulcsu.stop(Directions.DOWN)
             self.arrowButtons[Directions.DOWN] = 0
-    """
-    def eventHandler(self):
 
-
-        if self.mode == RpgModes.TALK:
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    raise MainExceptions.Exit()
-                if event.type == KEYDOWN:
-                    if event.key == K_w or event.key == K_UP:
-                    if event.key == K_s or event.key == K_DOWN:
-                    if (event.key == K_q) or (event.key == K_ESCAPE):
-                        raise MainExceptions.Exit()
-                    if (event.key == K_e) or (event.key == K_RETURN):
-                if event.type == KEYUP:
-                    if event.key == K_w or event.key == K_UP:
-                        return
-                    if event.key == K_s or event.key == K_DOWN:
-                        return
-    """
     def animation(self):
         animSpeed = 6
         animated = False

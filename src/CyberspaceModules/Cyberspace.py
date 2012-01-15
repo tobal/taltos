@@ -8,13 +8,13 @@ from CommonModules.Screen.ImageHandler import ImageHandler
 
 class Cyberspace(GameModule):
 
-    def __init__(self, screen, language):
-        GameModule.__init__(screen, language)
-        self.init()
-        self.resize(1024, 768)
+    def __init__(self, gameScreen, language):
+        GameModule.__init__(self, gameScreen, language)
+        self.glInit()
+        self.resize(gameScreen.getResolution())
         self.loadTexture()
 
-    def init(self):
+    def glInit(self):
         glEnable(GL_DEPTH_TEST)
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glShadeModel(GL_FLAT)
@@ -24,7 +24,8 @@ class Cyberspace(GameModule):
         glEnable(GL_LIGHT0)
         glLight(GL_LIGHT0, GL_POSITION, (0, 1, 1, 0))
 
-    def resize(self, width, height):
+    def resize(self, resolution):
+        width, height = resolution
         glViewport(0, 0, width, height)
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
@@ -61,20 +62,37 @@ class Cyberspace(GameModule):
                 glVertex(gridX, -3.0, gridZ+4)
                 glEnd()
 
-    def run(self):
-        #clock = pygame.time.Clock()
-        while(True):
-            """
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    exit()
-                if event.type == KEYUP and event.key == K_ESCAPE:
-                    exit()
+    def leftKeyUp(self):
+        pass
 
-            time_passed = clock.tick()
-            time_passed_seconds = time_passed / 1000
-            """
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-            self.draw()
+    def rightKeyUp(self):
+        pass
 
-            pygame.display.flip()
+    def upKeyUp(self):
+        pass
+
+    def downKeyUp(self):
+        pass
+
+    def leftKeyDown(self):
+        pass
+
+    def rightKeyDown(self):
+        pass
+
+    def upKeyDown(self):
+        pass
+
+    def downKeyDown(self):
+        pass
+
+    def enter(self):
+        pass
+
+    def postAction(self):
+        pass
+
+    def gameLoop(self):
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        self.draw()
+

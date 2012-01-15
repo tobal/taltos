@@ -12,7 +12,7 @@ from CommonModules import GameMode
 from CommonModules.Constants import GameModes
 
 def initGameMode(gameMode):
-    gameMode = GameMode.GameMode(GameModes.RPG)
+    gameMode = GameMode.GameMode(gameMode)
     return gameMode
 
 def initScreen(gameMode):
@@ -21,25 +21,30 @@ def initScreen(gameMode):
     return gameScreen
 
 pygame.init()
-gameMode = initGameMode(GameModes.RPG)
-gameScreen = initScreen(gameMode.getGameMode())
+gameMode = initGameMode(GameModes.CYBERSPACE)
+gameScreen = initScreen(GameModes.RPG)
 
 MusicPlayer.MusicPlayer().playContinously()
 language = Menu.Menu(gameScreen.getScreen()).languageChooser()
-rpg = Rpg.Rpg(gameScreen.getScreen(), language)
-#cyberspace = Cyberspace.Cyberspace()
+clock = Clock()
+
+if gameMode.getGameMode() == GameModes.RPG:
+    currentGameModule = Rpg.Rpg(gameScreen, language)
+if gameMode.getGameMode() == GameModes.CYBERSPACE:
+    gameScreen = initScreen(GameModes.CYBERSPACE)
+    currentGameModule = Cyberspace.Cyberspace(gameScreen, language)
 
 # game loop
 while True:
-    clock = Clock()
-
     try:
         clock.tick(30)
-        rpg.handleKeyEvents()
-        rpg.gameLoop()
-        #cyberspace.run()
+        currentGameModule.handleKeyEvents()
+        currentGameModule.gameLoop()
     except MainExceptions.Exit:
         exit()
 
-    pygame.display.update()
+    if gameMode.getGameMode() == GameModes.RPG:
+        pygame.display.update()
+    if gameMode.getGameMode() == GameModes.CYBERSPACE:
+        pygame.display.flip()
 
