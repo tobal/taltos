@@ -17,7 +17,7 @@ class Cyberspace(GameModule):
     def glInit(self):
         glEnable(GL_DEPTH_TEST)
         glClearColor(0.0, 0.0, 0.0, 0.0)
-        glShadeModel(GL_FLAT)
+        glShadeModel(GL_SMOOTH)
         glEnable(GL_TEXTURE_2D)
         glEnable(GL_COLOR_MATERIAL)
         glEnable(GL_LIGHTING)
