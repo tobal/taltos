@@ -3,13 +3,28 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from math import *
 from CommonModules.GameModule import GameModule
 from CommonModules.Screen.ImageHandler import ImageHandler
+from CyberspaceModules.Geoms.Vector import Vector
+
+piover180 = 0.0174532925
 
 class Cyberspace(GameModule):
 
     def __init__(self, gameScreen, language):
         GameModule.__init__(self, gameScreen, language)
+
+        self.translation = Vector()
+        self.position = Vector()
+        self.rotation = Vector()
+        self.rotSpeed = Vector()
+        self.forward = 0
+        self.backward = 0
+        self.strafeLeft = 0
+        self.strafeRight = 0
+        self.moveSpeed = 2.0
+
         self.glInit()
         self.resize(gameScreen.getResolution())
         self.loadTexture()
@@ -22,6 +37,7 @@ class Cyberspace(GameModule):
         glEnable(GL_COLOR_MATERIAL)
         glEnable(GL_LIGHTING)
         glEnable(GL_LIGHT0)
+        glEnable(GL_BLEND)
         glLight(GL_LIGHT0, GL_POSITION, (0, 1, 1, 0))
 
     def resize(self, resolution):
@@ -47,44 +63,85 @@ class Cyberspace(GameModule):
                 width, height,
                 GL_RGB, GL_UNSIGNED_BYTE, textureData)
 
-    def draw(self):
-        for gridX in range(-400, 400, 4):
-            for gridZ in range(-400, 400, 4):
+    def translateScene(self):
+        heading = 360 - self.rotation.y
+        if self.forward == 1:
+            self.position.x -= sin(heading * piover180) * self.moveSpeed
+            self.position.z -= cos(heading * piover180) * self.moveSpeed
+        elif self.backward == 1:
+            self.position.x += sin(heading * piover180) * self.moveSpeed
+            self.position.z += cos(heading * piover180) * self.moveSpeed
+        if self.strafeLeft == 1:
+            self.position.x += sin((heading - 90) * piover180) * self.moveSpeed
+            self.position.z += cos((heading - 90) * piover180) * self.moveSpeed
+        elif self.strafeRight == 1:
+            self.position.x += sin((heading + 90) * piover180) * self.moveSpeed
+            self.position.z += cos((heading + 90) * piover180) * self.moveSpeed
+        self.translation.x = -self.position.x
+        self.translation.z = -self.position.z
+        glTranslatef(self.translation.x, self.translation.y, self.translation.z)
+
+    def rotateScene(self):
+        lookUpLimit = 90.0
+        sensitivity = 6
+        y, x = pygame.mouse.get_rel()
+        self.rotation.x += x / sensitivity
+        if self.rotation.x > lookUpLimit:
+            self.rotation.x = lookUpLimit
+        elif self.rotation.x < -lookUpLimit:
+            self.rotation.x = -lookUpLimit
+        self.rotation.y += (y / sensitivity) % 360
+        glRotatef(self.rotation.x, 1.0, 0.0, 0.0)
+        glRotatef(self.rotation.y, 0.0, 1.0, 0.0)
+
+    def drawBaseGrid(self):
+        nrOfQuads = 20
+        sizeOfQuad = 20
+        size = nrOfQuads * sizeOfQuad
+        camHeight = 6.0
+        for gridX in range(-size, size, sizeOfQuad):
+            for gridZ in range(-size, size, sizeOfQuad):
                 glBegin(GL_QUADS)
                 #glColor(1.0, 0.0, 0.0)
                 glTexCoord2f(0, 1)
-                glVertex(gridX, -3.0, gridZ)
+                glVertex(gridX, -camHeight, gridZ)
                 glTexCoord2f(1, 1)
-                glVertex(gridX+4, -3.0, gridZ)
+                glVertex(gridX + sizeOfQuad, -camHeight, gridZ)
                 glTexCoord2f(1, 0)
-                glVertex(gridX+4, -3.0, gridZ+4)
+                glVertex(gridX + sizeOfQuad, -camHeight, gridZ + sizeOfQuad)
                 glTexCoord2f(0, 0)
-                glVertex(gridX, -3.0, gridZ+4)
+                glVertex(gridX, -camHeight, gridZ + sizeOfQuad)
                 glEnd()
 
+    def draw(self):
+        glLoadIdentity()
+        self.rotateScene()
+        self.translateScene()
+        self.drawBaseGrid()
+
     def leftKeyUp(self):
-        pass
+        self.strafeLeft = 0
 
     def rightKeyUp(self):
-        pass
+        self.strafeRight = 0
 
     def upKeyUp(self):
-        pass
+        self.forward = 0
 
     def downKeyUp(self):
-        pass
+        self.backward = 0
 
     def leftKeyDown(self):
-        pass
+        self.strafeLeft = 1
 
     def rightKeyDown(self):
-        pass
+        self.strafeRight = 1
 
     def upKeyDown(self):
-        pass
+        self.forward = 1
 
     def downKeyDown(self):
-        pass
+        self.backward = 1
 
     def enter(self):
         pass

@@ -26,4 +26,5 @@ class MainScreen(object):
         if gameMode == GameModes.CYBERSPACE:
             self.screen = pygame.display.set_mode(self.resolution, HWSURFACE|OPENGL|DOUBLEBUF, 16)
             pygame.mouse.set_visible(False)
+            pygame.event.set_grab(True)
         pygame.display.set_caption("Taltos")
