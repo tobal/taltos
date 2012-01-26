@@ -33,10 +33,10 @@ class Cyberspace(GameModule):
         glEnable(GL_DEPTH_TEST)
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glShadeModel(GL_SMOOTH)
-        glEnable(GL_TEXTURE_2D)
+        #glEnable(GL_TEXTURE_2D)
         glEnable(GL_COLOR_MATERIAL)
-        glEnable(GL_LIGHTING)
-        glEnable(GL_LIGHT0)
+        #glEnable(GL_LIGHTING)
+        #glEnable(GL_LIGHT0)
         glEnable(GL_BLEND)
         glLight(GL_LIGHT0, GL_POSITION, (0, 1, 1, 0))
 
@@ -95,6 +95,19 @@ class Cyberspace(GameModule):
         glRotatef(self.rotation.y, 0.0, 1.0, 0.0)
 
     def drawBaseGrid(self):
+        gridSize = 400
+        gridInterval = 40
+        camHeight = 10.0
+        glLineWidth(3)
+        glBegin(GL_LINE)
+        glColor(0.0, 1.0, 0.0)
+        for grid in range(-gridSize, gridSize, gridInterval):
+            glVertex(grid, -camHeight, -gridSize)
+            glVertex(grid, -camHeight, -gridSize + gridSize*2)
+            glVertex(-gridSize, -camHeight, grid)
+            glVertex(-gridSize + gridSize*2, -camHeight, grid)
+        glEnd()
+        """
         nrOfQuads = 20
         sizeOfQuad = 20
         size = nrOfQuads * sizeOfQuad
@@ -102,7 +115,7 @@ class Cyberspace(GameModule):
         for gridX in range(-size, size, sizeOfQuad):
             for gridZ in range(-size, size, sizeOfQuad):
                 glBegin(GL_QUADS)
-                #glColor(1.0, 0.0, 0.0)
+                glColor(0.0, 0.0, 0.0)
                 glTexCoord2f(0, 1)
                 glVertex(gridX, -camHeight, gridZ)
                 glTexCoord2f(1, 1)
@@ -112,6 +125,7 @@ class Cyberspace(GameModule):
                 glTexCoord2f(0, 0)
                 glVertex(gridX, -camHeight, gridZ + sizeOfQuad)
                 glEnd()
+        """
 
     def draw(self):
         glLoadIdentity()
