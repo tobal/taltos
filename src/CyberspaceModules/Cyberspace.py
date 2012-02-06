@@ -10,15 +10,216 @@ from CyberspaceModules.Geoms.Vector import Vector
 
 piover180 = 0.0174532925
 
+Mesh = [
+            [ # front face
+                Vector(0,0,0),
+                Vector(1,0,0),
+                Vector(1,1,0),
+                Vector(0,1,0)
+            ],
+            [
+                Vector(1,0,0),
+                Vector(2,0,0),
+                Vector(2,1,0),
+                Vector(1,1,0)
+            ],
+            [
+                Vector(2,0,0),
+                Vector(3,0,0),
+                Vector(3,1,0),
+                Vector(2,1,0)
+            ],
+            [
+                Vector(1,1,0),
+                Vector(2,1,0),
+                Vector(2,2,0),
+                Vector(1,2,0)
+            ],
+            [ # right face
+                Vector(3,0,0),
+                Vector(3,0,1),
+                Vector(3,1,1),
+                Vector(3,1,0)
+            ],
+            [
+                Vector(3,0,1),
+                Vector(3,0,2),
+                Vector(3,1,2),
+                Vector(3,1,1)
+            ],
+            [
+                Vector(3,0,2),
+                Vector(3,0,3),
+                Vector(3,1,3),
+                Vector(3,1,2)
+            ],
+            [
+                Vector(3,1,1),
+                Vector(3,1,2),
+                Vector(3,2,2),
+                Vector(3,2,1)
+            ],
+            [ # left face
+                Vector(0,0,1),
+                Vector(0,0,0),
+                Vector(0,1,0),
+                Vector(0,1,1)
+            ],
+            [
+                Vector(0,0,2),
+                Vector(0,0,1),
+                Vector(0,1,1),
+                Vector(0,1,2)
+            ],
+            [
+                Vector(0,0,3),
+                Vector(0,0,2),
+                Vector(0,1,2),
+                Vector(0,1,3)
+            ],
+            [
+                Vector(0,1,2),
+                Vector(0,1,1),
+                Vector(0,2,1),
+                Vector(0,2,2)
+            ],
+            [ # back face
+                Vector(3,0,3),
+                Vector(2,0,3),
+                Vector(2,1,3),
+                Vector(3,1,3)
+            ],
+            [
+                Vector(2,0,3),
+                Vector(1,0,3),
+                Vector(1,1,3),
+                Vector(2,1,3)
+            ],
+            [
+                Vector(1,0,3),
+                Vector(0,0,3),
+                Vector(0,1,3),
+                Vector(1,1,3)
+            ],
+            [
+                Vector(2,1,3),
+                Vector(1,1,3),
+                Vector(1,2,3),
+                Vector(2,2,3)
+            ],
+            [ # front right corner
+                Vector(3,1,0),
+                Vector(3,1,1),
+                Vector(2,1,1),
+                Vector(2,1,0)
+            ],
+            [
+                Vector(2,1,0),
+                Vector(2,1,1),
+                Vector(2,3,1),
+                Vector(2,2,0)
+            ],
+            [
+                Vector(2,1,1),
+                Vector(3,1,1),
+                Vector(3,2,1),
+                Vector(2,3,1)
+            ],
+            [ # front left corner
+                Vector(1,1,0),
+                Vector(1,1,1),
+                Vector(0,1,1),
+                Vector(0,1,0)
+            ],
+            [
+                Vector(1,1,0),
+                Vector(1,2,0),
+                Vector(1,3,1),
+                Vector(1,1,1)
+            ],
+            [
+                Vector(0,1,1),
+                Vector(1,1,1),
+                Vector(1,3,1),
+                Vector(0,2,1)
+            ],
+            [ # back right corner
+                Vector(3,1,2),
+                Vector(3,1,3),
+                Vector(2,1,3),
+                Vector(2,1,2)
+            ],
+            [
+                Vector(3,1,2),
+                Vector(2,1,2),
+                Vector(2,3,2),
+                Vector(3,2,2)
+            ],
+            [
+                Vector(2,1,2),
+                Vector(2,1,3),
+                Vector(2,2,3),
+                Vector(2,3,2)
+            ],
+            [ # back left corner
+                Vector(1,1,2),
+                Vector(1,1,3),
+                Vector(0,1,3),
+                Vector(0,1,2)
+            ],
+            [
+                Vector(1,1,2),
+                Vector(0,1,2),
+                Vector(0,2,2),
+                Vector(1,3,2)
+            ],
+            [
+                Vector(1,1,3),
+                Vector(1,1,2),
+                Vector(1,3,2),
+                Vector(1,2,3)
+            ],
+            [ # top face
+                Vector(2,3,1),
+                Vector(2,3,2),
+                Vector(1,3,2),
+                Vector(1,3,1)
+            ],
+            [
+                Vector(1,2,0),
+                Vector(2,2,0),
+                Vector(2,3,1),
+                Vector(1,3,1)
+            ],
+            [
+                Vector(3,2,1),
+                Vector(3,2,2),
+                Vector(2,3,2),
+                Vector(2,3,1)
+            ],
+            [
+                Vector(0,2,2),
+                Vector(0,2,1),
+                Vector(1,3,1),
+                Vector(1,3,2)
+            ],
+            [
+                Vector(2,2,3),
+                Vector(1,2,3),
+                Vector(1,3,2),
+                Vector(2,3,2)
+            ]
+        ]
+
 class Cyberspace(GameModule):
 
     def __init__(self, gameScreen, language):
         GameModule.__init__(self, gameScreen, language)
 
-        self.translation = Vector()
-        self.position = Vector()
-        self.rotation = Vector()
-        self.rotSpeed = Vector()
+        self.translation = Vector(0,0,0)
+        self.position = Vector(0,0,0)
+        self.rotation = Vector(0,0,0)
+        self.rotSpeed = Vector(0,0,0)
         self.forward = 0
         self.backward = 0
         self.strafeLeft = 0
@@ -29,11 +230,13 @@ class Cyberspace(GameModule):
         self.resize(gameScreen.getResolution())
         self.loadTexture()
 
+        self.lineRendering = True
+
     def glInit(self):
         glEnable(GL_DEPTH_TEST)
         glClearColor(0.0, 0.0, 0.0, 0.0)
         glShadeModel(GL_SMOOTH)
-        #glEnable(GL_TEXTURE_2D)
+        glEnable(GL_TEXTURE_2D)
         glEnable(GL_COLOR_MATERIAL)
         #glEnable(GL_LIGHTING)
         #glEnable(GL_LIGHT0)
@@ -95,43 +298,59 @@ class Cyberspace(GameModule):
         glRotatef(self.rotation.y, 0.0, 1.0, 0.0)
 
     def drawBaseGrid(self):
-        gridSize = 400
-        gridInterval = 40
-        camHeight = 10.0
-        glLineWidth(3)
-        glBegin(GL_LINE)
-        glColor(0.0, 1.0, 0.0)
-        for grid in range(-gridSize, gridSize, gridInterval):
-            glVertex(grid, -camHeight, -gridSize)
-            glVertex(grid, -camHeight, -gridSize + gridSize*2)
-            glVertex(-gridSize, -camHeight, grid)
-            glVertex(-gridSize + gridSize*2, -camHeight, grid)
-        glEnd()
-        """
-        nrOfQuads = 20
-        sizeOfQuad = 20
-        size = nrOfQuads * sizeOfQuad
-        camHeight = 6.0
-        for gridX in range(-size, size, sizeOfQuad):
-            for gridZ in range(-size, size, sizeOfQuad):
+        if self.lineRendering:
+            gridSize = 400
+            gridInterval = 40
+            camHeight = 10.0
+            glLineWidth(3)
+            glBegin(GL_LINE)
+            glColor(0.0, 1.0, 0.0)
+            for grid in range(-gridSize, gridSize, gridInterval):
+                glVertex(grid, -camHeight, -gridSize)
+                glVertex(grid, -camHeight, -gridSize + gridSize*2)
+                glVertex(-gridSize, -camHeight, grid)
+                glVertex(-gridSize + gridSize*2, -camHeight, grid)
+            glEnd()
+        else:
+            nrOfQuads = 10
+            sizeOfQuad = 40
+            size = nrOfQuads * sizeOfQuad
+            camHeight = 10.0
+            for gridX in range(-size, size, sizeOfQuad):
+                for gridZ in range(-size, size, sizeOfQuad):
+                    glBegin(GL_QUADS)
+                    glTexCoord2f(0, 1)
+                    glVertex(gridX, -camHeight, gridZ)
+                    glTexCoord2f(1, 1)
+                    glVertex(gridX + sizeOfQuad, -camHeight, gridZ)
+                    glTexCoord2f(1, 0)
+                    glVertex(gridX + sizeOfQuad, -camHeight, gridZ + sizeOfQuad)
+                    glTexCoord2f(0, 0)
+                    glVertex(gridX, -camHeight, gridZ + sizeOfQuad)
+                    glEnd()
+
+    def drawMesh(self):
+        if self.lineRendering:
+            pass
+        else:
+            for quad in Mesh:
                 glBegin(GL_QUADS)
-                glColor(0.0, 0.0, 0.0)
                 glTexCoord2f(0, 1)
-                glVertex(gridX, -camHeight, gridZ)
+                glVertex(quad[0].x, quad[0].y-3, quad[0].z)
                 glTexCoord2f(1, 1)
-                glVertex(gridX + sizeOfQuad, -camHeight, gridZ)
+                glVertex(quad[1].x, quad[1].y-3, quad[1].z)
                 glTexCoord2f(1, 0)
-                glVertex(gridX + sizeOfQuad, -camHeight, gridZ + sizeOfQuad)
+                glVertex(quad[2].x, quad[2].y-3, quad[2].z)
                 glTexCoord2f(0, 0)
-                glVertex(gridX, -camHeight, gridZ + sizeOfQuad)
+                glVertex(quad[3].x, quad[3].y-3, quad[3].z)
                 glEnd()
-        """
 
     def draw(self):
         glLoadIdentity()
         self.rotateScene()
         self.translateScene()
         self.drawBaseGrid()
+        self.drawMesh()
 
     def leftKeyUp(self):
         self.strafeLeft = 0
@@ -158,6 +377,7 @@ class Cyberspace(GameModule):
         self.backward = 1
 
     def enter(self):
+        self.lineRendering = not self.lineRendering
         pass
 
     def postAction(self):
