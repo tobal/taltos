@@ -1,0 +1,2 @@
+To run the game, cd into the src directory, and type "python Main.py"
+It needs Python 2.6, pyGame and pyOpenGL to run.
