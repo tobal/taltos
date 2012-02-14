@@ -29,7 +29,7 @@ class Cyberspace(GameModule):
         self.resize(gameScreen.getResolution())
         self.mesh = SmallHouse.getMesh()
 
-        self.lineRendering = True
+        self.displayList = None
 
     def glInit(self):
         glEnable(GL_DEPTH_TEST)
@@ -78,40 +78,40 @@ class Cyberspace(GameModule):
         glRotatef(self.rotation.y, 0.0, 1.0, 0.0)
 
     def drawBaseGrid(self):
-        if self.lineRendering:
-            gridSize = 400
-            gridInterval = 40
-            camHeight = 10.0
-            glLineWidth(4)
-            glBegin(GL_LINE)
-            glColor(0.0, 1.0, 0.0)
-            for grid in range(-gridSize, gridSize, gridInterval):
-                glVertex(grid, -camHeight, -gridSize)
-                glVertex(grid, -camHeight, -gridSize + gridSize*2)
-                glVertex(-gridSize, -camHeight, grid)
-                glVertex(-gridSize + gridSize*2, -camHeight, grid)
-            glEnd()
-        else:
-            glBindTexture(GL_TEXTURE_2D, 1)
-            nrOfQuads = 10
-            sizeOfQuad = 40
-            size = nrOfQuads * sizeOfQuad
-            camHeight = 10.0
-            for gridX in range(-size, size, sizeOfQuad):
-                for gridZ in range(-size, size, sizeOfQuad):
-                    glBegin(GL_QUADS)
-                    glTexCoord2f(0, 0)
-                    glVertex(gridX, -camHeight, gridZ)
-                    glTexCoord2f(1, 0)
-                    glVertex(gridX + sizeOfQuad, -camHeight, gridZ)
-                    glTexCoord2f(1, 1)
-                    glVertex(gridX + sizeOfQuad, -camHeight, gridZ + sizeOfQuad)
-                    glTexCoord2f(0, 1)
-                    glVertex(gridX, -camHeight, gridZ + sizeOfQuad)
-                    glEnd()
+        """
+        gridSize = 400
+        gridInterval = 40
+        camHeight = 10.0
+        glLineWidth(4)
+        glBegin(GL_LINE)
+        glColor(0.0, 1.0, 0.0)
+        for grid in range(-gridSize, gridSize, gridInterval):
+            glVertex(grid, -camHeight, -gridSize)
+            glVertex(grid, -camHeight, -gridSize + gridSize*2)
+            glVertex(-gridSize, -camHeight, grid)
+            glVertex(-gridSize + gridSize*2, -camHeight, grid)
+        glEnd()
+        """
+        glBindTexture(GL_TEXTURE_2D, 1)
+        nrOfQuads = 10
+        sizeOfQuad = 40
+        size = nrOfQuads * sizeOfQuad
+        camHeight = 10.0
+        for gridX in range(-size, size, sizeOfQuad):
+            for gridZ in range(-size, size, sizeOfQuad):
+                glBegin(GL_QUADS)
+                glTexCoord2f(0, 0)
+                glVertex(gridX, -camHeight, gridZ)
+                glTexCoord2f(1, 0)
+                glVertex(gridX + sizeOfQuad, -camHeight, gridZ)
+                glTexCoord2f(1, 1)
+                glVertex(gridX + sizeOfQuad, -camHeight, gridZ + sizeOfQuad)
+                glTexCoord2f(0, 1)
+                glVertex(gridX, -camHeight, gridZ + sizeOfQuad)
+                glEnd()
 
     def drawMesh(self):
-        if self.lineRendering:
+        """
             glDisable(GL_TEXTURE_2D)
             glColor(0.0, 0.0, 0.0)
             for face in self.mesh.faces:
@@ -131,34 +131,43 @@ class Cyberspace(GameModule):
                             vector.y,
                             vector.z)
                 glEnd()
-        else:
-            for face in self.mesh.faces:
-                glBindTexture(GL_TEXTURE_2D, face.textureIndex)
-                glBegin(GL_QUADS)
-                for vertex in face.geom.vertices:
-                    glTexCoord2f(
-                            vertex.uv.u,
-                            vertex.uv.v)
-                    glVertex(
-                            vertex.vector.x,
-                            vertex.vector.y,
-                            vertex.vector.z)
-                glEnd()
+        """
+        for face in self.mesh.faces:
+            glBindTexture(GL_TEXTURE_2D, face.textureIndex)
+            glBegin(GL_QUADS)
+            for vertex in face.geom.vertices:
+                glTexCoord2f(
+                        vertex.uv.u,
+                        vertex.uv.v)
+                glVertex(
+                        vertex.vector.x,
+                        vertex.vector.y,
+                        vertex.vector.z)
+            glEnd()
 
     def draw(self):
         glLoadIdentity()
         self.rotateScene()
         self.translateScene()
-        self.drawBaseGrid()
-        glTranslatef(-80,-10,-200)
-        glScalef(40,40,40)
-        self.drawMesh()
-        glTranslatef(6,0,4)
-        glScalef(0.5,0.5,0.5)
-        self.drawMesh()
-        glTranslatef(-10,0,15)
-        glScalef(2,2,2)
-        self.drawMesh()
+
+        if self.displayList is None:
+            self.displayList = glGenLists(1)
+            glNewList(self.displayList, GL_COMPILE)
+
+            self.drawBaseGrid()
+            glTranslatef(-80,-10,-200)
+            glScalef(40,40,40)
+            self.drawMesh()
+            glTranslatef(6,0,4)
+            glScalef(0.5,0.5,0.5)
+            self.drawMesh()
+            glTranslatef(-10,0,15)
+            glScalef(2,2,2)
+            self.drawMesh()
+
+            glEndList()
+        else:
+            glCallList(self.displayList)
 
     def leftKeyUp(self):
         self.strafeLeft = 0
@@ -185,7 +194,6 @@ class Cyberspace(GameModule):
         self.backward = 1
 
     def enter(self):
-        self.lineRendering = not self.lineRendering
         pass
 
     def postAction(self):
