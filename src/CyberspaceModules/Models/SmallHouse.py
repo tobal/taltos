@@ -334,52 +334,52 @@ Lines = [
                 Vector(0,1,3)
             ],
             [ # front right corner
-                Vector(2+0.01,1,0),
-                Vector(2+0.01,1,1)
+                Vector(2,1,0),
+                Vector(2,1,1)
             ],
             [
-                Vector(2+0.01,1,1),
-                Vector(2+0.01,3,1)
+                Vector(2,1,1),
+                Vector(2,3,1)
             ],
             [
-                Vector(3+0.01,1,1),
-                Vector(2+0.01,1,1)
+                Vector(3,1,1),
+                Vector(2,1,1)
             ],
             [ # front left corner
-                Vector(1-0.01,1,0),
-                Vector(1-0.01,1,1)
+                Vector(1,1,0),
+                Vector(1,1,1)
             ],
             [
-                Vector(0-0.01,1,1),
-                Vector(1-0.01,1,1)
+                Vector(0,1,1),
+                Vector(1,1,1)
             ],
             [
-                Vector(1-0.01,1,1),
-                Vector(1-0.01,3,1)
+                Vector(1,1,1),
+                Vector(1,3,1)
             ],
             [ # back right corner
-                Vector(3+0.01,1,2),
-                Vector(2+0.01,1,2)
+                Vector(3,1,2),
+                Vector(2,1,2)
             ],
             [
-                Vector(2+0.01,1,3),
-                Vector(2+0.01,1,2)
+                Vector(2,1,3),
+                Vector(2,1,2)
             ],
             [
-                Vector(2+0.01,1,2),
-                Vector(2+0.01,3,2)
+                Vector(2,1,2),
+                Vector(2,3,2)
             ],
             [ # back left corner
-                Vector(0-0.01,1,2),
-                Vector(1-0.01,1,2)
+                Vector(0,1,2),
+                Vector(1,1,2)
             ],
             [
-                Vector(1-0.01,1,3),
-                Vector(1-0.01,1,2)
+                Vector(1,1,3),
+                Vector(1,1,2)
             ],
             [
-                Vector(1-0.01,1,2),
-                Vector(1-0.01,3,2)
+                Vector(1,1,2),
+                Vector(1,3,2)
             ],
             [ # top face
                 Vector(1,2,0),
@@ -439,15 +439,15 @@ Textures = [
             "../Cyber/zold_2sarok_fent"
            ]
 
-TextureIndexes = [ 2,5,3,4, # front face
-                2,5,3,4, # right face
-                3,5,2,4, # left face
-                2,5,3,4, # back face
-                1,1,1, # front right corner
-                1,1,1, # front left corner
-                1,1,1, # back right corner
-                1,1,1, # back left corner
-                1,1,1,1,1 # top face
+TextureIndexes = [ 1,4,2,3, # front face
+                1,4,2,3, # right face
+                2,4,1,3, # left face
+                1,4,2,3, # back face
+                0,0,0, # front right corner
+                0,0,0, # front left corner
+                0,0,0, # back right corner
+                0,0,0, # back left corner
+                0,0,0,0,0 # top face
                 ]
 
 def loadTextures():
