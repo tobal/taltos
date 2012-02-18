@@ -5,8 +5,10 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from math import *
 from CommonModules.GameModule import GameModule
+from CommonModules.Constants import Models
 from CyberspaceModules.Geoms.Vector import Vector
-from CyberspaceModules.Models import SmallHouse
+from CyberspaceModules.Mesh.MeshLoader import MeshLoader
+
 
 piover180 = 0.0174532925
 
@@ -27,7 +29,7 @@ class Cyberspace(GameModule):
 
         self.glInit()
         self.resize(gameScreen.getResolution())
-        self.mesh = SmallHouse.getMesh()
+        self.mesh = MeshLoader().getMesh(Models.SMALLHOUSE)
 
         self.displayList = None
 
