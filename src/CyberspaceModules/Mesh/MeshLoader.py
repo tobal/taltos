@@ -36,29 +36,33 @@ class MeshLoader():
                     GL_RGB, GL_UNSIGNED_BYTE, textureData)
         return textures
 
-    def getVertices(self, vectorQuad, model):
-        UVVectors = model.getUVVectors()
+    def getVertices(self, vectors, vectorIndex, model):
+        vectorQuad = vectors[vectorIndex]
+        uvVectors = model.getUVVectors()
+        uvVector = uvVectors[vectorIndex]
+
         vertices = []
         for i in range(4):
-            vertex = Vertex(vectorQuad[i], UVVectors[i])
+            vertex = Vertex(vectorQuad[i], uvVector[i])
             vertices.append(vertex)
         return vertices
 
     def getQuads(self, model):
-        Vectors = model.getVectors()
+        vectors = model.getVectors()
         quads = []
-        for vectorQuad in Vectors:
-            vertices = self.getVertices(vectorQuad, model)
+        numVectors = vectors.__len__()
+        for vectorIndex in range(numVectors):
+            vertices = self.getVertices(vectors, vectorIndex, model)
             quad = Quad(vertices)
             quads.append(quad)
         return quads
 
     def getFaces(self, model):
-        TextureIndexes = model.getTextureIndexes()
+        textureIndexes = model.getTextureIndexes()
         quads = self.getQuads(model)
         faces = []
         for quadIndex in range(len(quads)):
-            face = Face(TextureIndexes[quadIndex], quads[quadIndex])
+            face = Face(textureIndexes[quadIndex], quads[quadIndex])
             faces.append(face)
         return faces
 

@@ -1,15 +1,43 @@
 
 from CyberspaceModules.Geoms.Vector import Vector
-from CyberspaceModules.Geoms.UVVector import UVVector
 from CyberspaceModules.Models.Model import Model
 
 class SmallHouse(Model):
     def __init__(self):
         self.UVVectors = [
-                UVVector(0,0),
-                UVVector(1,0),
-                UVVector(1,1),
-                UVVector(0,1)
+                Model.UV90, # front face
+                Model.UV0,
+                Model.UV270,
+                Model.UV0,
+                Model.UV90, # right face
+                Model.UV0,
+                Model.UV270,
+                Model.UV0,
+                Model.UV270, # left face
+                Model.UV0,
+                Model.UV90,
+                Model.UV0,
+                Model.UV90, # back face
+                Model.UV0,
+                Model.UV270,
+                Model.UV0,
+                Model.UV0, # front right corner
+                Model.UV0,
+                Model.UV0,
+                Model.UV0, # front left corner
+                Model.UV0,
+                Model.UV0,
+                Model.UV0, # back right corner
+                Model.UV0,
+                Model.UV0,
+                Model.UV0, # back left corner
+                Model.UV0,
+                Model.UV0,
+                Model.UV0, # top face
+                Model.UV0,
+                Model.UV0,
+                Model.UV0,
+                Model.UV0,
             ]
 
         self.Vectors = [
@@ -426,16 +454,16 @@ class SmallHouse(Model):
 
         self.Textures = [
             "../Cyber/zold_negyzet",
-            "../Cyber/zold_jobbszel",
-            "../Cyber/zold_balszel",
             "../Cyber/zold_alsoszel",
             "../Cyber/zold_2sarok_fent"
+            #"../Cyber/zold_jobbszel",
+            #"../Cyber/zold_balszel",
            ]
 
-        self.TextureIndexes = [ 2,5,3,4, # front face
-                2,5,3,4, # right face
-                3,5,2,4, # left face
-                2,5,3,4, # back face
+        self.TextureIndexes = [ 2,3,2,2, # front face
+                2,3,2,2, # right face
+                2,3,2,2, # left face
+                2,3,2,2, # back face
                 1,1,1, # front right corner
                 1,1,1, # front left corner
                 1,1,1, # back right corner

@@ -1,5 +1,32 @@
 
+from CyberspaceModules.Geoms.UVVector import UVVector
+
 class Model(object):
+    UV0 = [
+            UVVector(0,0),
+            UVVector(1,0),
+            UVVector(1,1),
+            UVVector(0,1)
+    ]
+    UV90 = [
+            UVVector(0,1),
+            UVVector(0,0),
+            UVVector(1,0),
+            UVVector(1,1)
+    ]
+    UV180 = [
+            UVVector(1,1),
+            UVVector(0,1),
+            UVVector(0,0),
+            UVVector(1,0)
+    ]
+    UV270 = [
+            UVVector(1,0),
+            UVVector(1,1),
+            UVVector(0,1),
+            UVVector(0,0)
+    ]
+
     def __init__(self):
         self.UVVectors = []
         self.Vectors = []
