@@ -1,4 +1,7 @@
 
+import pygame
+from pygame import Rect
+
 from RpgModules import Sprite
 from RpgModules import SceneBuilder
 from RpgModules import RpgTalker
@@ -53,22 +56,20 @@ class Rpg(GameModule):
             self.talk.draw(self.screen)
 
         # for debug purposes
-        """
-        for obj in self.scene.get_objects():
-            box = obj.get_bounding_box().get_box()
-            pygame.draw.rect(self.screen, (0,255,0), Rect((box["x1"],box["y1"]), (box["x2"]-box["x1"],box["y2"]-box["y1"])))
-        for pers in self.scene.get_persons():
-            box = pers.get_bounding_box().get_box()
-            pygame.draw.rect(self.screen, (255,0,0), Rect((box["x1"],box["y1"]), (box["x2"]-box["x1"],box["y2"]-box["y1"])))
-        for tunnel in self.scene.get_tunnels():
-            box = tunnel.get_bounding_box().get_box()
-            pygame.draw.rect(self.screen, (0,0,255), Rect((box["x1"],box["y1"]), (box["x2"]-box["x1"],box["y2"]-box["y1"])))
-        for action in self.scene.get_actionpoints():
-            box = action.get_bounding_box().get_box()
-            pygame.draw.rect(self.screen, (255,0,255), Rect((box["x1"],box["y1"]), (box["x2"]-box["x1"],box["y2"]-box["y1"])))
-        box = self.bulcsu.get_bounding_box().get_box()
-        pygame.draw.rect(self.screen, (255,255,0), Rect((box["x1"],box["y1"]), (box["x2"]-box["x1"],box["y2"]-box["y1"])))
-        """
+        for obj in self.scene.getObjects():
+            box = obj.getBoundingBox().getBox()
+            pygame.draw.rect(self.screen, (0,255,0), box)
+        for pers in self.scene.getPersons():
+            box = pers.getBoundingBox().getBox()
+            pygame.draw.rect(self.screen, (255,0,0), box)
+        for tunnel in self.scene.getTunnels():
+            box = tunnel.getBoundingBox().getBox()
+            pygame.draw.rect(self.screen, (0,0,255), box)
+        for action in self.scene.getActionPoints():
+            box = action.getBoundingBox().getBox()
+            pygame.draw.rect(self.screen, (255,0,255), box)
+        box = self.bulcsu.getBoundingBox().getBox()
+        pygame.draw.rect(self.screen, (255,255,0), box)
 
     def makeScene(self):
         # making scene instances
@@ -319,6 +320,8 @@ class Rpg(GameModule):
                     self.moveX = 0
                     self.moveY = 0
                     self.talk.startConversation(act["id"], self.language, bulcsuBox.getVerticalCenter(), action["pos"])
+                if act["type"] == "gamemodechange":
+                    return
                 return
         if self.mode == RpgModes.TALK:
             if self.talk.action() == False:

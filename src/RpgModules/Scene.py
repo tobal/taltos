@@ -17,7 +17,6 @@ class Scene(object):
         self.persons = []
         self.actionPoints = []
         self.tunnels = []
-#        self.name = name
 
     def isThereTram(self):
         return self.tram

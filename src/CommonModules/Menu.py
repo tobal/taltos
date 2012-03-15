@@ -12,13 +12,13 @@ from CommonModules.Constants import FontSizes
 from CommonModules.Constants import TextSurfaceTypes
 
 class Menu(object):
-    
+
     def __init__(self, screen):
         self.screen = screen
         self.drawer = ScreenDrawer.ScreenDrawer()
         self.textDrawer = TextDrawer.TextDrawer()
         self.textGetter = TextGetter.TextGetter()
-    
+
     def menuUp(self, langChooserAlive, chosenLanguage):
         if langChooserAlive:
             if chosenLanguage == Languages.EN:
@@ -27,7 +27,7 @@ class Menu(object):
                 self.chosenLanguage = Languages.ROV
             elif chosenLanguage == Languages.ROV:
                 self.chosenLanguage = Languages.EN
-    
+
     def menuDown(self, langChooserAlive, chosenLanguage):
         if langChooserAlive:
             if chosenLanguage == Languages.EN:
@@ -36,7 +36,7 @@ class Menu(object):
                 self.chosenLanguage = Languages.EN
             elif chosenLanguage == Languages.ROV:
                 self.chosenLanguage = Languages.HU
-    
+
     def eventLoop(self, langChooserAlive, chosenLanguage):
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -53,7 +53,7 @@ class Menu(object):
                         self.langChooserAlive = False
                     else:
                         self.dialogAlive = False
-    
+
     def getLanguageSurfaces(self):
         languages = [Languages.HU, Languages.EN, Languages.ROV]
         textTypes = [CommonTextTypes.VAL_NYELV, CommonTextTypes.NYELV]
@@ -65,28 +65,28 @@ class Menu(object):
                 oneLangSurfaces.append(surface)
             languageSurfaces.append(oneLangSurfaces)
         return languageSurfaces
-    
+
     def getSurfaceTypes(self):
         surfaceTypes = {Languages.HU : TextSurfaceTypes.NORMAL,
                         Languages.EN : TextSurfaceTypes.NORMAL,
                         Languages.ROV : TextSurfaceTypes.NORMAL}
         surfaceTypes[self.chosenLanguage] = TextSurfaceTypes.INVERSE
         return surfaceTypes
-    
+
     def blitLangChooserText(self, languageSurfaces, surfaceTypes):
         self.screen.blit(languageSurfaces[0][0][0][TextSurfaceTypes.NORMAL], (370, 150))
         self.screen.blit(languageSurfaces[1][0][0][TextSurfaceTypes.NORMAL], (330, 220))
         self.screen.blit(languageSurfaces[2][0][0][TextSurfaceTypes.NORMAL], (310, 300))
-                            
+
         self.screen.blit(languageSurfaces[0][1][0][surfaceTypes[Languages.HU]], (460, 400))
         self.screen.blit(languageSurfaces[1][1][0][surfaceTypes[Languages.EN]], (460, 470))
         self.screen.blit(languageSurfaces[2][1][0][surfaceTypes[Languages.ROV]], (460, 560))
-    
+
     def languageChooser(self):
         self.chosenLanguage = Languages.HU
         self.langChooserAlive = True
         self.dialogAlive = True
-        
+
         langChooserBox = Rect((150,80), (740,570))
         while self.dialogAlive:
             self.drawer.fillWithBackgroundColor(self.screen, GameModes.MENU)
@@ -95,17 +95,16 @@ class Menu(object):
                 languageSurfaces = self.getLanguageSurfaces()
                 surfaceTypes = self.getSurfaceTypes()
                 self.blitLangChooserText(languageSurfaces, surfaceTypes)
-            else:                
+            else:
                 surfaceIranyitas = self.textDrawer.getSurfaceArrayForCommonText(CommonTextTypes.IRANYITAS, GameModes.MENU, self.chosenLanguage, FontSizes.SMALL)
-                
+
                 text_pos = 100
                 for surface in surfaceIranyitas:
                     self.screen.blit(surface[TextSurfaceTypes.NORMAL], (180, text_pos))
                     text_pos += 50
-                
+
             pygame.display.update()
             self.eventLoop(self.langChooserAlive, self.chosenLanguage)
-            
+
         return self.chosenLanguage
-    
-            
+

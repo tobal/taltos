@@ -21,7 +21,7 @@ def initScreen(gameMode):
     return gameScreen
 
 pygame.init()
-gameMode = initGameMode(GameModes.CYBERSPACE)
+gameMode = initGameMode(GameModes.RPG)
 gameScreen = initScreen(GameModes.RPG)
 
 MusicPlayer.MusicPlayer().playContinously()

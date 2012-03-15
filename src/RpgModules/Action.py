@@ -4,7 +4,7 @@ from CommonModules.Constants import ActionTypes
 from CommonModules.Constants import ActionData
 
 class Action():
-    
+
     def __init__(self):
         self.ACTIONS = {
                 Actions.TOBALCONV : {
@@ -28,3 +28,6 @@ class Action():
         if action == "shopaction":
             return {"type" : "conversation",
                     "id"    : "shopconv"}
+        if action == "pcaction":
+            return {"type" : "gamemodechange",
+                    "id"    : "cyberspace"}
