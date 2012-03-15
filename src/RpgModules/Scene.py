@@ -51,9 +51,6 @@ class Scene(object):
     def getBounds(self):
         return self.bounds
 
-#    def getName(self):
-#        return self.name
-
     def drawBackGround(self, screen):
         screen.blit(self.backGround, (0,0))
 

@@ -35,6 +35,7 @@ class RpgScenes():
     HARDWARE = 0
     STREET = 1
     SHOP = 2
+    ROOM = 3
 
 class DrawingOrder():
     FRONT = 0

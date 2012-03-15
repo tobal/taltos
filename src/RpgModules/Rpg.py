@@ -27,8 +27,7 @@ class Rpg(GameModule):
         self.talk = RpgTalker.RpgTalker()
         self.moveX, self.moveY = 0, 0
         self.anim = 0
-        if self.scene.isThereTram():
-            self.villamos = Tram.Tram()
+        self.villamos = Tram.Tram()
         self.mode = RpgModes.WANDER
         self.arrowButtons = {Directions.UP : 0,
                              Directions.DOWN : 0,
@@ -75,8 +74,9 @@ class Rpg(GameModule):
         # making scene instances
         self.scenes = {RpgScenes.HARDWARE : SceneBuilder.buildScene(RpgScenes.HARDWARE),
                        RpgScenes.STREET : SceneBuilder.buildScene(RpgScenes.STREET),
-                       RpgScenes.SHOP : SceneBuilder.buildScene(RpgScenes.SHOP)}
-        self.scene = self.scenes[RpgScenes.HARDWARE]
+                       RpgScenes.SHOP : SceneBuilder.buildScene(RpgScenes.SHOP),
+                       RpgScenes.ROOM : SceneBuilder.buildScene(RpgScenes.ROOM)}
+        self.scene = self.scenes[RpgScenes.ROOM]
 
     def changeScene(self, scene, dropoffPoint):
         self.scene = self.scenes[scene]
@@ -91,7 +91,7 @@ class Rpg(GameModule):
 
     def makeSprite(self):
         # making sprite instance
-        self.bulcsu = Sprite.ProtagonistSprite(80, 340)
+        self.bulcsu = Sprite.ProtagonistSprite(680, 440)
 
     def leftKeyUp(self):
         if self.mode == RpgModes.TALK:

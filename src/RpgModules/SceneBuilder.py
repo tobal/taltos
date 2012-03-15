@@ -18,11 +18,12 @@ def buildScene(name):
         bounds = Rect(5, 505, 1015, 145)
         scene = Scene.Scene(RpgImages.STREET_INFO, bounds, True)
         scene.addTunnel(Objects.TunnelObject(0, 505, 20, 145, RpgScenes.HARDWARE, (900,350), 0))
-        scene.addActionPoint(Objects.ActionMark(320, 510, 40, 40, "gameinfoaction"))
+        scene.addActionPoint(Objects.ActionMark(360, 510, 40, 40, "gameinfoaction"))
     if name == RpgScenes.SHOP:
         bounds = Rect(5, 550, 1015, 215)
         scene = Scene.Scene(RpgImages.HARDWARE_STORE, bounds, False)
         scene.addTunnel(Objects.TunnelObject(580, 750, 20, 20, RpgScenes.HARDWARE, (550,330), 0))
+        scene.addTunnel(Objects.TunnelObject(860, 530, 20, 20, RpgScenes.ROOM, (190,510), 0))
         scene.addActionPoint(Objects.ActionMark(255 ,540, 40, 40, "shopaction"))
         scene.addObject(Objects.ObjectSprite(-120, 530, "transp", 10))
         scene.addObject(Objects.ObjectSprite(-123, 540, "transp", 10))
@@ -46,4 +47,10 @@ def buildScene(name):
         scene.addObject(Objects.ObjectSprite(-183, 720, "transp", 10))
         scene.addObject(Objects.ObjectSprite(-187, 730, "transp", 10))
         scene.addObject(Objects.ObjectSprite(-190, 740, "transp", 10))
+    if name == RpgScenes.ROOM:
+        bounds = Rect(5, 550, 1015, 215)
+        scene = Scene.Scene(RpgImages.ROOM, bounds, False)
+        scene.addTunnel(Objects.TunnelObject(210, 750, 20, 20, RpgScenes.SHOP, (830,360), 0))
+
     return scene
+

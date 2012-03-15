@@ -21,10 +21,10 @@ class MainScreen(object):
 
     def setScreenMode(self, gameMode):
         if gameMode == GameModes.RPG:
-            self.screen = pygame.display.set_mode(self.resolution, RESIZABLE, 32)
+            self.screen = pygame.display.set_mode(self.resolution, FULLSCREEN, 32)
             pygame.mouse.set_visible(False)
         if gameMode == GameModes.CYBERSPACE:
-            self.screen = pygame.display.set_mode(self.resolution, HWSURFACE|OPENGL|DOUBLEBUF, 16)
+            self.screen = pygame.display.set_mode(self.resolution, HWSURFACE|OPENGL|DOUBLEBUF|FULLSCREEN, 16)
             pygame.mouse.set_visible(False)
             pygame.event.set_grab(True)
         pygame.display.set_caption("Taltos")
