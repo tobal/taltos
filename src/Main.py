@@ -11,40 +11,58 @@ from CommonModules import Menu
 from CommonModules import GameMode
 from CommonModules.Constants import GameModes
 
-def initGameMode(gameMode):
-    gameMode = GameMode.GameMode(gameMode)
-    return gameMode
+class TaltosGame():
 
-def initScreen(gameMode):
-    gameScreen = MainScreen.MainScreen()
-    gameScreen.setScreenMode(gameMode)
-    return gameScreen
+    def __init__(self):
+        pygame.init()
+        self.clock = Clock()
+        MusicPlayer.MusicPlayer().playContinously()
 
-pygame.init()
-gameMode = initGameMode(GameModes.RPG)
-gameScreen = initScreen(GameModes.RPG)
+        self.gameMode = GameMode.GameMode(GameModes.RPG)
+        self.gameScreen = MainScreen.MainScreen()
+        self.gameScreen.setScreenMode(self.gameMode.getGameMode())
+        self.language = Menu.Menu(self.gameScreen.getScreen()).languageChooser()
 
-MusicPlayer.MusicPlayer().playContinously()
-language = Menu.Menu(gameScreen.getScreen()).languageChooser()
-clock = Clock()
+        """
+        self.gameModules = {
+                GameModes.RPG : None,
+                GameModes.CYBERSPACE : None }
+        """
+        self.changeGameMode(GameModes.RPG)
 
-if gameMode.getGameMode() == GameModes.RPG:
-    currentGameModule = Rpg.Rpg(gameScreen, language)
-if gameMode.getGameMode() == GameModes.CYBERSPACE:
-    gameScreen = initScreen(GameModes.CYBERSPACE)
-    currentGameModule = Cyberspace.Cyberspace(gameScreen, language)
+    def changeGameMode(self, newGameMode):
+        self.gameMode.setGameMode(newGameMode)
+        self.gameScreen.setScreenMode(self.gameMode.getGameMode())
+        if self.gameMode.getGameMode() == GameModes.RPG:
+            self.currentGameModule = Rpg.Rpg(self.gameScreen, self.language)
+        if self.gameMode.getGameMode() == GameModes.CYBERSPACE:
+            self.currentGameModule = Cyberspace.Cyberspace(self.gameScreen, self.language)
+        """
+        if self.gameMode.getGameMode() == GameModes.RPG:
+            if self.gameModules[GameModes.RPG] is None:
+                self.gameModules[GameModes.RPG] = Rpg.Rpg(self.gameScreen, self.language)
+        if self.gameMode.getGameMode() == GameModes.CYBERSPACE:
+            if self.gameModules[GameModes.CYBERSPACE] is None:
+                self.gameModules[GameModes.CYBERSPACE] = Cyberspace.Cyberspace(self.gameScreen, self.language)
+        self.currentGameModule = self.gameModules[self.gameMode.getGameMode()]
+        """
 
-# game loop
-while True:
-    try:
-        clock.tick(30)
-        currentGameModule.handleKeyEvents()
-        currentGameModule.gameLoop()
-    except MainExceptions.Exit:
-        exit()
+    def gameLoop(self):
+        while True:
+            try:
+                self.clock.tick(30)
+                self.currentGameModule.handleKeyEvents()
+                self.currentGameModule.gameLoop()
+            except MainExceptions.Exit:
+                exit()
+            except MainExceptions.ChangeGameMode as gameModeChange:
+                self.changeGameMode(gameModeChange.newGameMode)
 
-    if gameMode.getGameMode() == GameModes.RPG:
-        pygame.display.update()
-    if gameMode.getGameMode() == GameModes.CYBERSPACE:
-        pygame.display.flip()
+            if self.gameMode.getGameMode() == GameModes.RPG:
+                pygame.display.update()
+            if self.gameMode.getGameMode() == GameModes.CYBERSPACE:
+                pygame.display.flip()
+
+game = TaltosGame()
+game.gameLoop()
 

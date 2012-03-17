@@ -6,9 +6,10 @@ from OpenGL.GLU import *
 from math import *
 from CommonModules.GameModule import GameModule
 from CommonModules.Constants import Models
+from CommonModules.Constants import GameModes
 from CyberspaceModules.Geoms.Vector import Vector
 from CyberspaceModules.Mesh.MeshLoader import MeshLoader
-
+from MainExceptions import ChangeGameMode
 
 piover180 = 0.0174532925
 
@@ -196,7 +197,7 @@ class Cyberspace(GameModule):
         self.backward = 1
 
     def enter(self):
-        pass
+        raise ChangeGameMode(GameModes.RPG)
 
     def postAction(self):
         pass

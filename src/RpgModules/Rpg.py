@@ -1,7 +1,4 @@
 
-import pygame
-from pygame import Rect
-
 from RpgModules import Sprite
 from RpgModules import SceneBuilder
 from RpgModules import RpgTalker
@@ -15,6 +12,8 @@ from CommonModules.Constants import TunnelData
 from CommonModules.Constants import CollisionData
 from CommonModules.Constants import DrawingOrder
 from CommonModules.Constants import Axis
+from CommonModules.Constants import GameModes
+from MainExceptions import ChangeGameMode
 
 class Rpg(GameModule):
 
@@ -55,6 +54,7 @@ class Rpg(GameModule):
             self.talk.draw(self.screen)
 
         # for debug purposes
+        """
         for obj in self.scene.getObjects():
             box = obj.getBoundingBox().getBox()
             pygame.draw.rect(self.screen, (0,255,0), box)
@@ -69,6 +69,7 @@ class Rpg(GameModule):
             pygame.draw.rect(self.screen, (255,0,255), box)
         box = self.bulcsu.getBoundingBox().getBox()
         pygame.draw.rect(self.screen, (255,255,0), box)
+        """
 
     def makeScene(self):
         # making scene instances
@@ -321,7 +322,8 @@ class Rpg(GameModule):
                     self.moveY = 0
                     self.talk.startConversation(act["id"], self.language, bulcsuBox.getVerticalCenter(), action["pos"])
                 if act["type"] == "gamemodechange":
-                    return
+                    if act["id"] == "cyberspace":
+                        raise ChangeGameMode(GameModes.CYBERSPACE)
                 return
         if self.mode == RpgModes.TALK:
             if self.talk.action() == False:

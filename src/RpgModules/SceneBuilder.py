@@ -53,7 +53,7 @@ def buildScene(name):
         scene.addTunnel(Objects.TunnelObject(210, 750, 20, 20, RpgScenes.SHOP, (830,360), 0))
         scene.addObject(Objects.ObjectSprite(832, 626, "szek", 30))
         scene.addObject(Objects.ObjectSprite(402, 495, "asztalsarok", 20))
-        scene.addActionPoint(Objects.ActionMark(470 ,550, 100, 100, "cyberspace"))
+        scene.addActionPoint(Objects.ActionMark(470 ,550, 100, 100, "pcaction"))
 
         scene.addObject(Objects.ObjectSprite(290, 530, "transp", 10))
         scene.addObject(Objects.ObjectSprite(287, 540, "transp", 10))
