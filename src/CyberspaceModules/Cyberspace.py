@@ -49,20 +49,36 @@ class Cyberspace(GameModule):
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
 
+    def goForward(self, heading):
+        self.position.x -= sin(heading * piover180) * self.moveSpeed
+        self.position.z -= cos(heading * piover180) * self.moveSpeed
+        pass
+
+    def goBackward(self, heading):
+        self.position.x += sin(heading * piover180) * self.moveSpeed
+        self.position.z += cos(heading * piover180) * self.moveSpeed
+        pass
+
+    def goLeft(self, heading):
+        self.position.x += sin((heading - 90) * piover180) * self.moveSpeed
+        self.position.z += cos((heading - 90) * piover180) * self.moveSpeed
+        pass
+
+    def goRight(self, heading):
+        self.position.x += sin((heading + 90) * piover180) * self.moveSpeed
+        self.position.z += cos((heading + 90) * piover180) * self.moveSpeed
+        pass
+
     def translateScene(self):
         heading = 360 - self.rotation.y
         if self.forward == 1:
-            self.position.x -= sin(heading * piover180) * self.moveSpeed
-            self.position.z -= cos(heading * piover180) * self.moveSpeed
+            self.goForward(heading)
         elif self.backward == 1:
-            self.position.x += sin(heading * piover180) * self.moveSpeed
-            self.position.z += cos(heading * piover180) * self.moveSpeed
+            self.goBackward(heading)
         if self.strafeLeft == 1:
-            self.position.x += sin((heading - 90) * piover180) * self.moveSpeed
-            self.position.z += cos((heading - 90) * piover180) * self.moveSpeed
+            self.goLeft(heading)
         elif self.strafeRight == 1:
-            self.position.x += sin((heading + 90) * piover180) * self.moveSpeed
-            self.position.z += cos((heading + 90) * piover180) * self.moveSpeed
+            self.goRight(heading)
         self.translation.x = -self.position.x
         self.translation.z = -self.position.z
         glTranslatef(self.translation.x, self.translation.y, self.translation.z)

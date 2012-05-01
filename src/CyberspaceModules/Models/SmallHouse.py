@@ -1,4 +1,5 @@
 
+from pygame import Rect
 from CyberspaceModules.Geoms.Vector import Vector
 from CyberspaceModules.Models.Model import Model
 
@@ -470,4 +471,6 @@ class SmallHouse(Model):
                 1,1,1, # back left corner
                 1,1,1,1,1 # top face
                 ]
+
+        self.BoundingBox = Rect(0, 0, 3, 3)
 

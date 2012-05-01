@@ -33,6 +33,7 @@ class Model(object):
         self.Lines = []
         self.Textures = []
         self.TextureIndexes = []
+        self.BoundingBox = None
 
     def getUVVectors(self):
         return self.UVVectors
@@ -48,3 +49,6 @@ class Model(object):
 
     def getTextureIndexes(self):
         return self.TextureIndexes
+
+    def getBoundingBox(self):
+        return self.BoundingBox
